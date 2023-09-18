@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BiometricAttendance;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,9 +25,9 @@ namespace biometric_attendance
         private FormSettings formSettings;
         private FormEnroll formEnroll;
         private FormEmployee formEmployee;
+        private FormEmployeeList formEmployeeList;
         private FormAttendance formAttendance;
 
-        
         public readonly SerialPort serialPort = new SerialPort();
         public string portName = "";
 
@@ -43,11 +44,7 @@ namespace biometric_attendance
 
         }
 
-        private void OpenFormSettings(object sender, EventArgs e)
-        {
-            formSettings = new FormSettings();
-            formSettings.ShowDialog();
-        }
+        
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -87,5 +84,25 @@ namespace biometric_attendance
             return false;
         }
 
+
+        //Open Forms
+        private void OpenFormSettings(object sender, EventArgs e)
+        {
+            formSettings = new FormSettings();
+            formSettings.ShowDialog();
+        }
+
+        private void OpenFormEmployee(object sender, EventArgs e)
+        {
+            formEmployee = new FormEmployee();
+            formEmployee.ShowDialog();
+
+        }
+
+        private void OpemFormEmployeeList(object sender, EventArgs e)
+        {
+            formEmployeeList = new FormEmployeeList();
+            formEmployeeList.ShowDialog();
+        }
     }
 }

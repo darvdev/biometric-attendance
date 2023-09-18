@@ -29,34 +29,41 @@
         private void InitializeComponent()
         {
             this.buttonSave = new System.Windows.Forms.Button();
-            this.textBoxEid = new System.Windows.Forms.TextBox();
+            this.textBoxEemployeeId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBoxEmployeeFirstName = new System.Windows.Forms.TextBox();
+            this.textBoxFirstName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBoxEmployeeMiddleName = new System.Windows.Forms.TextBox();
+            this.textBoxMiddleName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBoxEmployeeLastName = new System.Windows.Forms.TextBox();
+            this.textBoxLastName = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxBiometricId = new System.Windows.Forms.TextBox();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBoxPassword = new System.Windows.Forms.TextBox();
+            this.textBoxUsername = new System.Windows.Forms.TextBox();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(222, 202);
+            this.buttonSave.Location = new System.Drawing.Point(222, 335);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 0;
+            this.buttonSave.TabIndex = 7;
             this.buttonSave.Text = "Save";
             this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.Save);
             // 
-            // textBoxEid
+            // textBoxEemployeeId
             // 
-            this.textBoxEid.Location = new System.Drawing.Point(107, 23);
-            this.textBoxEid.Name = "textBoxEid";
-            this.textBoxEid.Size = new System.Drawing.Size(105, 20);
-            this.textBoxEid.TabIndex = 1;
+            this.textBoxEemployeeId.Location = new System.Drawing.Point(107, 23);
+            this.textBoxEemployeeId.Name = "textBoxEemployeeId";
+            this.textBoxEemployeeId.Size = new System.Drawing.Size(105, 20);
+            this.textBoxEemployeeId.TabIndex = 0;
             // 
             // label1
             // 
@@ -64,7 +71,7 @@
             this.label1.Location = new System.Drawing.Point(24, 26);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(67, 13);
-            this.label1.TabIndex = 2;
+            this.label1.TabIndex = 0;
             this.label1.Text = "Employee ID";
             // 
             // label2
@@ -73,15 +80,15 @@
             this.label2.Location = new System.Drawing.Point(24, 60);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(57, 13);
-            this.label2.TabIndex = 2;
+            this.label2.TabIndex = 0;
             this.label2.Text = "First Name";
             // 
-            // textBoxEmployeeFirstName
+            // textBoxFirstName
             // 
-            this.textBoxEmployeeFirstName.Location = new System.Drawing.Point(107, 53);
-            this.textBoxEmployeeFirstName.Name = "textBoxEmployeeFirstName";
-            this.textBoxEmployeeFirstName.Size = new System.Drawing.Size(190, 20);
-            this.textBoxEmployeeFirstName.TabIndex = 1;
+            this.textBoxFirstName.Location = new System.Drawing.Point(107, 53);
+            this.textBoxFirstName.Name = "textBoxFirstName";
+            this.textBoxFirstName.Size = new System.Drawing.Size(190, 20);
+            this.textBoxFirstName.TabIndex = 1;
             // 
             // label3
             // 
@@ -89,15 +96,15 @@
             this.label3.Location = new System.Drawing.Point(24, 91);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(69, 13);
-            this.label3.TabIndex = 2;
+            this.label3.TabIndex = 0;
             this.label3.Text = "Middle Name";
             // 
-            // textBoxEmployeeMiddleName
+            // textBoxMiddleName
             // 
-            this.textBoxEmployeeMiddleName.Location = new System.Drawing.Point(107, 88);
-            this.textBoxEmployeeMiddleName.Name = "textBoxEmployeeMiddleName";
-            this.textBoxEmployeeMiddleName.Size = new System.Drawing.Size(190, 20);
-            this.textBoxEmployeeMiddleName.TabIndex = 1;
+            this.textBoxMiddleName.Location = new System.Drawing.Point(107, 88);
+            this.textBoxMiddleName.Name = "textBoxMiddleName";
+            this.textBoxMiddleName.Size = new System.Drawing.Size(190, 20);
+            this.textBoxMiddleName.TabIndex = 2;
             // 
             // label4
             // 
@@ -105,15 +112,15 @@
             this.label4.Location = new System.Drawing.Point(24, 125);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(58, 13);
-            this.label4.TabIndex = 2;
+            this.label4.TabIndex = 0;
             this.label4.Text = "Last Name";
             // 
-            // textBoxEmployeeLastName
+            // textBoxLastName
             // 
-            this.textBoxEmployeeLastName.Location = new System.Drawing.Point(107, 122);
-            this.textBoxEmployeeLastName.Name = "textBoxEmployeeLastName";
-            this.textBoxEmployeeLastName.Size = new System.Drawing.Size(190, 20);
-            this.textBoxEmployeeLastName.TabIndex = 1;
+            this.textBoxLastName.Location = new System.Drawing.Point(107, 122);
+            this.textBoxLastName.Name = "textBoxLastName";
+            this.textBoxLastName.Size = new System.Drawing.Size(190, 20);
+            this.textBoxLastName.TabIndex = 3;
             // 
             // label5
             // 
@@ -121,44 +128,96 @@
             this.label5.Location = new System.Drawing.Point(24, 161);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 13);
-            this.label5.TabIndex = 2;
+            this.label5.TabIndex = 0;
             this.label5.Text = "Biometric ID";
             // 
-            // textBox1
+            // textBoxBiometricId
             // 
-            this.textBox1.Location = new System.Drawing.Point(107, 158);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(64, 20);
-            this.textBox1.TabIndex = 1;
+            this.textBoxBiometricId.Location = new System.Drawing.Point(107, 158);
+            this.textBoxBiometricId.Name = "textBoxBiometricId";
+            this.textBoxBiometricId.Size = new System.Drawing.Size(64, 20);
+            this.textBoxBiometricId.TabIndex = 4;
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(27, 202);
+            this.buttonCancel.Location = new System.Drawing.Point(27, 335);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 0;
+            this.buttonCancel.TabIndex = 8;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.Cancel);
             // 
-            // Employee
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.textBoxPassword);
+            this.groupBox1.Controls.Add(this.textBoxUsername);
+            this.groupBox1.Enabled = false;
+            this.groupBox1.Location = new System.Drawing.Point(27, 204);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(270, 100);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Login Details";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(22, 63);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 13);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Password";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(20, 33);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(55, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Username";
+            // 
+            // textBoxPassword
+            // 
+            this.textBoxPassword.Location = new System.Drawing.Point(97, 60);
+            this.textBoxPassword.Name = "textBoxPassword";
+            this.textBoxPassword.Size = new System.Drawing.Size(152, 20);
+            this.textBoxPassword.TabIndex = 6;
+            // 
+            // textBoxUsername
+            // 
+            this.textBoxUsername.Location = new System.Drawing.Point(97, 30);
+            this.textBoxUsername.Name = "textBoxUsername";
+            this.textBoxUsername.Size = new System.Drawing.Size(152, 20);
+            this.textBoxUsername.TabIndex = 5;
+            // 
+            // FormEmployee
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(333, 249);
+            this.ClientSize = new System.Drawing.Size(333, 379);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.textBoxEmployeeLastName);
-            this.Controls.Add(this.textBoxEmployeeMiddleName);
-            this.Controls.Add(this.textBoxEmployeeFirstName);
-            this.Controls.Add(this.textBoxEid);
+            this.Controls.Add(this.textBoxBiometricId);
+            this.Controls.Add(this.textBoxLastName);
+            this.Controls.Add(this.textBoxMiddleName);
+            this.Controls.Add(this.textBoxFirstName);
+            this.Controls.Add(this.textBoxEemployeeId);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
-            this.Name = "Employee";
+            this.Name = "FormEmployee";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Employee";
+            this.Load += new System.EventHandler(this.FormEmployee_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -167,16 +226,21 @@
         #endregion
 
         private System.Windows.Forms.Button buttonSave;
-        private System.Windows.Forms.TextBox textBoxEid;
+        private System.Windows.Forms.TextBox textBoxEemployeeId;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBoxEmployeeFirstName;
+        private System.Windows.Forms.TextBox textBoxFirstName;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBoxEmployeeMiddleName;
+        private System.Windows.Forms.TextBox textBoxMiddleName;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBoxEmployeeLastName;
+        private System.Windows.Forms.TextBox textBoxLastName;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxBiometricId;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBoxPassword;
+        private System.Windows.Forms.TextBox textBoxUsername;
     }
 }
