@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace biometric_attendance
 {
-    public partial class Enroll : Form
+    public partial class FormAttendance : Form
     {
-        public Enroll()
+        public FormAttendance()
         {
             InitializeComponent();
         }

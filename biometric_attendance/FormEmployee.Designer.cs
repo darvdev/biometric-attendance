@@ -1,6 +1,6 @@
 ﻿namespace biometric_attendance
 {
-    partial class Employee
+    partial class FormEmployee
     {
         /// <summary>
         /// Required designer variable.

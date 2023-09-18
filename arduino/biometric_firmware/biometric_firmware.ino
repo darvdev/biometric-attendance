@@ -6,7 +6,9 @@ Adafruit_Fingerprint sensor = Adafruit_Fingerprint(&serial);
 unsigned long previousMs = 0;
 String string = "";
 uint8_t status = -1;
+uint8_t error = -1;
 uint8_t id = 0;
+bool fingerState = false;
 
 void setup() {
 
@@ -25,10 +27,12 @@ void setup() {
   delay(10);
 
   if (sensor.verifyPassword()) {
+
+    sensor.getParameters();
     sensor.getTemplateCount();
 
     if (sensor.templateCount == 0) {
-      status = 102; //No fingerprint registered
+      status = 301; //No fingerprint registered
       digitalWrite(13, 1);
 
     } else {
@@ -38,7 +42,7 @@ void setup() {
     }
 
   } else {
-    status = 101; //Sensor not connected/detected
+    status = 300; //Sensor not connected/detected
 
   }
 
@@ -50,15 +54,19 @@ void loop() {
   if (ms - previousMs >= 50)  {
     previousMs = ms;
     
-    if (status == 1) {
+    if (status == 100) {
       startFingerprintAttendance();
-    } else if (status == 2) {
+    } else if (status == 200) {
       if (id > 0) {
         enrollFingerprintStep1();
       }
-    } else if (status == 3) {
+    } else if (status == 201) {
       if (id > 0) {
         enrollFingerprintStep2();
+      }
+    } else if (status == 203) {
+      if (id > 0) {
+        enrollFingerprintStep3();
       }
     }
 
@@ -77,33 +85,36 @@ void serialEvent() {
 
       if (string == "start") {
         sensor.LEDcontrol(true);
-        status = 1; //Start reading fingerprint for attendance
+        status = 100; //Start reading fingerprint for attendance
         Serial.println(F("start"));
 
       } else if (string == "status") {
         Serial.print(F("status="));Serial.println(status);
 
       } else if (string == "enroll") {
-        status = 2; //Start reading fingerprint for enrollment
-        Serial.println(F("enroll"));
+        status = 200; //Start reading fingerprint for enrollment
+        sensor.LEDcontrol(false);
 
       } else if (string == "standby") {
         status = 0; //Stop sensor operation
         sensor.LEDcontrol(false);
         Serial.println(F("standby"));
 
+      } else if (string == "error") {
+        Serial.print(F("error="));Serial.println(error);
       } else {
 
-        if(status == 2 && string.indexOf("id=") > -1) {
+        if(status == 200 && string.indexOf("id=") > -1) {
           string.replace("id=", "");
           id = string.toInt();
           if (id > 0) {
             sensor.LEDcontrol(true);
-            Serial.print("Waiting for valid finger to enroll as #"); Serial.println(id);
+            Serial.println(F("enroll"));
+            
           }
 
         } else {
-          Serial.print(F("$msg|e:Unknown command \""));Serial.print(string);Serial.println(F("\""));
+          Serial.print(F("$msg|error=Unknown command \""));Serial.print(string);Serial.println(F("\""));
 
         }
 
@@ -120,252 +131,142 @@ void serialEvent() {
 
 
 void startFingerprintAttendance() {
+
   uint8_t p = sensor.getImage();
-  switch (p) {
-    case FINGERPRINT_OK:
-      //Image taken
-      break;
-
-    case FINGERPRINT_NOFINGER:
-      // Serial.println("No finger detected");
-      return;
-
-    case FINGERPRINT_PACKETRECIEVEERR:
-      Serial.println(F("$start|msg=e:Communication error"));
-      return;
-
-    case FINGERPRINT_IMAGEFAIL:
-      Serial.println(F("$start|msg=e:Imaging error"));
-      return;
-
-    default:
-      Serial.println(F("$start|msg=e:Unknown error"));
-      return;
+  if (p != FINGERPRINT_OK) {
+    if (p != FINGERPRINT_NOFINGER) {
+      //FINGERPRINT_NOFINGER              0x02    - No fingerprint detected
+      //FINGERPRINT_PACKETRECIEVEERR      0x01    - Communication error
+      //FINGERPRINT_IMAGEFAIL             0x03    - Imaging error
+      //Unknown error
+      Serial.print(F("$start|code="));Serial.println(p);
+    }
+    return;
   }
 
-  // OK success!
+  //FINGERPRINT_OK                        0x00    - OK
 
   p = sensor.image2Tz();
-  switch (p) {
-    case FINGERPRINT_OK:
-      // Image converted
-      break;
-
-    case FINGERPRINT_IMAGEMESS:
-      Serial.println(F("$start|msg=e:Image too messy"));
-      return;
-
-    case FINGERPRINT_PACKETRECIEVEERR:
-      Serial.println(F("$start|msg=e:Communication error"));
-      return;
-
-    case FINGERPRINT_FEATUREFAIL:
-      Serial.println(F("$start|msg=e:Could not find fingerprint features"));
-      return;
-
-    case FINGERPRINT_INVALIDIMAGE:
-      Serial.println(F("$start|msg=e:Could not find fingerprint features"));
-      return;
-
-    default:
-      Serial.println(F("$start|msg=e:Unknown error"));
-      return;
+  if (p != FINGERPRINT_OK) {
+    //FINGERPRINT_IMAGEMESS           0x06    - Image too messy
+    //FINGERPRINT_PACKETRECIEVEERR    0x01    - Communication error
+    //FINGERPRINT_FEATUREFAIL         0x07    - Could not find fingerprint features
+    //FINGERPRINT_INVALIDIMAGE        0x15    - Could not find fingerprint features
+    Serial.print(F("$start|code="));Serial.println(p);
+    return;
   }
 
-  // OK converted!
+    //FINGERPRINT_OK                  0x00    - OK
+
   p = sensor.fingerSearch();
-  if (p == FINGERPRINT_OK) {
-    // Found a print match
-  } else if (p == FINGERPRINT_PACKETRECIEVEERR) {
-    Serial.println(F("$start|msg=e:Communication error"));
+  if (p != FINGERPRINT_OK) {
+    //FINGERPRINT_PACKETRECIEVEERR    0x01
+    //FINGERPRINT_NOTFOUND            0x09
+    //Unknown error
+    Serial.print(F("$start|code="));Serial.println(p);
     return;
-
-  } else if (p == FINGERPRINT_NOTFOUND) {
-    Serial.println(F("$start|msg=e:Did not find a match"));
-    return;
-
-  } else {
-    Serial.print(F("$start|msg=e:Unknown error \""));Serial.print(p);Serial.println("\"");
-    return;
-
   }
 
-  // Send sensor data
-  Serial.print(F("$start|id="));Serial.print(sensor.fingerID);Serial.print(F(",confidence="));Serial.println(sensor.confidence);
-  return;
-}
+  //FINGERPRINT_OK                    0x00  Found a print match
 
+  Serial.print(F("$start|id="));Serial.print(sensor.fingerID);Serial.print(F(",confidence="));Serial.println(sensor.confidence); //Send sensor data to app
+}
 
 void enrollFingerprintStep1() {
 
   int p = sensor.getImage();
-
-  switch (p) {
-    case FINGERPRINT_OK:
-      //Image taken
-      break;
-
-    case FINGERPRINT_NOFINGER:
-      //No fingerprint
-      return;
-
-    case FINGERPRINT_PACKETRECIEVEERR:
-      Serial.println(F("$enroll|msg=e:Communication error"));
-      return;
-
-    case FINGERPRINT_IMAGEFAIL:
-      Serial.println(F("$enroll|msg=e:Imaging error"));
-      return;
-
-    default:
-      Serial.print(F("$enroll|msg=e:Unknown error \""));Serial.print(p);Serial.println("\"");
-      return;
+  if (p != FINGERPRINT_OK) {
+    if (p != FINGERPRINT_NOFINGER) {
+      //Error
+      //FINGERPRINT_PACKETRECIEVEERR        0x01
+      //FINGERPRINT_IMAGEFAIL               0x03
+      //Unknown error
+      Serial.print(F("$enroll|code="));Serial.println(p);
     }
-
-  // OK success!
-
-  p = sensor.image2Tz(1);
-  switch (p) {
-    case FINGERPRINT_OK:
-      //Image converted
-      break;
-
-    case FINGERPRINT_IMAGEMESS:
-      Serial.println(F("$enroll|msg=e:Image too messy"));
-      return;
-
-    case FINGERPRINT_PACKETRECIEVEERR:
-      Serial.println(F("$enroll|msg=e:Communication error"));
-      return;
-
-    case FINGERPRINT_FEATUREFAIL:
-      Serial.println(F("$enroll|msg=e:Could not find fingerprint features"));
-      return;
-
-    case FINGERPRINT_INVALIDIMAGE:
-      Serial.println(F("$enroll|msg=e:Could not find fingerprint features"));
-      return;
-
-    default:
-      Serial.print(F("$enroll|msg=e:Unknown error \""));Serial.print(p);Serial.println("\"");
-      return;
-
+    return;
   }
 
-  //Enroll fingerprint step 1 success
+  //FINGERPRINT_OK                          0x00
+  fingerState = true;
 
-  Serial.println(F("$enroll|msg=i:Remove finger then place same finger again"));
-  
+  p = sensor.image2Tz(1);
+  if (p != FINGERPRINT_OK) {
+    //FINGERPRINT_IMAGEMESS                 0x06
+    //FINGERPRINT_PACKETRECIEVEERR          0x01
+    //FINGERPRINT_FEATUREFAIL               0x07
+    //FINGERPRINT_INVALIDIMAGE              0x15
+    //Unknown error
+    Serial.print(F("$enroll|code="));Serial.println(p);
+    return;
+  }
 
-
-  status = 3; //Enroll fingerprint step 2
-  
+  Serial.println(F("$enroll|ok"));//Send enroll step 1 success
+  delay(2000);
+  status = 201; //Enroll fingerprint go to step 2
 }
 
 void enrollFingerprintStep2() {
   int p = sensor.getImage();
-  
-  switch (p) {
-    case FINGERPRINT_OK:
-      //Image taken
-      break;
 
-    case FINGERPRINT_NOFINGER:
-      //No fingerprint
-      return;
-
-    case FINGERPRINT_PACKETRECIEVEERR:
-      Serial.println(F("$enroll|msg=e:Communication error"));
-      return;
-
-    case FINGERPRINT_IMAGEFAIL:
-      Serial.println(F("$enroll|msg=e:Imaging error"));
-      return;
-
-    default:
-      Serial.print(F("$enroll|msg=e:Unknown error \""));Serial.print(p);Serial.println("\"");
-      return;
-
+  //Removed finger in sensor to go to step 3
+  if (p == FINGERPRINT_NOFINGER) {
+    status = 203;
+    Serial.println(F("$enroll|next"));//Send enroll step 2 success
   }
-  // OK success!
+
+}
+
+
+void enrollFingerprintStep3() {
+
+  int p = sensor.getImage();
+  if (p != FINGERPRINT_OK) {
+    if (p != FINGERPRINT_NOFINGER) {
+      //FINGERPRINT_PACKETRECIEVEERR    0x01
+      //FINGERPRINT_IMAGEFAIL           0x03
+      //Unknown error
+      Serial.print(F("$enroll|code="));Serial.println(p);
+    }
+    return;
+  }
+
+  //FINGERPRINT_OK                      0x00
 
   p = sensor.image2Tz(2);
-  switch (p) {
-    case FINGERPRINT_OK:
-      //Image converted
-      break;
-
-    case FINGERPRINT_IMAGEMESS:
-      Serial.println(F("$enroll|msg=e:Image too messy"));
-      return;
-
-    case FINGERPRINT_PACKETRECIEVEERR:
-      Serial.println(F("$enroll|msg=e:Communication error"));
-      return;
-
-    case FINGERPRINT_FEATUREFAIL:
-      Serial.println(F("$enroll|msg=e:Could not find fingerprint features"));
-      return;
-
-    case FINGERPRINT_INVALIDIMAGE:
-      Serial.println(F("$enroll|msg=e:Could not find fingerprint features"));
-      return;
-
-    default:
-      Serial.print(F("$enroll|msg=e:Unknown error \""));Serial.print(p);Serial.println("\"");
-      return;
+  if (p != FINGERPRINT_OK) {
+    //FINGERPRINT_IMAGEMESS             0x06
+    //FINGERPRINT_PACKETRECIEVEERR      0x01
+    //FINGERPRINT_FEATUREFAIL           0x07
+    //FINGERPRINT_INVALIDIMAGE          0x15
+    //Unknown error
+    Serial.print(F("$enroll|code="));Serial.println(p);
+    return;
   }
 
-  // OK converted!
-  Serial.println(F("$enroll|msg=e:Creating fingerprint model"));
+  //FINGERPRINT_OK                      0x00
 
   p = sensor.createModel();
-
-  switch (p) {
-    case FINGERPRINT_OK:
-      //Prints matched!
-      break;
-
-    case FINGERPRINT_PACKETRECIEVEERR:
-      Serial.println(F("$enroll|msg=e:Communication error"));
-      return;
-
-    case FINGERPRINT_ENROLLMISMATCH:
-      Serial.println(F("$enroll|msg=e:Fingerprints did not match"));
-      return;
-
-    default:
-      Serial.print(F("$enroll|msg=e:Unknown error \""));Serial.print(p);Serial.println("\"");
-      return;
-
+  if(p != FINGERPRINT_OK) {
+    //FINGERPRINT_PACKETRECIEVEERR      0x01
+    //FINGERPRINT_ENROLLMISMATCH        0x0A
+    //Unknown error
+    Serial.print(F("$enroll|code="));Serial.println(p);
+    return;
   }
 
   p = sensor.storeModel(id);
-  switch (p) {
-    case FINGERPRINT_OK:
-      //Fingerprint stored in id
-      break;
-
-    case FINGERPRINT_PACKETRECIEVEERR:
-      Serial.println(F("$enroll|msg=e:Communication error"));
-      return;
-
-    case FINGERPRINT_BADLOCATION:
-      Serial.println(F("$enroll|msg=e:Could not store in that location"));
-      return;
-    
-    case FINGERPRINT_FLASHERR:
-      Serial.println(F("$enroll|msg=e:Error writing to flash"));
-      return;
-
-    default:
-      Serial.print(F("$enroll|msg=e:Unknown error \""));Serial.print(p);Serial.println("\"");
-      return;
-
+  if (p != FINGERPRINT_OK) {
+    //FINGERPRINT_PACKETRECIEVEERR      0x01
+    //FINGERPRINT_BADLOCATION           0x0B
+    //FINGERPRINT_FLASHERR              0x18
+    //Unknown error
+    Serial.print(F("$enroll|code="));Serial.println(p);
+    return;
   }
-  
+
   //Fingerprint enrolled successfully
   Serial.print(F("$enroll|id="));Serial.println(id);
   id = 0;
   status = 0;
+  sensor.LEDcontrol(false);
 }
