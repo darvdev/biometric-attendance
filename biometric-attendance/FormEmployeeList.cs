@@ -21,22 +21,14 @@ namespace BiometricAttendance
             InitializeComponent();
         }
 
-
-        private string connectionString = "";
-
+        private FormMain formMain = (FormMain)Application.OpenForms["FormMain"];
+  
         private void FormEmployeeList_Load(object sender, EventArgs e)
         {
-            connectionString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
-            Console.WriteLine(connectionString);
-
-            using (IDbConnection con = new SQLiteConnection(connectionString))
+            
+            foreach (ModelEmployee employee in formMain.employees)
             {
-                var output = con.Query<ModelEmployee>("select * from employees", new DynamicParameters());
-
-
-                foreach (ModelEmployee employee in output.ToList())
-                {
-                    employeeDataGridView.Rows.Add(new object[] {
+                employeeDataGridView.Rows.Add(new object[] {
                         employee.id,
                         employee.employee_id,
                         employee.biometric_id,
@@ -45,11 +37,9 @@ namespace BiometricAttendance
                         employee.last_name,
                      });
 
-                }
-
             }
 
-            
+            employeeDataGridView.ClearSelection();
         }
     }
 }

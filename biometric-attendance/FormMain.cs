@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO.Ports;
@@ -19,8 +20,10 @@ namespace biometric_attendance
             InitializeComponent();
         }
 
-        private const string connectionString = "Data Source=.\\database.db;Version=3";
-        private const string providerName = "System.Data.SqlClient";
+        //private const string connectionString = "Data Source=.\\database.db;Version=3";
+        //private const string providerName = "System.Data.SqlClient";
+
+        public string connectionString = "";
 
         private FormSettings formSettings;
         private FormEnroll formEnroll;
@@ -31,27 +34,70 @@ namespace biometric_attendance
         public readonly SerialPort serialPort = new SerialPort();
         public string portName = "";
 
-        public string test = "";
-        
+        public ModelEmployee[] employees = Array.Empty<ModelEmployee>();
+
         private void Main_Load(object sender, EventArgs e)
         {
+            connectionString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
+            serialPort.DtrEnable = true;
+            serialPort.DataReceived += SerialPort_DataReceived;
 
-            Task.Run(() => {
-                serialPort.DtrEnable = true;
-                serialPort.DataReceived += SerialPort_DataReceived;
+            Task.Run(() =>
+            {
+                employees = Helper.GetEmployeeList(connectionString);
+
+                this.Invoke((MethodInvoker)delegate {
+                    labelTotalEmployees.Text = $"Total: {employees.Length} employees";
+                });
+
             });
-            
 
         }
 
-        
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             try
             {
-                string serialData = serialPort.ReadTo(serialPort.NewLine);
-                Console.WriteLine("Data: " + serialData);
+                string rawData = serialPort.ReadTo(serialPort.NewLine);
+
+                string data = rawData.Remove(rawData.Length-1);
+
+                Console.WriteLine("received: {0}", data);
+
+                if (data[0].ToString() == "$")
+                {
+                    Console.WriteLine(data);
+                }
+                else 
+                {
+                    if (data.Contains("="))
+                    {
+                        int index = data.IndexOf("=");
+                        string command = data.Substring(0, index);
+                        string value = data.Replace(command + "=", "");
+                        value.Remove(value.Length - 1);
+
+                        if (command == "status")
+                        {
+                            if (value == "0") 
+                            {
+                                this.Invoke((MethodInvoker)delegate {
+                                    enrollToolStripMenuItem.Enabled = true;
+                                });
+                                
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                    
+                    }
+                    
+                }
+
+                
             }
             catch (Exception err)
             {
@@ -104,5 +150,13 @@ namespace biometric_attendance
             formEmployeeList = new FormEmployeeList();
             formEmployeeList.ShowDialog();
         }
+
+        private void OpenFormEnroll(object sender, EventArgs e)
+        {
+            formEnroll = new FormEnroll();
+            formEnroll.ShowDialog();
+        }
+
+
     }
 }

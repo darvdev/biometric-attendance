@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using BiometricAttendance;
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,10 +19,10 @@ namespace biometric_attendance
         public FormEmployee()
         {
             InitializeComponent();
+            textBoxBiometricId.KeyPress += Helper.NumericKeyPress;
         }
 
-        private string connectionString = "";
-
+        private string connectionString = ((FormMain)Application.OpenForms["FormMain"]).connectionString;
 
         private void Save(object sender, EventArgs e)
         {
@@ -43,9 +44,10 @@ namespace biometric_attendance
                 {
 
                     con.Execute("insert into employees (employee_id, first_name, middle_name, last_name, biometric_id, username, password) values (@employee_id, @first_name, @middle_name, @last_name, @biometric_id, @username, @password)", employee);
-
+                    con.Close();
+                    con.Dispose();
                 }
-
+                
                 this.Close();
             }
             catch (Exception err)
@@ -58,13 +60,6 @@ namespace biometric_attendance
         private void Cancel(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void FormEmployee_Load(object sender, EventArgs e)
-        {
-            connectionString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
-            Console.WriteLine(connectionString);
-
         }
 
         public int? TryParseNullable(string val)

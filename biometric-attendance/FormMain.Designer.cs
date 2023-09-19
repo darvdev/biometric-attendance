@@ -34,9 +34,6 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.databaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.employeeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.attendanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.employeeAddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.employeeViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +44,10 @@
             this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonStartAttendance = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelTotalEmployees = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -74,9 +74,11 @@
             // 
             // enrollToolStripMenuItem
             // 
+            this.enrollToolStripMenuItem.Enabled = false;
             this.enrollToolStripMenuItem.Name = "enrollToolStripMenuItem";
             this.enrollToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.enrollToolStripMenuItem.Text = "Enroll";
+            this.enrollToolStripMenuItem.Click += new System.EventHandler(this.OpenFormEnroll);
             // 
             // settingsToolStripMenuItem
             // 
@@ -94,33 +96,11 @@
             // databaseToolStripMenuItem
             // 
             this.databaseToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.employeeToolStripMenuItem,
             this.attendanceToolStripMenuItem,
             this.attendanceToolStripMenuItem1});
             this.databaseToolStripMenuItem.Name = "databaseToolStripMenuItem";
             this.databaseToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.databaseToolStripMenuItem.Text = "Databases";
-            // 
-            // employeeToolStripMenuItem
-            // 
-            this.employeeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addToolStripMenuItem1,
-            this.viewToolStripMenuItem1});
-            this.employeeToolStripMenuItem.Name = "employeeToolStripMenuItem";
-            this.employeeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.employeeToolStripMenuItem.Text = "User";
-            // 
-            // addToolStripMenuItem1
-            // 
-            this.addToolStripMenuItem1.Name = "addToolStripMenuItem1";
-            this.addToolStripMenuItem1.Size = new System.Drawing.Size(99, 22);
-            this.addToolStripMenuItem1.Text = "Add";
-            // 
-            // viewToolStripMenuItem1
-            // 
-            this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
-            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(99, 22);
-            this.viewToolStripMenuItem1.Text = "View";
             // 
             // attendanceToolStripMenuItem
             // 
@@ -128,20 +108,20 @@
             this.employeeAddToolStripMenuItem,
             this.employeeViewToolStripMenuItem});
             this.attendanceToolStripMenuItem.Name = "attendanceToolStripMenuItem";
-            this.attendanceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.attendanceToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.attendanceToolStripMenuItem.Text = "Employee";
             // 
             // employeeAddToolStripMenuItem
             // 
             this.employeeAddToolStripMenuItem.Name = "employeeAddToolStripMenuItem";
-            this.employeeAddToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.employeeAddToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.employeeAddToolStripMenuItem.Text = "Add";
             this.employeeAddToolStripMenuItem.Click += new System.EventHandler(this.OpenFormEmployee);
             // 
             // employeeViewToolStripMenuItem
             // 
             this.employeeViewToolStripMenuItem.Name = "employeeViewToolStripMenuItem";
-            this.employeeViewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.employeeViewToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.employeeViewToolStripMenuItem.Text = "View";
             this.employeeViewToolStripMenuItem.Click += new System.EventHandler(this.OpemFormEmployeeList);
             // 
@@ -151,7 +131,7 @@
             this.addToolStripMenuItem2,
             this.viewToolStripMenuItem2});
             this.attendanceToolStripMenuItem1.Name = "attendanceToolStripMenuItem1";
-            this.attendanceToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.attendanceToolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
             this.attendanceToolStripMenuItem1.Text = "Attendance";
             // 
             // addToolStripMenuItem2
@@ -197,11 +177,31 @@
             this.buttonStartAttendance.Text = "Biometric Attendance";
             this.buttonStartAttendance.UseVisualStyleBackColor = true;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.labelTotalEmployees);
+            this.groupBox1.Location = new System.Drawing.Point(32, 55);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(293, 100);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Employees";
+            // 
+            // labelTotalEmployees
+            // 
+            this.labelTotalEmployees.AutoSize = true;
+            this.labelTotalEmployees.Location = new System.Drawing.Point(34, 40);
+            this.labelTotalEmployees.Name = "labelTotalEmployees";
+            this.labelTotalEmployees.Size = new System.Drawing.Size(88, 13);
+            this.labelTotalEmployees.TabIndex = 0;
+            this.labelTotalEmployees.Text = "Total Employees:";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 450);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonStartAttendance);
             this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -213,6 +213,8 @@
             this.Load += new System.EventHandler(this.Main_Load);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -223,7 +225,6 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem databaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem enrollToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem employeeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem attendanceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewHelpToolStripMenuItem;
@@ -233,11 +234,11 @@
         private System.Windows.Forms.ToolStripMenuItem attendanceToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem employeeAddToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem employeeViewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem2;
         private System.Windows.Forms.Button buttonStartAttendance;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label labelTotalEmployees;
     }
 }
 

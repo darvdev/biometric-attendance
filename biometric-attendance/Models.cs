@@ -1,7 +1,10 @@
-﻿#nullable enable
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace biometric_attendance
+namespace BiometricAttendance
 {
     public class ModelEmployee
     {
@@ -17,10 +20,11 @@ namespace biometric_attendance
 
         public string name
         {
-            get 
+            get
             {
                 return $"{first_name} {last_name}";
             }
         }
     }
+
 }

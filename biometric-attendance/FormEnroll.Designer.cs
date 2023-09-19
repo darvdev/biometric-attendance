@@ -28,19 +28,88 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.comboBoxEmployeeList = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.buttonEnroll = new System.Windows.Forms.Button();
+            this.comboBoxBiometricId = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // Enroll
+            // comboBoxEmployeeList
+            // 
+            this.comboBoxEmployeeList.FormattingEnabled = true;
+            this.comboBoxEmployeeList.Location = new System.Drawing.Point(31, 37);
+            this.comboBoxEmployeeList.Name = "comboBoxEmployeeList";
+            this.comboBoxEmployeeList.Size = new System.Drawing.Size(209, 21);
+            this.comboBoxEmployeeList.TabIndex = 0;
+            this.comboBoxEmployeeList.SelectedIndexChanged += new System.EventHandler(this.comboBoxEmployeeList_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(28, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(86, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Select Employee";
+            // 
+            // buttonEnroll
+            // 
+            this.buttonEnroll.Enabled = false;
+            this.buttonEnroll.Location = new System.Drawing.Point(167, 78);
+            this.buttonEnroll.Name = "buttonEnroll";
+            this.buttonEnroll.Size = new System.Drawing.Size(73, 23);
+            this.buttonEnroll.TabIndex = 2;
+            this.buttonEnroll.Text = "Enroll";
+            this.buttonEnroll.UseVisualStyleBackColor = true;
+            this.buttonEnroll.Click += new System.EventHandler(this.Enroll);
+            // 
+            // comboBoxBiometricId
+            // 
+            this.comboBoxBiometricId.Enabled = false;
+            this.comboBoxBiometricId.FormattingEnabled = true;
+            this.comboBoxBiometricId.Location = new System.Drawing.Point(31, 80);
+            this.comboBoxBiometricId.Name = "comboBoxBiometricId";
+            this.comboBoxBiometricId.Size = new System.Drawing.Size(130, 21);
+            this.comboBoxBiometricId.TabIndex = 1;
+            this.comboBoxBiometricId.SelectedIndexChanged += new System.EventHandler(this.comboBoxBiometricId_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(28, 64);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(97, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Select Biometric ID";
+            // 
+            // FormEnroll
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(343, 161);
-            this.Name = "Enroll";
+            this.ClientSize = new System.Drawing.Size(281, 390);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.comboBoxBiometricId);
+            this.Controls.Add(this.comboBoxEmployeeList);
+            this.Controls.Add(this.buttonEnroll);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "FormEnroll";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Enroll";
+            this.Load += new System.EventHandler(this.FormEnroll_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+        private System.Windows.Forms.ComboBox comboBoxEmployeeList;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button buttonEnroll;
+        private System.Windows.Forms.ComboBox comboBoxBiometricId;
+        private System.Windows.Forms.Label label2;
     }
 }

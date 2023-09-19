@@ -16,10 +16,11 @@ namespace biometric_attendance
         public FormSettings()
         {
             InitializeComponent();
+            serialPort = formMain.serialPort;
         }
 
-        private static FormMain formMain = (FormMain)Application.OpenForms["FormMain"];
-        private SerialPort serialPort = formMain.serialPort;
+        private FormMain formMain = (FormMain)Application.OpenForms["FormMain"];
+        private SerialPort serialPort;
 
         private void Settings_Load(object sender, EventArgs e)
         {
