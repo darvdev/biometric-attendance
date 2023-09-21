@@ -34,8 +34,7 @@ namespace BiometricAttendance
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: Helper.GetEmployeeList");
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Helper.GetEmployeeList error: {0}", ex.Message);
             }
             
             return Array.Empty<ModelEmployee>();
@@ -44,6 +43,26 @@ namespace BiometricAttendance
         public static string[] GetPorts()
         {
             return SerialPort.GetPortNames();
+        }
+
+        public static bool EnrollEmployee(string connectionString, int databaseId, int biometricId, string employeeId)
+        {
+
+            try
+            {
+                using IDbConnection con = new SQLiteConnection(connectionString);
+                var output = con.Query<ModelEmployee>($"update employees set biometric_id = @biometric_id where id = @id", new { biometric_id = biometricId, id = databaseId });
+                con.Close();
+                con.Dispose();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Helper.EnrollEmployee error: {0}", ex.Message);
+            }
+
+            return false;
+
         }
 
     }

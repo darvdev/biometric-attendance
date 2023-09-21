@@ -16,5 +16,21 @@ namespace biometric_attendance
         {
             InitializeComponent();
         }
+
+        private FormMain formMain = (FormMain)Application.OpenForms["FormMain"];
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            Console.WriteLine("Send: standby");
+            formMain.serial.WriteLine("standby");
+            formMain.Show();
+        }
+
+        private void FormAttendance_Load(object sender, EventArgs e)
+        {
+            Console.WriteLine("Send: start");
+            formMain.serial.WriteLine("start");
+        }
     }
 }

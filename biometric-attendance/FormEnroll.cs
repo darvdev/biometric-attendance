@@ -28,6 +28,7 @@ namespace biometric_attendance
             base.OnFormClosing(e);
             if (formMain.enrolling)
             {
+                formMain.employeeIndex = -1;
                 Console.WriteLine("send: standby");
                 formMain.serial.WriteLine("standby");
             }
@@ -38,24 +39,31 @@ namespace biometric_attendance
 
             for (int i = 1; i < 140; i++)
             {
-                comboBoxBiometricId.Items.Add(i);
+
+                var ee = Array.Find(formMain.employees, (e) => e.biometric_id == i);
+        
+                dynamic item = i;
+                
+                if (ee != null)
+                {
+                    item = $"{i} - {ee.name}";
+                }
+
+
+                comboBoxBiometricId.Items.Add(item);
             }
 
-            using IDbConnection con = new SQLiteConnection(formMain.connectionString);
-            var output = con.Query<ModelEmployee>("select * from employees", new DynamicParameters());
-            con.Close();
-            con.Dispose();
-            foreach (ModelEmployee employee in output.ToList())
+            foreach (ModelEmployee ee in formMain.employees)
             {
-                comboBoxEmployeeList.Items.Add($"{employee.employee_id} - {employee.name}");
+                int? id = ee.biometric_id;
+                comboBoxEmployeeList.Items.Add($"{ee.employee_id} - {ee.name} - " + (id == null ? "NOT REG" :  $"REG [{id}]"));
             }
 
         }
 
         private void comboBoxEmployeeList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Console.WriteLine(((ComboBox)sender).SelectedIndex);
-
+            formMain.employeeIndex = comboBoxEmployeeList.SelectedIndex;
             comboBoxBiometricId.Enabled = comboBoxEmployeeList.SelectedIndex > -1;
         }
 
@@ -102,7 +110,6 @@ namespace biometric_attendance
                 catch (Exception err)
                 {
                     Console.WriteLine(err.Message);
-                    
                     this.Invoke((MethodInvoker) delegate {
                         comboBoxEmployeeList.Enabled = true;
                         comboBoxBiometricId.Enabled = true;
@@ -114,6 +121,12 @@ namespace biometric_attendance
 
             this.Focus();
 
+        }
+
+
+        public void EnrollStatus(string status)
+        {
+            labelEnrollStatus.Text = status;
         }
     }
 }

@@ -30,13 +30,15 @@
         {
             this.SuspendLayout();
             // 
-            // BiometricAttendance
+            // FormAttendance
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1206, 591);
-            this.Name = "BiometricAttendance";
+            this.Name = "FormAttendance";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Biometric Attendance";
+            this.Load += new System.EventHandler(this.FormAttendance_Load);
             this.ResumeLayout(false);
 
         }

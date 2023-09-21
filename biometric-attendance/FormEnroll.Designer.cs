@@ -33,6 +33,7 @@
             this.buttonEnroll = new System.Windows.Forms.Button();
             this.comboBoxBiometricId = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.labelEnrollStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // comboBoxEmployeeList
@@ -83,11 +84,25 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Select Biometric ID";
             // 
+            // labelEnrollStatus
+            // 
+            this.labelEnrollStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelEnrollStatus.AutoSize = true;
+            this.labelEnrollStatus.Location = new System.Drawing.Point(12, 143);
+            this.labelEnrollStatus.Name = "labelEnrollStatus";
+            this.labelEnrollStatus.Size = new System.Drawing.Size(66, 13);
+            this.labelEnrollStatus.TabIndex = 3;
+            this.labelEnrollStatus.Text = "Enroll Status";
+            this.labelEnrollStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FormEnroll
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(281, 390);
+            this.ClientSize = new System.Drawing.Size(281, 191);
+            this.Controls.Add(this.labelEnrollStatus);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBoxBiometricId);
@@ -111,5 +126,6 @@
         private System.Windows.Forms.Button buttonEnroll;
         private System.Windows.Forms.ComboBox comboBoxBiometricId;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelEnrollStatus;
     }
 }

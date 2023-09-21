@@ -30,6 +30,7 @@
         {
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enrollToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,7 +44,6 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.buttonStartAttendance = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -72,6 +72,7 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startToolStripMenuItem,
             this.enrollToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.exitToolStripMenuItem});
@@ -79,25 +80,32 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // startToolStripMenuItem
+            // 
+            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startToolStripMenuItem.Text = "Start";
+            this.startToolStripMenuItem.Click += new System.EventHandler(this.OpenFormAttendance);
+            // 
             // enrollToolStripMenuItem
             // 
             this.enrollToolStripMenuItem.Enabled = false;
             this.enrollToolStripMenuItem.Name = "enrollToolStripMenuItem";
-            this.enrollToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.enrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.enrollToolStripMenuItem.Text = "Enroll";
             this.enrollToolStripMenuItem.Click += new System.EventHandler(this.OpenFormEnroll);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.OpenFormSettings);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // databaseToolStripMenuItem
@@ -173,16 +181,6 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.aboutToolStripMenuItem.Text = "About";
-            // 
-            // buttonStartAttendance
-            // 
-            this.buttonStartAttendance.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonStartAttendance.Location = new System.Drawing.Point(107, 395);
-            this.buttonStartAttendance.Name = "buttonStartAttendance";
-            this.buttonStartAttendance.Size = new System.Drawing.Size(180, 43);
-            this.buttonStartAttendance.TabIndex = 2;
-            this.buttonStartAttendance.Text = "Biometric Attendance";
-            this.buttonStartAttendance.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -266,10 +264,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(386, 450);
+            this.ClientSize = new System.Drawing.Size(386, 243);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.buttonStartAttendance);
             this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MainMenuStrip = this.menuStrip;
@@ -305,7 +302,6 @@
         private System.Windows.Forms.ToolStripMenuItem employeeViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem2;
-        private System.Windows.Forms.Button buttonStartAttendance;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -314,6 +310,7 @@
         private System.Windows.Forms.Label labelStatus;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label labelTotal;
+        private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
     }
 }
 
