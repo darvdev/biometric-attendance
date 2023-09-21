@@ -44,10 +44,17 @@
             this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonStartAttendance = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.labelTotalEmployees = new System.Windows.Forms.Label();
+            this.labelConnection = new System.Windows.Forms.Label();
+            this.labelStatus = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.labelTotal = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -177,30 +184,90 @@
             this.buttonStartAttendance.Text = "Biometric Attendance";
             this.buttonStartAttendance.UseVisualStyleBackColor = true;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(25, 31);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(34, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Total:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(25, 28);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(64, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Connection:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(25, 57);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(40, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Status:";
+            // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.labelTotalEmployees);
-            this.groupBox1.Location = new System.Drawing.Point(32, 55);
+            this.groupBox1.Controls.Add(this.labelConnection);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.labelStatus);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Location = new System.Drawing.Point(25, 41);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(293, 100);
+            this.groupBox1.Size = new System.Drawing.Size(324, 89);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Employees";
+            this.groupBox1.Text = "Sensor Details";
             // 
-            // labelTotalEmployees
+            // labelConnection
             // 
-            this.labelTotalEmployees.AutoSize = true;
-            this.labelTotalEmployees.Location = new System.Drawing.Point(34, 40);
-            this.labelTotalEmployees.Name = "labelTotalEmployees";
-            this.labelTotalEmployees.Size = new System.Drawing.Size(88, 13);
-            this.labelTotalEmployees.TabIndex = 0;
-            this.labelTotalEmployees.Text = "Total Employees:";
+            this.labelConnection.AutoSize = true;
+            this.labelConnection.Location = new System.Drawing.Point(110, 28);
+            this.labelConnection.Name = "labelConnection";
+            this.labelConnection.Size = new System.Drawing.Size(73, 13);
+            this.labelConnection.TabIndex = 0;
+            this.labelConnection.Text = "Disconnected";
+            // 
+            // labelStatus
+            // 
+            this.labelStatus.AutoSize = true;
+            this.labelStatus.Location = new System.Drawing.Point(110, 57);
+            this.labelStatus.Name = "labelStatus";
+            this.labelStatus.Size = new System.Drawing.Size(16, 13);
+            this.labelStatus.TabIndex = 0;
+            this.labelStatus.Text = "-1";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.labelTotal);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Location = new System.Drawing.Point(25, 147);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(324, 63);
+            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Employees Details";
+            // 
+            // labelTotal
+            // 
+            this.labelTotal.AutoSize = true;
+            this.labelTotal.Location = new System.Drawing.Point(110, 31);
+            this.labelTotal.Name = "labelTotal";
+            this.labelTotal.Size = new System.Drawing.Size(13, 13);
+            this.labelTotal.TabIndex = 0;
+            this.labelTotal.Text = "0";
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 450);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonStartAttendance);
             this.Controls.Add(this.menuStrip);
@@ -215,6 +282,8 @@
             this.menuStrip.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -237,8 +306,14 @@
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem2;
         private System.Windows.Forms.Button buttonStartAttendance;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label labelTotalEmployees;
+        private System.Windows.Forms.Label labelConnection;
+        private System.Windows.Forms.Label labelStatus;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label labelTotal;
     }
 }
 

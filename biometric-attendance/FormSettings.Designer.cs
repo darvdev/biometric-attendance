@@ -87,7 +87,7 @@
             this.comboBoxDevicePort.FormattingEnabled = true;
             this.comboBoxDevicePort.Location = new System.Drawing.Point(53, 46);
             this.comboBoxDevicePort.Name = "comboBoxDevicePort";
-            this.comboBoxDevicePort.Size = new System.Drawing.Size(118, 21);
+            this.comboBoxDevicePort.Size = new System.Drawing.Size(91, 21);
             this.comboBoxDevicePort.TabIndex = 0;
             this.comboBoxDevicePort.SelectedIndexChanged += new System.EventHandler(this.ComboBoxDevicePort_SelectedIndexChanged);
             // 

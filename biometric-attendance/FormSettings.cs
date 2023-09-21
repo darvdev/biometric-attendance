@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BiometricAttendance;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,31 +17,35 @@ namespace biometric_attendance
         public FormSettings()
         {
             InitializeComponent();
-            serialPort = formMain.serialPort;
         }
 
         private FormMain formMain = (FormMain)Application.OpenForms["FormMain"];
-        private SerialPort serialPort;
-
+       
         private void Settings_Load(object sender, EventArgs e)
         {
 
             comboBoxDeviceType.SelectedIndex = 0;
 
-            var ports = SerialPort.GetPortNames();
-
-            comboBoxDevicePort.Items.AddRange(ports);
+            comboBoxDevicePort.Items.AddRange(formMain.ports);
 
             if (comboBoxDevicePort.Items.Count > 0)
             {
-                comboBoxDevicePort.SelectedIndex = 0;
+                if (formMain.serial.IsOpen)
+                {
+                    int index = Array.IndexOf(comboBoxDevicePort.Items.Cast<string>().ToArray<string>(), formMain.serial.PortName);
+                    comboBoxDevicePort.SelectedIndex = index;
+                }
+                else 
+                {
+                    comboBoxDevicePort.SelectedIndex = 0;
+                }
             }
 
-            if (!serialPort.IsOpen)
+            if (!formMain.serial.IsOpen)
             {
                 comboBoxDevicePort.Enabled = true;
                 buttonConnect.Text = "Connect";
-                buttonConnect.Enabled = true;
+                buttonConnect.Enabled = comboBoxDevicePort.SelectedIndex > -1;
             }
            
             
@@ -48,22 +53,37 @@ namespace biometric_attendance
 
         private void ComboBoxDevicePort_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //buttonConnect.Enabled = serialPort.IsOpen  && buttonConnect.Text == "Disconnect" ? true : comboBoxDevicePort.SelectedIndex > -1;
-
-
-            
-            Console.WriteLine($"buttonConnect.Text: {buttonConnect.Text}");
-            Console.WriteLine($"serialPort.IsOpen: {serialPort.IsOpen}");
-
-            buttonConnect.Enabled = comboBoxDevicePort.SelectedIndex < 0 ? false : serialPort.IsOpen && buttonConnect.Text == "Disconnect";
-
+            if (comboBoxDevicePort.SelectedIndex > -1) 
+            {
+                buttonConnect.Enabled = true;
+                buttonConnect.Text = formMain.serial.IsOpen ? "Disconnect" : "Connect";
+            }
+            else
+            {
+                buttonConnect.Enabled = false;
+            }
         }
 
         private void ButtonConnect_Click(object sender, EventArgs e)
         {
-            if (serialPort.IsOpen)
+            if (formMain.serial.IsOpen)
             {
                 Console.WriteLine("Disconnect");
+                buttonConnect.Enabled = false;
+                buttonConnect.Text = "Disconnecting...";
+                
+                Task.Run(async () =>
+                {
+                    var result = await formMain.SerialDisconnect();
+
+                    this.Invoke((MethodInvoker)delegate {
+                        buttonConnect.Text = result ? "Connect" : "Disconnect";
+                        buttonConnect.Enabled = true;
+                        comboBoxDevicePort.Enabled = result;
+                    });
+
+                });
+
             }
             else
             {
@@ -71,11 +91,11 @@ namespace biometric_attendance
 
                 try
                 {
-                    formMain.portName = comboBoxDevicePort.Items[comboBoxDevicePort.SelectedIndex].ToString();
+                    formMain.port = comboBoxDevicePort.Items[comboBoxDevicePort.SelectedIndex].ToString();
                 }
                 catch (Exception err)
                 {
-                    Console.WriteLine($"Error: {err}");
+                    Console.WriteLine($"Error serial connect: {err.Message}");
                     return;
                 }
 

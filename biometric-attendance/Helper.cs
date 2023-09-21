@@ -6,6 +6,11 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.IO.Ports;
+using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace BiometricAttendance
 {
@@ -34,6 +39,11 @@ namespace BiometricAttendance
             }
             
             return Array.Empty<ModelEmployee>();
+        }
+
+        public static string[] GetPorts()
+        {
+            return SerialPort.GetPortNames();
         }
 
     }

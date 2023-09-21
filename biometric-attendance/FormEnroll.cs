@@ -19,13 +19,19 @@ namespace biometric_attendance
         public FormEnroll()
         {
             InitializeComponent();
-            connectionString = formMain.connectionString;
-            serialPort = formMain.serialPort;
         }
 
         private FormMain formMain = (FormMain)Application.OpenForms["FormMain"];
-        private string connectionString;
-        private SerialPort serialPort;
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            if (formMain.enrolling)
+            {
+                Console.WriteLine("send: standby");
+                formMain.serial.WriteLine("standby");
+            }
+        }
 
         private void FormEnroll_Load(object sender, EventArgs e)
         {
@@ -35,7 +41,7 @@ namespace biometric_attendance
                 comboBoxBiometricId.Items.Add(i);
             }
 
-            using IDbConnection con = new SQLiteConnection(connectionString);
+            using IDbConnection con = new SQLiteConnection(formMain.connectionString);
             var output = con.Query<ModelEmployee>("select * from employees", new DynamicParameters());
             con.Close();
             con.Dispose();
@@ -60,16 +66,54 @@ namespace biometric_attendance
 
         private void Enroll(object sender, EventArgs e)
         {
+            comboBoxEmployeeList.Enabled = false;
+            comboBoxBiometricId.Enabled = false;
+            buttonEnroll.Enabled = false;
+            buttonEnroll.Text = "Enrolling...";
             
-            try
-            {
-                serialPort.WriteLine("enroll");
-                serialPort.WriteLine($"id={comboBoxBiometricId.Text}");
-            }
-            catch (Exception err)
-            {
-                Console.WriteLine(err.Message);
-            }
+            string id = comboBoxBiometricId.Text;
+
+            Task.Run(async () => {
+                try
+                {
+                    await Task.Delay(500);
+                    formMain.serial.WriteLine("enroll");
+                    await Task.Delay(100);
+                    formMain.serial.WriteLine($"id={id}");
+                    await Task.Delay(500);
+                    Console.WriteLine("Enroll: {0}", formMain.enrolling);
+
+
+                    this.Invoke((MethodInvoker)delegate {
+                        buttonEnroll.Enabled = true;
+                        if (formMain.enrolling)
+                        {
+                            buttonEnroll.Text = "Cancel";
+                        }
+                        else
+                        {
+                            comboBoxEmployeeList.Enabled = true;
+                            comboBoxBiometricId.Enabled = true;
+                            buttonEnroll.Text = "Enroll";
+                        }
+
+                    });
+                }
+                catch (Exception err)
+                {
+                    Console.WriteLine(err.Message);
+                    
+                    this.Invoke((MethodInvoker) delegate {
+                        comboBoxEmployeeList.Enabled = true;
+                        comboBoxBiometricId.Enabled = true;
+                        buttonEnroll.Enabled = true;
+                        buttonEnroll.Text = "Enroll";
+                    });
+                }
+            });
+
+            this.Focus();
+
         }
     }
 }

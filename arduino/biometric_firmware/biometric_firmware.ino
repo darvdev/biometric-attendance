@@ -83,7 +83,10 @@ void serialEvent() {
     
     if (read == '\n') {
 
-      if (string == "start") {
+      if (string == "connect") {
+        Serial.println("ok");
+        
+      } else if (string == "start") {
         sensor.LEDcontrol(true);
         status = 100; //Start reading fingerprint for attendance
         Serial.println(F("start"));
