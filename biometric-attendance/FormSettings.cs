@@ -68,14 +68,12 @@ namespace biometric_attendance
         {
             if (formMain.serial.IsOpen)
             {
-                Console.WriteLine("Disconnect");
                 buttonConnect.Enabled = false;
                 buttonConnect.Text = "Disconnecting...";
                 
                 Task.Run(async () =>
                 {
                     var result = await formMain.SerialDisconnect();
-
                     this.Invoke((MethodInvoker)delegate {
                         buttonConnect.Text = result ? "Connect" : "Disconnect";
                         buttonConnect.Enabled = true;
@@ -87,15 +85,13 @@ namespace biometric_attendance
             }
             else
             {
-                Console.WriteLine("Connect");
-
                 try
                 {
                     formMain.port = comboBoxDevicePort.Items[comboBoxDevicePort.SelectedIndex].ToString();
                 }
                 catch (Exception err)
                 {
-                    Console.WriteLine($"Error serial connect: {err.Message}");
+                    Console.WriteLine("FormSettings.ButtonConnect_Click error: {0}", err.Message);
                     return;
                 }
 
@@ -107,6 +103,7 @@ namespace biometric_attendance
                 Task.Run(async () =>
                 {
                     var result = await formMain.SerialConnect();
+                    if (result) formMain.SendStatus();
 
                     this.Invoke((MethodInvoker)delegate {
                         buttonConnect.Text = result ? "Disconnect" : "Connect";

@@ -77,9 +77,9 @@
             // buttonConnect
             // 
             this.buttonConnect.Enabled = false;
-            this.buttonConnect.Location = new System.Drawing.Point(177, 44);
+            this.buttonConnect.Location = new System.Drawing.Point(160, 44);
             this.buttonConnect.Name = "buttonConnect";
-            this.buttonConnect.Size = new System.Drawing.Size(80, 23);
+            this.buttonConnect.Size = new System.Drawing.Size(97, 23);
             this.buttonConnect.TabIndex = 1;
             this.buttonConnect.Text = "Disconnect";
             this.buttonConnect.UseVisualStyleBackColor = true;

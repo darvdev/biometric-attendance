@@ -102,23 +102,23 @@ namespace BiometricAttendance
 
             return Array.Empty<ModelAttendance>();
         }
-        public static bool AddAttendance(string connectionString, int biometricId)
+        public static ModelAttendance AddAttendance(string connectionString, int biometricId)
         {
             try
             {
                 using IDbConnection con = new SQLiteConnection(connectionString);
                 var list = con.Query<ModelEmployee>("select * from employees where biometric_id = @biometric_id", new { biometric_id = biometricId});
 
-                Console.WriteLine("Found employee: {0}", list.Count());
+                ModelAttendance attendance = null;
+
                 if (list.Count() > 0)
                 {
-                    //Get the first result and add an attendace
                     var ee = list.ToArray()[0];
-                    Console.WriteLine("EE: {0}", ee.name);
+                    Console.WriteLine("Employee: {0}", ee.name);
 
                     var dt = DateTime.Now;
 
-                    ModelAttendance attendance = new ModelAttendance
+                    attendance = new ModelAttendance
                     {
                         employee_id = ee.employee_id,
                         name = ee.name,
@@ -133,14 +133,14 @@ namespace BiometricAttendance
                 con.Dispose();
 
                 
-                return true;
+                return attendance;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Helper.AddAttendance error: {0}", ex.Message);
             }
 
-            return false;
+            return null;
 
         }
 

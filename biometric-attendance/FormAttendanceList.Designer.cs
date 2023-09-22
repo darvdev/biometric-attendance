@@ -60,33 +60,34 @@
             // 
             // id
             // 
+            this.id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.id.FillWeight = 50F;
             this.id.HeaderText = "ID";
             this.id.Name = "id";
             this.id.ReadOnly = true;
-            this.id.Width = 50;
             // 
             // employee_id
             // 
+            this.employee_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.employee_id.HeaderText = "Employee ID";
             this.employee_id.Name = "employee_id";
             this.employee_id.ReadOnly = true;
             // 
             // name
             // 
+            this.name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.name.FillWeight = 200F;
             this.name.HeaderText = "Employee Name";
             this.name.Name = "name";
             this.name.ReadOnly = true;
-            this.name.Width = 200;
             // 
             // date
             // 
+            this.date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.date.FillWeight = 300F;
             this.date.HeaderText = "Date";
             this.date.Name = "date";
             this.date.ReadOnly = true;
-            this.date.Width = 300;
             // 
             // FormAttendanceList
             // 

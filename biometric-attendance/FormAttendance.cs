@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BiometricAttendance;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -28,6 +29,8 @@ namespace biometric_attendance
             Console.WriteLine("Send: standby");
             formMain.serial.WriteLine("standby");
             formMain.Show();
+
+            
         }
 
 
@@ -45,12 +48,58 @@ namespace biometric_attendance
             labelDateTime.Text = dt;
         }
 
-        public void UpdateBiometric(string status)
+        public void UpdateBiometric(string status, ModelAttendance attendance)
         {
-            labelFinger.Text = status;
+
+            //status description
+            /*
+             * 100 = ok
+             * 9 = Finger Print not found
+             * other = Unknown
+             */
+            try
+            {
+                if (status == "100")
+                {
+                    if (attendance == null)
+                    {
+                        fingerPictureBox.Image = BiometricAttendance.Properties.Resources.error;
+                        labelFinger.Text = "Employee not found";
+                    }
+                    else
+                    {
+                        fingerPictureBox.Image = BiometricAttendance.Properties.Resources.ok;
+                        labelFinger.Text = "Hello " + attendance.name;
+                    }
+                    
+                }
+                else
+                {
+                    fingerPictureBox.Image = BiometricAttendance.Properties.Resources.error;
+
+                    if (status == "9")
+                    {
+                        labelFinger.Text = "Fingerprint not registered";
+                    }
+                    else if (status == "23") 
+                    {
+                        labelFinger.Text = "Remove finger in the sensor and try again";
+                    }
+                    else
+                    {
+                        labelFinger.Text = "Error: " + status;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("UpdateBiometric error: {0}", ex.Message);
+            }
+            
             counter = 0;
             timer.Stop();
             timer.Start();
+
         }
 
         private void TimerTick(object sender, EventArgs e) 
@@ -61,6 +110,7 @@ namespace biometric_attendance
                 timer.Stop();
                 counter = 0;
                 labelFinger.Text = "Place your finger in the sensor";
+                fingerPictureBox.Image = BiometricAttendance.Properties.Resources.fingerprint;
             }
         }
 
@@ -84,26 +134,11 @@ namespace biometric_attendance
                     {
                         var time = dt.ToLongTimeString();
                         this.Invoke((MethodInvoker)delegate {
-                            listBoxAttendance.Items.Add($"{time} - {at.employee_id} - {at.name}");
+                            listBoxAttendance.Items.Add($"{time} - {at.name}");
                         });
                     }
 
                 }
-
-                //foreach (var at in formMain.attendaceList)
-                //{
-                //    var dt = DateTime.Parse(at.date);
-
-                //    if (today.Year == dt.Year && today.Month == dt.Month && today.Day == dt.Day)
-                //    {
-                //        var time = dt.ToLongTimeString();
-                //        this.Invoke((MethodInvoker)delegate {
-                //            listBoxAttendance.Items.Add($"{time} - {at.employee_id} - {at.name}");
-                //        });
-                //    }
-
-                //}
-
             });
         }
 

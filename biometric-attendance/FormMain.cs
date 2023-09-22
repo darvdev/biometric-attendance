@@ -43,15 +43,13 @@ namespace biometric_attendance
 
         public string port = "";
         public string connectionString = "";
+        public string status = "-1";
         public int employeeIndex = -1;
 
         private Timer timer = new Timer();
 
 
-        private void Invoke(Action method)
-        {
-            this.Invoke((MethodInvoker)delegate { method(); });
-        }
+        private void Invoke(Action method) => this.Invoke((MethodInvoker)delegate { method(); });
 
         private void Main_Load(object sender, EventArgs e)
         {
@@ -62,18 +60,22 @@ namespace biometric_attendance
             timer.Tick += TimerTick;
             timer.Start();
 
-
             GetEmployeeList();
             GetAttendanceList();
             
             Task.Run(async () => {
-
                 port = settings.Read("Port");
                 if (!string.IsNullOrEmpty(port) && ports.Length > 0)
                 {
                     int index = Array.IndexOf(ports, port);
                     if (index > -1) {
                         await SerialConnect();
+                        SendStatus();
+                        await Task.Delay(100);
+                        if (status == "0")
+                        {
+                            Invoke(() => OpenFormAttendance(null, null));
+                        }
                     }
 
                 }
@@ -208,14 +210,14 @@ namespace biometric_attendance
                                 {
                                     Invoke(() =>
                                     {
-                                        formAttendance?.UpdateBiometric($"Error: {queryValue}");
+                                        formAttendance?.UpdateBiometric(queryValue, null);
                                     });
                                 }
                                 else
                                 {
                                     Invoke(() =>
                                     {
-                                        formAttendance?.UpdateBiometric($"Error: {queryValue}");
+                                        formAttendance?.UpdateBiometric(queryValue, null);
                                     });
                                 }
                             }
@@ -239,22 +241,11 @@ namespace biometric_attendance
 
                         if (command == "status")
                         {
-
-                            if (value == "0" || value == "301")
-                            {
-                                Invoke(() => {
-                                    enrollToolStripMenuItem.Enabled = true;
-                                    if (value == "0")
-                                    {
-                                        OpenFormAttendance(null, null);
-                                    }
-                                });
-                            }
-
-                            Invoke(() => {
+                            status = value;
+                            Invoke(()=>{
                                 labelStatus.Text = value;
+                                enrollToolStripMenuItem.Enabled = value == "0" || value == "301";
                             });
-
                         }
 
                     }
@@ -265,14 +256,8 @@ namespace biometric_attendance
                         {
                             case "ok":
                                 connected = true;
-                                serial.WriteLine("status");
-                                settings.Write("Port", port);
-
-                                this.Invoke((MethodInvoker)delegate {
-                                    labelConnection.Text = "Connected";
-                                });
-
                                 break;
+
                             case "enroll":
                                 enrolling = true;
 
@@ -338,16 +323,19 @@ namespace biometric_attendance
 
         private void AddAttendance(string id)
         {
-            Invoke(() => {
-                formAttendance?.UpdateBiometric($"Add attendance id of {id}");
-            });
             int index = int.Parse(id);
             var result = Helper.AddAttendance(connectionString, index);
 
-            if (result)
+            Invoke(() =>
+            {
+                formAttendance?.UpdateBiometric("100", result);
+            });
+
+            if (result != null)
             {
                 GetAttendanceList();
             }
+            
         }
 
         private void TimerTick(object sender, EventArgs e)
@@ -365,7 +353,6 @@ namespace biometric_attendance
         //Public Methods
         public async Task<bool> SerialConnect()
         {
-            Console.WriteLine("Connecting...");
             try
             {
                 serial.PortName = port;
@@ -374,13 +361,8 @@ namespace biometric_attendance
                 Console.WriteLine("send: connect");
                 serial.WriteLine("connect");
                 await Task.Delay(1000);
-
-                if (!connected)
-                {
-                    this.Invoke((MethodInvoker)delegate {
-                        labelConnection.Text = "Connected - No response";
-                    });
-                }
+                if (connected) settings.Write("Port", port);
+                Invoke(() => labelConnection.Text = connected ? "Connected" : "Connected - No response");
 
                 return true;
 
@@ -388,7 +370,7 @@ namespace biometric_attendance
             catch (Exception ex)
             {
                 await Task.Delay(1000);
-                Console.WriteLine("SerialConnect error:" + ex.Message);
+                Console.WriteLine("FormMain.SerialConnect error:" + ex.Message);
             }
 
             return false;
@@ -396,21 +378,38 @@ namespace biometric_attendance
 
         public async Task<bool> SerialDisconnect()
         {
-            Console.WriteLine("Disconnecting...");
             try
             {
                 Console.WriteLine("send: standby");
                 serial.WriteLine("standby");
                 await Task.Delay(1000);
                 serial.Close();
+                status = "-1";
+                Invoke(() => {
+                    enrollToolStripMenuItem.Enabled = false;
+                    labelConnection.Text = "Disconnected";
+                    labelStatus.Text = status;
+                });
                 return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("SerialDisconnect error:" + ex.Message);
+                Console.WriteLine("FormMain.SerialDisconnect error:" + ex.Message);
                 await Task.Delay(1000);
             }
             return false;
+        }
+
+        public void SendStatus()
+        {
+            try 
+            {
+                serial.WriteLine("status");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("FormMain.SendStatus error: {0}", ex.Message);
+            }
         }
 
         public void GetEmployeeList()
@@ -432,6 +431,7 @@ namespace biometric_attendance
                 formAttendance?.DisplayAttendance();
             });
         }
+
         
     }
 

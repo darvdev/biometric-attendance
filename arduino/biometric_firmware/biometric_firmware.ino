@@ -170,6 +170,7 @@ void startFingerprintAttendance() {
   //FINGERPRINT_OK                    0x00  Found a print match
 
   Serial.print(F("$start|id="));Serial.println(sensor.fingerID);//Serial.print(F(",confidence="));Serial.println(sensor.confidence); //Send sensor data to app
+  delay(2000);
 }
 
 void enrollFingerprintStep1() {

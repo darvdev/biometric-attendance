@@ -28,14 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.labelFinger = new System.Windows.Forms.Label();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.labelDateTime = new System.Windows.Forms.Label();
             this.listBoxAttendance = new System.Windows.Forms.ListBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.fingerPictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -48,18 +47,8 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fingerPictureBox)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Image = global::BiometricAttendance.Properties.Resources.fingerprint;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(594, 436);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // splitContainer1
             // 
@@ -89,7 +78,7 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.pictureBox1);
+            this.splitContainer2.Panel1.Controls.Add(this.fingerPictureBox);
             // 
             // splitContainer2.Panel2
             // 
@@ -143,14 +132,29 @@
             // 
             // listBoxAttendance
             // 
+            this.listBoxAttendance.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.listBoxAttendance.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBoxAttendance.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listBoxAttendance.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBoxAttendance.FormattingEnabled = true;
-            this.listBoxAttendance.ItemHeight = 16;
+            this.listBoxAttendance.ItemHeight = 18;
             this.listBoxAttendance.Location = new System.Drawing.Point(0, 0);
             this.listBoxAttendance.Name = "listBoxAttendance";
+            this.listBoxAttendance.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.listBoxAttendance.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.listBoxAttendance.Size = new System.Drawing.Size(286, 412);
             this.listBoxAttendance.TabIndex = 0;
+            this.listBoxAttendance.UseTabStops = false;
+            // 
+            // fingerPictureBox
+            // 
+            this.fingerPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fingerPictureBox.Image = global::BiometricAttendance.Properties.Resources.fingerprint;
+            this.fingerPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.fingerPictureBox.Name = "fingerPictureBox";
+            this.fingerPictureBox.Size = new System.Drawing.Size(594, 436);
+            this.fingerPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.fingerPictureBox.TabIndex = 0;
+            this.fingerPictureBox.TabStop = false;
             // 
             // FormAttendance
             // 
@@ -162,7 +166,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Biometric Attendance";
             this.Load += new System.EventHandler(this.FormAttendance_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -175,13 +178,14 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.fingerPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox fingerPictureBox;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.Label labelFinger;
