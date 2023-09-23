@@ -24,6 +24,15 @@ namespace biometric_attendance
         private void Settings_Load(object sender, EventArgs e)
         {
 
+            var startup = formMain.ini.Read("Startup");
+            startupCheckBox.Checked = startup == "1";
+
+            var connect = formMain.ini.Read("Connect");
+            connectCheckBox.Checked = connect == "1";
+
+            var start = formMain.ini.Read("Start");
+            startCheckBox.Checked = start == "1";
+
             comboBoxDeviceType.SelectedIndex = 0;
 
             comboBoxDevicePort.Items.AddRange(formMain.ports);
@@ -99,7 +108,6 @@ namespace biometric_attendance
                 buttonConnect.Text = "Connecting";
                 comboBoxDevicePort.Enabled = false;
 
-
                 Task.Run(async () =>
                 {
                     var result = await formMain.SerialConnect();
@@ -116,6 +124,30 @@ namespace biometric_attendance
 
 
         }
-        
+
+        private void connectCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            var enable = connectCheckBox.Checked;
+            
+            formMain.ini.Write("Connect", enable ? "1" : "0");
+
+            startCheckBox.Enabled = enable;
+
+            if (!enable) 
+            {
+                startCheckBox.Checked = false;
+                formMain.ini.Write("Start", "0");
+            }
+        }
+
+        private void startupCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            formMain.ini.Write("Startup", startupCheckBox.Checked ? "1" : "0");
+        }
+
+        private void startCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            formMain.ini.Write("Start", startCheckBox.Checked ? "1" : "0");
+        }
     }
 }

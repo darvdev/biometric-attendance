@@ -12,9 +12,9 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace biometric_attendance
 {
-    public partial class FormAttendance : Form
+    public partial class FormStart : Form
     {
-        public FormAttendance()
+        public FormStart()
         {
             InitializeComponent();
         }

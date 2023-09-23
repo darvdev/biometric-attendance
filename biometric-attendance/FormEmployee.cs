@@ -7,10 +7,13 @@ using System.Configuration;
 using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace biometric_attendance
 {
@@ -31,6 +34,7 @@ namespace biometric_attendance
             {
                 ModelEmployee employee = new ModelEmployee
                 {
+                    img_base64 = Helper.ImageToBase64String(pictureBox.Image),
                     employee_id = textBoxEemployeeId.Text,
                     first_name = textBoxFirstName.Text,
                     middle_name = textBoxMiddleName.Text,
@@ -42,12 +46,11 @@ namespace biometric_attendance
 
                 using (IDbConnection con = new SQLiteConnection(connectionString))
                 {
-
-                    con.Execute("insert into employees (employee_id, first_name, middle_name, last_name, biometric_id, username, password) values (@employee_id, @first_name, @middle_name, @last_name, @biometric_id, @username, @password)", employee);
+                    con.Execute("insert into employees (employee_id, first_name, middle_name, last_name, img_base64, biometric_id, username, password) values (@employee_id, @first_name, @middle_name, @last_name, @img_base64, @biometric_id, @username, @password)", employee);
                     con.Close();
                     con.Dispose();
                 }
-                
+
                 this.Close();
             }
             catch (Exception ex)
@@ -66,6 +69,32 @@ namespace biometric_attendance
         {
             int outValue;
             return int.TryParse(val, out outValue) ? (int?)outValue : null;
+        }
+
+        private void BrowseButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp; *.png;";
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                pictureBox.Image = new Bitmap(open.FileName);
+
+                if (pictureBox.Image != null)
+                {
+                    removeButton.Enabled = true;
+                    browseButton.Text = "Change...";
+                }
+            }
+
+        }
+
+
+        private void RemoveButton_Click(object sender, EventArgs e)
+        {
+            browseButton.Text = "Browse...";
+            removeButton.Enabled = false;
+            pictureBox.Image = null;
+            
         }
     }
 

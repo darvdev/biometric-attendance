@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace BiometricAttendance
 {
@@ -144,6 +145,42 @@ namespace BiometricAttendance
 
         }
 
+        public static Image GetImageFromBase64String(string base64)
+        {
+            try
+            {
+                //data:image/gif;base64,
+                //this image is a single pixel (black)
+                byte[] bytes = Convert.FromBase64String(base64);
+
+                Image image;
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    image = Image.FromStream(ms);
+                }
+
+                return image;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("FormEmployeeList.GetImageFromBase64String error: {0}", ex.Message);
+            }
+
+            return null;
+        }
+
+        public static string ImageToBase64String(Image image)
+        {
+            if (image != null)
+            {
+                MemoryStream ms = new MemoryStream();
+                image.Save(ms, ImageFormat.Jpeg);
+                byte[] imageByte = ms.ToArray();
+                var base64 = Convert.ToBase64String(imageByte);
+                return base64;
+            }
+            return null;
+        }
 
     }
 }

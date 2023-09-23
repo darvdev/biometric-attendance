@@ -28,11 +28,11 @@ namespace biometric_attendance
         private FormEnroll formEnroll;
         private FormEmployee formEmployee;
         private FormEmployeeList formEmployeeList;
-        private FormAttendance formAttendance;
+        private FormStart formStart;
         private FormAttendanceList formAttendanceList;
 
         public readonly SerialPort serial = new SerialPort();
-        public IniFile settings = new IniFile();
+        public IniFile ini = new IniFile();
 
         public string[] ports = Helper.GetPorts();
         public ModelEmployee[] employeeList = Array.Empty<ModelEmployee>();
@@ -62,25 +62,39 @@ namespace biometric_attendance
 
             GetEmployeeList();
             GetAttendanceList();
-            
-            Task.Run(async () => {
-                port = settings.Read("Port");
-                if (!string.IsNullOrEmpty(port) && ports.Length > 0)
-                {
-                    int index = Array.IndexOf(ports, port);
-                    if (index > -1) {
-                        await SerialConnect();
-                        SendStatus();
-                        await Task.Delay(100);
-                        if (status == "0")
+
+            var connect = ini.Read("Connect");
+            if (connect == "1") 
+            {
+                Task.Run(async () => {
+                    port = ini.Read("Port");
+                    if (!string.IsNullOrEmpty(port) && ports.Length > 0)
+                    {
+                        int index = Array.IndexOf(ports, port);
+                        if (index > -1)
                         {
-                            Invoke(() => OpenFormAttendance(null, null));
+                            await SerialConnect();
+                            SendStatus();
+
+                            var start = ini.Read("Start");
+
+                            if (start == "1") 
+                            {
+                                await Task.Delay(500);
+                                if (status == "0")
+                                {
+                                    Invoke(() => OpenFormAttendance(null, null));
+                                }
+                            }
+                            
                         }
+
                     }
 
-                }
-
-            });
+                });
+            }
+            
+            
 
         }
 
@@ -114,9 +128,9 @@ namespace biometric_attendance
 
         private void OpenFormAttendance(object sender, EventArgs e)
         {
-            formAttendance = new FormAttendance();
+            formStart = new FormStart();
             this.Hide();
-            formAttendance.Show();
+            formStart.Show();
         }
 
         private void OpenFormAttendaceList(object sender, EventArgs e)
@@ -161,26 +175,15 @@ namespace biometric_attendance
                         {
                             if (value == "ok")
                             {
-                                Invoke(() =>
-                                {
-                                    formEnroll?.EnrollStatus("Remove finger in the Sensor");
-                                });
+                                Invoke(() => formEnroll?.EnrollStatus("Remove finger in the Sensor"));
                             }
                             else if (value == "next")
                             {
-                                Invoke(() =>
-                                {
-                                    formEnroll?.EnrollStatus("Place same finger in the Sensor");
-                                });
-
+                                Invoke(() => formEnroll?.EnrollStatus("Place same finger in the Sensor"));
                             }
                             else
                             {
-                                Invoke(() =>
-                                {
-                                    formEnroll?.EnrollStatus(value);
-                                });
-
+                                Invoke(() => formEnroll?.EnrollStatus(value));
                             }
                         }
 
@@ -208,17 +211,11 @@ namespace biometric_attendance
                                 }
                                 else if (query == "code")
                                 {
-                                    Invoke(() =>
-                                    {
-                                        formAttendance?.UpdateBiometric(queryValue, null);
-                                    });
+                                    Invoke(() => formStart?.UpdateBiometric(queryValue, null));
                                 }
                                 else
                                 {
-                                    Invoke(() =>
-                                    {
-                                        formAttendance?.UpdateBiometric(queryValue, null);
-                                    });
+                                    Invoke(() => formStart?.UpdateBiometric(queryValue, null));
                                 }
                             }
 
@@ -245,6 +242,7 @@ namespace biometric_attendance
                             Invoke(()=>{
                                 labelStatus.Text = value;
                                 enrollToolStripMenuItem.Enabled = value == "0" || value == "301";
+                                startToolStripMenuItem.Enabled = value == "0";
                             });
                         }
 
@@ -326,10 +324,7 @@ namespace biometric_attendance
             int index = int.Parse(id);
             var result = Helper.AddAttendance(connectionString, index);
 
-            Invoke(() =>
-            {
-                formAttendance?.UpdateBiometric("100", result);
-            });
+            Invoke(() => formStart?.UpdateBiometric("100", result));
 
             if (result != null)
             {
@@ -346,7 +341,7 @@ namespace biometric_attendance
             var date = today.ToShortDateString();
             var time = today.ToLongTimeString();
 
-            formAttendance?.UpdateDateTime(date + "\n" + time);
+            formStart?.UpdateDateTime(date + "\n" + time);
 
         }
 
@@ -361,7 +356,7 @@ namespace biometric_attendance
                 Console.WriteLine("send: connect");
                 serial.WriteLine("connect");
                 await Task.Delay(1000);
-                if (connected) settings.Write("Port", port);
+                if (connected) ini.Write("Port", port);
                 Invoke(() => labelConnection.Text = connected ? "Connected" : "Connected - No response");
 
                 return true;
@@ -387,6 +382,7 @@ namespace biometric_attendance
                 status = "-1";
                 Invoke(() => {
                     enrollToolStripMenuItem.Enabled = false;
+                    startToolStripMenuItem.Enabled = false;
                     labelConnection.Text = "Disconnected";
                     labelStatus.Text = status;
                 });
@@ -428,7 +424,7 @@ namespace biometric_attendance
             Task.Run(() =>
             {
                 attendaceList = Helper.GetAttendaceList(connectionString);
-                formAttendance?.DisplayAttendance();
+                formStart?.DisplayAttendance();
             });
         }
 

@@ -145,6 +145,8 @@ void startFingerprintAttendance() {
   }
 
   //FINGERPRINT_OK                        0x00    - OK
+  Serial.println(F("$start|scan"));
+  delay(1500);
 
   p = sensor.image2Tz();
   if (p != FINGERPRINT_OK) {

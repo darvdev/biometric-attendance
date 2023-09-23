@@ -65,7 +65,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(386, 24);
+            this.menuStrip.Size = new System.Drawing.Size(384, 24);
             this.menuStrip.TabIndex = 1;
             this.menuStrip.Text = "Menu";
             // 
@@ -82,6 +82,7 @@
             // 
             // startToolStripMenuItem
             // 
+            this.startToolStripMenuItem.Enabled = false;
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
             this.startToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.startToolStripMenuItem.Text = "Start";
@@ -123,7 +124,7 @@
             this.employeeAddToolStripMenuItem,
             this.employeeViewToolStripMenuItem});
             this.attendanceToolStripMenuItem.Name = "attendanceToolStripMenuItem";
-            this.attendanceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.attendanceToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.attendanceToolStripMenuItem.Text = "Employee";
             // 
             // employeeAddToolStripMenuItem
@@ -146,19 +147,19 @@
             this.addToolStripMenuItem2,
             this.viewToolStripMenuItem2});
             this.attendanceToolStripMenuItem1.Name = "attendanceToolStripMenuItem1";
-            this.attendanceToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.attendanceToolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
             this.attendanceToolStripMenuItem1.Text = "Attendance";
             // 
             // addToolStripMenuItem2
             // 
             this.addToolStripMenuItem2.Name = "addToolStripMenuItem2";
-            this.addToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.addToolStripMenuItem2.Size = new System.Drawing.Size(99, 22);
             this.addToolStripMenuItem2.Text = "Add";
             // 
             // viewToolStripMenuItem2
             // 
             this.viewToolStripMenuItem2.Name = "viewToolStripMenuItem2";
-            this.viewToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.viewToolStripMenuItem2.Size = new System.Drawing.Size(99, 22);
             this.viewToolStripMenuItem2.Text = "View";
             this.viewToolStripMenuItem2.Click += new System.EventHandler(this.OpenFormAttendaceList);
             // 
@@ -265,13 +266,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(386, 243);
+            this.ClientSize = new System.Drawing.Size(384, 241);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(400, 280);
+            this.MinimumSize = new System.Drawing.Size(400, 280);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dashboard";
