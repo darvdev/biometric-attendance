@@ -26,7 +26,7 @@ namespace BiometricAttendance
         private void FormEmployeeList_Load(object sender, EventArgs e)
         {
             
-            foreach (ModelEmployee employee in formMain.employees)
+            foreach (ModelEmployee employee in formMain.employeeList)
             {
                 employeeDataGridView.Rows.Add(new object[] {
                         employee.id,

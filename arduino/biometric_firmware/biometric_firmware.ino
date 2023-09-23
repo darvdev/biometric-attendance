@@ -5,8 +5,7 @@ Adafruit_Fingerprint sensor = Adafruit_Fingerprint(&serial);
 
 unsigned long previousMs = 0;
 String string = "";
-uint8_t status = -1;
-uint8_t error = -1;
+int status = -1;
 uint8_t id = 0;
 bool fingerState = false;
 
@@ -103,8 +102,6 @@ void serialEvent() {
         sensor.LEDcontrol(false);
         Serial.println(F("standby"));
 
-      } else if (string == "error") {
-        Serial.print(F("error="));Serial.println(error);
       } else {
 
         if(status == 200 && string.indexOf("id=") > -1) {
@@ -172,7 +169,7 @@ void startFingerprintAttendance() {
 
   //FINGERPRINT_OK                    0x00  Found a print match
 
-  Serial.print(F("$start|id="));Serial.print(sensor.fingerID);Serial.print(F(",confidence="));Serial.println(sensor.confidence); //Send sensor data to app
+  Serial.print(F("$start|id="));Serial.println(sensor.fingerID);//Serial.print(F(",confidence="));Serial.println(sensor.confidence); //Send sensor data to app
 }
 
 void enrollFingerprintStep1() {

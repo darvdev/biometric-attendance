@@ -1,11 +1,13 @@
 ﻿using BiometricAttendance;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Reflection;
@@ -27,12 +29,14 @@ namespace biometric_attendance
         private FormEmployee formEmployee;
         private FormEmployeeList formEmployeeList;
         private FormAttendance formAttendance;
+        private FormAttendanceList formAttendanceList;
 
         public readonly SerialPort serial = new SerialPort();
         public IniFile settings = new IniFile();
-        
+
         public string[] ports = Helper.GetPorts();
-        public ModelEmployee[] employees = Array.Empty<ModelEmployee>();
+        public ModelEmployee[] employeeList = Array.Empty<ModelEmployee>();
+        public ModelAttendance[] attendaceList = Array.Empty<ModelAttendance>();
 
         public bool connected = false;
         public bool enrolling = false;
@@ -41,7 +45,10 @@ namespace biometric_attendance
         public string connectionString = "";
         public int employeeIndex = -1;
 
-        private void Invoke(Action method) 
+        private Timer timer = new Timer();
+
+
+        private void Invoke(Action method)
         {
             this.Invoke((MethodInvoker)delegate { method(); });
         }
@@ -51,15 +58,14 @@ namespace biometric_attendance
             connectionString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
             serial.DtrEnable = true;
             serial.DataReceived += SerialPort_DataReceived;
+            timer.Interval = 1000;
+            timer.Tick += TimerTick;
+            timer.Start();
 
-            Task.Run(() =>
-            {
-                employees = Helper.GetEmployeeList(connectionString);
-                Invoke(() => {
-                    labelTotal.Text = employees.Length.ToString();
-                });
-            });
 
+            GetEmployeeList();
+            GetAttendanceList();
+            
             Task.Run(async () => {
 
                 port = settings.Read("Port");
@@ -69,7 +75,7 @@ namespace biometric_attendance
                     if (index > -1) {
                         await SerialConnect();
                     }
-                    
+
                 }
 
             });
@@ -87,6 +93,7 @@ namespace biometric_attendance
         {
             formEmployee = new FormEmployee();
             formEmployee.ShowDialog();
+            GetEmployeeList();
 
         }
 
@@ -100,7 +107,9 @@ namespace biometric_attendance
         {
             formEnroll = new FormEnroll();
             formEnroll.ShowDialog();
+            GetEmployeeList();
         }
+
         private void OpenFormAttendance(object sender, EventArgs e)
         {
             formAttendance = new FormAttendance();
@@ -108,69 +117,115 @@ namespace biometric_attendance
             formAttendance.Show();
         }
 
-
+        private void OpenFormAttendaceList(object sender, EventArgs e)
+        {
+            formAttendanceList = new FormAttendanceList();
+            formAttendanceList.ShowDialog();
+        }
 
         //Private Methods
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             try
             {
+                Console.WriteLine("------------------------------------------------------------");
                 string rawData = serial.ReadTo(serial.NewLine);
                 string data = rawData.Remove(rawData.Length - 1);
                 Console.WriteLine("received: {0}", data);
 
                 if (data[0].ToString() == "$")
                 {
-                    Console.WriteLine("Implement this command: {0}", data);
-
                     int index = data.IndexOf("|");
                     string command = data.Substring(0, index);
                     string value = data.Replace(command + "|", "");
 
-                    Console.WriteLine("Commnad: {0}, Value: {1}", command, value);
-
-                    if (command == "$enroll") 
+                    if (command == "$enroll")
                     {
                         if (value.Contains("="))
                         {
-
                             int valueIndex = value.IndexOf("=");
                             string query = value.Substring(0, valueIndex);
                             string queryValue = value.Replace(query + "=", "");
 
                             Console.WriteLine("Query: {0}, Value: {1}", query, queryValue);
 
-                            if (query == "id") 
+                            if (query == "id")
                             {
                                 EnrollEmployee(queryValue);
                             }
-                            //todo: start registering
 
                         }
                         else
                         {
                             if (value == "ok")
                             {
-                                Invoke(()=>{
+                                Invoke(() =>
+                                {
                                     formEnroll?.EnrollStatus("Remove finger in the Sensor");
                                 });
                             }
                             else if (value == "next")
                             {
-                                Invoke(()=>{
+                                Invoke(() =>
+                                {
                                     formEnroll?.EnrollStatus("Place same finger in the Sensor");
                                 });
 
                             }
-                            else 
+                            else
                             {
-                                Invoke(() => {
+                                Invoke(() =>
+                                {
                                     formEnroll?.EnrollStatus(value);
                                 });
-             
+
                             }
                         }
-                        
+
+                    }
+                    else if (command == "$start")
+                    {
+                        if (value.Contains("="))
+                        {
+
+                            if (value.Contains(','))
+                            {
+                                //$start|id=1,confidence=118
+                                Console.WriteLine("Implement multiple value");
+                            }
+                            else
+                            {
+                                //$start|code=23
+                                int valueIndex = value.IndexOf("=");
+                                string query = value.Substring(0, valueIndex);
+                                string queryValue = value.Replace(query + "=", "");
+
+                                if (query == "id")
+                                {
+                                    AddAttendance(queryValue);
+                                }
+                                else if (query == "code")
+                                {
+                                    Invoke(() =>
+                                    {
+                                        formAttendance?.UpdateBiometric($"Error: {queryValue}");
+                                    });
+                                }
+                                else
+                                {
+                                    Invoke(() =>
+                                    {
+                                        formAttendance?.UpdateBiometric($"Error: {queryValue}");
+                                    });
+                                }
+                            }
+
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("Implement: start without =");
+                        }
                     }
                 }
                 else
@@ -212,7 +267,7 @@ namespace biometric_attendance
                                 connected = true;
                                 serial.WriteLine("status");
                                 settings.Write("Port", port);
-                                
+
                                 this.Invoke((MethodInvoker)delegate {
                                     labelConnection.Text = "Connected";
                                 });
@@ -243,7 +298,7 @@ namespace biometric_attendance
             }
         }
 
-        private void  EnrollEmployee(dynamic id)
+        private void EnrollEmployee(string id)
         {
             try
             {
@@ -252,7 +307,7 @@ namespace biometric_attendance
                 });
 
                 int index = int.Parse(id);
-                var ee = employees.ElementAt(employeeIndex);
+                var ee = employeeList.ElementAt(employeeIndex);
 
                 Console.WriteLine("Employee: {0}, ID: {1}", ee.name, ee.id);
                 bool result = Helper.EnrollEmployee(connectionString, ee.id, index, ee.employee_id);
@@ -272,13 +327,39 @@ namespace biometric_attendance
                 }
 
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine("EnrollEmployee error: {0}", ex.Message);
                 Invoke(() => {
                     formEnroll?.EnrollStatus($"Error registering employee: {ex.Message}");
                 });
             }
+        }
+
+        private void AddAttendance(string id)
+        {
+            Invoke(() => {
+                formAttendance?.UpdateBiometric($"Add attendance id of {id}");
+            });
+            int index = int.Parse(id);
+            var result = Helper.AddAttendance(connectionString, index);
+
+            if (result)
+            {
+                GetAttendanceList();
+            }
+        }
+
+        private void TimerTick(object sender, EventArgs e)
+        {
+
+            var today = DateTime.Now;
+
+            var date = today.ToShortDateString();
+            var time = today.ToLongTimeString();
+
+            formAttendance?.UpdateDateTime(date + "\n" + time);
+
         }
 
         //Public Methods
@@ -332,6 +413,26 @@ namespace biometric_attendance
             return false;
         }
 
+        public void GetEmployeeList()
+        {
+            Task.Run(() =>
+            {
+                employeeList = Helper.GetEmployeeList(connectionString);
+                Invoke(() => {
+                    labelTotal.Text = employeeList.Length.ToString();
+                });
+            });
+        }
+
+        public void GetAttendanceList()
+        {
+            Task.Run(() =>
+            {
+                attendaceList = Helper.GetAttendaceList(connectionString);
+                formAttendance?.DisplayAttendance();
+            });
+        }
+        
     }
 
 }

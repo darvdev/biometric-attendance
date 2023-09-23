@@ -27,4 +27,12 @@ namespace BiometricAttendance
         }
     }
 
+    public class ModelAttendance
+    {
+        public int id { get; set; }
+        public string employee_id { get; set; }
+        public string name { get; set; }
+        public string date { get; set; }
+    }
+
 }

@@ -40,7 +40,7 @@ namespace biometric_attendance
             for (int i = 1; i < 140; i++)
             {
 
-                var ee = Array.Find(formMain.employees, (e) => e.biometric_id == i);
+                var ee = Array.Find(formMain.employeeList, (e) => e.biometric_id == i);
         
                 dynamic item = i;
                 
@@ -53,7 +53,7 @@ namespace biometric_attendance
                 comboBoxBiometricId.Items.Add(item);
             }
 
-            foreach (ModelEmployee ee in formMain.employees)
+            foreach (ModelEmployee ee in formMain.employeeList)
             {
                 int? id = ee.biometric_id;
                 comboBoxEmployeeList.Items.Add($"{ee.employee_id} - {ee.name} - " + (id == null ? "NOT REG" :  $"REG [{id}]"));

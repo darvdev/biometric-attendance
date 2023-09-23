@@ -35,9 +35,9 @@
             this.comboBoxDevicePort = new System.Windows.Forms.ComboBox();
             this.comboBoxDeviceType = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBoxDevice.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -119,16 +119,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Application";
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(19, 50);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(201, 17);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "Connect to sensor at application start";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
@@ -149,11 +139,21 @@
             this.checkBox3.Text = "Start application at window startup";
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(19, 50);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(201, 17);
+            this.checkBox1.TabIndex = 0;
+            this.checkBox1.Text = "Connect to sensor at application start";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(315, 450);
+            this.ClientSize = new System.Drawing.Size(315, 251);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBoxDevice);
             this.MaximizeBox = false;

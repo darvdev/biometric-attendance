@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace biometric_attendance
 {
@@ -18,6 +19,8 @@ namespace biometric_attendance
         }
 
         private FormMain formMain = (FormMain)Application.OpenForms["FormMain"];
+        private Timer timer = new Timer();
+        private int counter = 0;
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -27,10 +30,82 @@ namespace biometric_attendance
             formMain.Show();
         }
 
+
         private void FormAttendance_Load(object sender, EventArgs e)
         {
             Console.WriteLine("Send: start");
             formMain.serial.WriteLine("start");
+            timer.Interval = 1000;
+            timer.Tick += TimerTick;
+            DisplayAttendance();
         }
+
+        public void UpdateDateTime(string dt) 
+        {
+            labelDateTime.Text = dt;
+        }
+
+        public void UpdateBiometric(string status)
+        {
+            labelFinger.Text = status;
+            counter = 0;
+            timer.Stop();
+            timer.Start();
+        }
+
+        private void TimerTick(object sender, EventArgs e) 
+        {
+            counter++;
+            if (counter >= 5)
+            {
+                timer.Stop();
+                counter = 0;
+                labelFinger.Text = "Place your finger in the sensor";
+            }
+        }
+
+        public void DisplayAttendance() 
+        {
+            
+            this.Invoke((MethodInvoker)delegate {
+                listBoxAttendance.Items.Clear();
+            });
+            Task.Run(() => {
+
+                var today = DateTime.Now;
+                string[] attendanceToday = Array.Empty<string>();
+
+                for (int i = formMain.attendaceList.Length; i > 0; i--)
+                {
+                    var at = formMain.attendaceList[i-1];
+                    var dt = DateTime.Parse(at.date);
+
+                    if (today.Year == dt.Year && today.Month == dt.Month && today.Day == dt.Day)
+                    {
+                        var time = dt.ToLongTimeString();
+                        this.Invoke((MethodInvoker)delegate {
+                            listBoxAttendance.Items.Add($"{time} - {at.employee_id} - {at.name}");
+                        });
+                    }
+
+                }
+
+                //foreach (var at in formMain.attendaceList)
+                //{
+                //    var dt = DateTime.Parse(at.date);
+
+                //    if (today.Year == dt.Year && today.Month == dt.Month && today.Day == dt.Day)
+                //    {
+                //        var time = dt.ToLongTimeString();
+                //        this.Invoke((MethodInvoker)delegate {
+                //            listBoxAttendance.Items.Add($"{time} - {at.employee_id} - {at.name}");
+                //        });
+                //    }
+
+                //}
+
+            });
+        }
+
     }
 }

@@ -66,6 +66,12 @@
     <Compile Include="FormAttendance.Designer.cs">
       <DependentUpon>FormAttendance.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormAttendanceList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAttendanceList.Designer.cs">
+      <DependentUpon>FormAttendanceList.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormEmployee.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,8 +107,14 @@
     <Compile Include="FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
+    <None Include="Resources\ok.png" />
+    <None Include="Resources\error.png" />
+    <None Include="Resources\fingerprint.png" />
     <EmbeddedResource Include="FormAttendance.resx">
       <DependentUpon>FormAttendance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAttendanceList.resx">
+      <DependentUpon>FormAttendanceList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormEmployee.resx">
       <DependentUpon>FormEmployee.cs</DependentUpon>

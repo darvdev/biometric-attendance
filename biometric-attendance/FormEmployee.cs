@@ -50,9 +50,9 @@ namespace biometric_attendance
                 
                 this.Close();
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                Console.WriteLine(err);
+                Console.WriteLine("Save error: {0}", ex.Message);
             }
 
         }
