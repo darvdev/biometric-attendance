@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,14 @@ namespace BiometricAttendance
             get
             {
                 return $"{first_name} {last_name}";
+            }
+        }
+
+        public Image image
+        {
+            get
+            {
+                return Helper.GetImageFromBase64String(img_base64);
             }
         }
     }

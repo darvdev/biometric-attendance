@@ -84,29 +84,29 @@
             // 
             this.startToolStripMenuItem.Enabled = false;
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startToolStripMenuItem.Text = "Start";
-            this.startToolStripMenuItem.Click += new System.EventHandler(this.OpenFormAttendance);
+            this.startToolStripMenuItem.Click += new System.EventHandler(this.OpenFormStart);
             // 
             // enrollToolStripMenuItem
             // 
             this.enrollToolStripMenuItem.Enabled = false;
             this.enrollToolStripMenuItem.Name = "enrollToolStripMenuItem";
-            this.enrollToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.enrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.enrollToolStripMenuItem.Text = "Enroll";
             this.enrollToolStripMenuItem.Click += new System.EventHandler(this.OpenFormEnroll);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.OpenFormSettings);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // databaseToolStripMenuItem
@@ -124,20 +124,20 @@
             this.employeeAddToolStripMenuItem,
             this.employeeViewToolStripMenuItem});
             this.attendanceToolStripMenuItem.Name = "attendanceToolStripMenuItem";
-            this.attendanceToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.attendanceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.attendanceToolStripMenuItem.Text = "Employee";
             // 
             // employeeAddToolStripMenuItem
             // 
             this.employeeAddToolStripMenuItem.Name = "employeeAddToolStripMenuItem";
-            this.employeeAddToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.employeeAddToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.employeeAddToolStripMenuItem.Text = "Add";
             this.employeeAddToolStripMenuItem.Click += new System.EventHandler(this.OpenFormEmployee);
             // 
             // employeeViewToolStripMenuItem
             // 
             this.employeeViewToolStripMenuItem.Name = "employeeViewToolStripMenuItem";
-            this.employeeViewToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.employeeViewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.employeeViewToolStripMenuItem.Text = "View";
             this.employeeViewToolStripMenuItem.Click += new System.EventHandler(this.OpemFormEmployeeList);
             // 
@@ -147,19 +147,19 @@
             this.addToolStripMenuItem2,
             this.viewToolStripMenuItem2});
             this.attendanceToolStripMenuItem1.Name = "attendanceToolStripMenuItem1";
-            this.attendanceToolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
+            this.attendanceToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.attendanceToolStripMenuItem1.Text = "Attendance";
             // 
             // addToolStripMenuItem2
             // 
             this.addToolStripMenuItem2.Name = "addToolStripMenuItem2";
-            this.addToolStripMenuItem2.Size = new System.Drawing.Size(99, 22);
+            this.addToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.addToolStripMenuItem2.Text = "Add";
             // 
             // viewToolStripMenuItem2
             // 
             this.viewToolStripMenuItem2.Name = "viewToolStripMenuItem2";
-            this.viewToolStripMenuItem2.Size = new System.Drawing.Size(99, 22);
+            this.viewToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.viewToolStripMenuItem2.Text = "View";
             this.viewToolStripMenuItem2.Click += new System.EventHandler(this.OpenFormAttendaceList);
             // 

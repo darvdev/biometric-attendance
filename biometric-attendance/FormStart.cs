@@ -120,6 +120,7 @@ namespace biometric_attendance
             this.Invoke((MethodInvoker)delegate {
                 listBoxAttendance.Items.Clear();
             });
+
             Task.Run(() => {
 
                 var today = DateTime.Now;

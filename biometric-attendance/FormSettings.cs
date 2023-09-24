@@ -1,13 +1,6 @@
-﻿using BiometricAttendance;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
-using System.Drawing;
-using System.IO.Ports;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace biometric_attendance
@@ -56,8 +49,6 @@ namespace biometric_attendance
                 buttonConnect.Text = "Connect";
                 buttonConnect.Enabled = comboBoxDevicePort.SelectedIndex > -1;
             }
-           
-            
         }
 
         private void ComboBoxDevicePort_SelectedIndexChanged(object sender, EventArgs e)
@@ -73,56 +64,40 @@ namespace biometric_attendance
             }
         }
 
-        private void ButtonConnect_Click(object sender, EventArgs e)
+        private async void ButtonConnect_Click(object sender, EventArgs e)
         {
             if (formMain.serial.IsOpen)
             {
                 buttonConnect.Enabled = false;
                 buttonConnect.Text = "Disconnecting...";
-                
-                Task.Run(async () =>
-                {
-                    var result = await formMain.SerialDisconnect();
-                    this.Invoke((MethodInvoker)delegate {
-                        buttonConnect.Text = result ? "Connect" : "Disconnect";
-                        buttonConnect.Enabled = true;
-                        comboBoxDevicePort.Enabled = result;
-                    });
 
-                });
-
+                var result = await formMain.SerialDisconnect();
+                buttonConnect.Text = result ? "Connect" : "Disconnect";
+                buttonConnect.Enabled = true;
+                comboBoxDevicePort.Enabled = result;
             }
             else
             {
                 try
                 {
                     formMain.port = comboBoxDevicePort.Items[comboBoxDevicePort.SelectedIndex].ToString();
-                }
-                catch (Exception err)
-                {
-                    Console.WriteLine("FormSettings.ButtonConnect_Click error: {0}", err.Message);
-                    return;
-                }
 
-                buttonConnect.Enabled = false;
-                buttonConnect.Text = "Connecting";
-                comboBoxDevicePort.Enabled = false;
+                    buttonConnect.Enabled = false;
+                    buttonConnect.Text = "Connecting";
+                    comboBoxDevicePort.Enabled = false;
 
-                Task.Run(async () =>
-                {
                     var result = await formMain.SerialConnect();
                     if (result) formMain.SendStatus();
 
-                    this.Invoke((MethodInvoker)delegate {
-                        buttonConnect.Text = result ? "Disconnect" : "Connect";
-                        buttonConnect.Enabled = true;
-                        comboBoxDevicePort.Enabled = !result;
-                    });
-
-                });
+                    buttonConnect.Text = result ? "Disconnect" : "Connect";
+                    buttonConnect.Enabled = true;
+                    comboBoxDevicePort.Enabled = !result;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-
-
         }
 
         private void connectCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -133,7 +108,7 @@ namespace biometric_attendance
 
             startCheckBox.Enabled = enable;
 
-            if (!enable) 
+            if (!enable)
             {
                 startCheckBox.Checked = false;
                 formMain.ini.Write("Start", "0");

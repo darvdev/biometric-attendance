@@ -1,19 +1,8 @@
 ﻿using BiometricAttendance;
-using Dapper;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
-using System.Data.SQLite;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace biometric_attendance
 {
@@ -25,37 +14,35 @@ namespace biometric_attendance
             textBoxBiometricId.KeyPress += Helper.NumericKeyPress;
         }
 
-        private string connectionString = ((FormMain)Application.OpenForms["FormMain"]).connectionString;
+        private void Invoke(Action method) => this.Invoke((MethodInvoker)delegate { method(); });
 
-        private void Save(object sender, EventArgs e)
+        
+        private async void Save(object sender, EventArgs e)
         {
-            Console.WriteLine("Saving...");
             try
             {
-                ModelEmployee employee = new ModelEmployee
-                {
-                    img_base64 = Helper.ImageToBase64String(pictureBox.Image),
-                    employee_id = textBoxEemployeeId.Text,
-                    first_name = textBoxFirstName.Text,
-                    middle_name = textBoxMiddleName.Text,
-                    last_name = textBoxLastName.Text,
-                    biometric_id = TryParseNullable(textBoxBiometricId.Text),
-                    username = textBoxUsername.Text == String.Empty ? null : textBoxUsername.Text,
-                    password = textBoxPassword.Text == String.Empty ? null : textBoxPassword.Text,
-                };
+                ModelEmployee ee = Helper.NewEmployee(
+                    textBoxEmployeeId.Text,
+                    textBoxFirstName.Text,
+                    textBoxLastName.Text,
+                    textBoxMiddleName.Text,
+                    pictureBox.Image,
+                    textBoxBiometricId.Text,
+                    textBoxUsername.Text,
+                    textBoxPassword.Text
+                    );
 
-                using (IDbConnection con = new SQLiteConnection(connectionString))
+                var result = await Helper.AddEmployee(ee);
+                if (result)
                 {
-                    con.Execute("insert into employees (employee_id, first_name, middle_name, last_name, img_base64, biometric_id, username, password) values (@employee_id, @first_name, @middle_name, @last_name, @img_base64, @biometric_id, @username, @password)", employee);
-                    con.Close();
-                    con.Dispose();
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
 
-                this.Close();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Save error: {0}", ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -65,37 +52,25 @@ namespace biometric_attendance
             this.Close();
         }
 
-        public int? TryParseNullable(string val)
-        {
-            int outValue;
-            return int.TryParse(val, out outValue) ? (int?)outValue : null;
-        }
-
         private void BrowseButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog open = new OpenFileDialog();
-            open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp; *.png;";
-            if (open.ShowDialog() == DialogResult.OK)
+            var image = Helper.BrowseImage();
+            pictureBox.Image = image;
+            if (image != null)
             {
-                pictureBox.Image = new Bitmap(open.FileName);
-
-                if (pictureBox.Image != null)
-                {
-                    removeButton.Enabled = true;
-                    browseButton.Text = "Change...";
-                }
+                buttonRemove.Enabled = true;
+                buttonBrowse.Text = "Change...";
             }
-
         }
-
 
         private void RemoveButton_Click(object sender, EventArgs e)
         {
-            browseButton.Text = "Browse...";
-            removeButton.Enabled = false;
+            buttonBrowse.Text = "Browse...";
+            buttonRemove.Enabled = false;
             pictureBox.Image = null;
-            
         }
+
+        
     }
 
 }

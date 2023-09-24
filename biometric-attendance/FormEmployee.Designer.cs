@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.buttonSave = new System.Windows.Forms.Button();
-            this.textBoxEemployeeId = new System.Windows.Forms.TextBox();
+            this.textBoxEmployeeId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxFirstName = new System.Windows.Forms.TextBox();
@@ -46,15 +46,17 @@
             this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.textBoxUsername = new System.Windows.Forms.TextBox();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.browseButton = new System.Windows.Forms.Button();
-            this.removeButton = new System.Windows.Forms.Button();
+            this.buttonBrowse = new System.Windows.Forms.Button();
+            this.buttonRemove = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(220, 450);
+            this.buttonSave.Location = new System.Drawing.Point(446, 12);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 10;
@@ -62,17 +64,17 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.Save);
             // 
-            // textBoxEemployeeId
+            // textBoxEmployeeId
             // 
-            this.textBoxEemployeeId.Location = new System.Drawing.Point(105, 138);
-            this.textBoxEemployeeId.Name = "textBoxEemployeeId";
-            this.textBoxEemployeeId.Size = new System.Drawing.Size(105, 20);
-            this.textBoxEemployeeId.TabIndex = 0;
+            this.textBoxEmployeeId.Location = new System.Drawing.Point(328, 15);
+            this.textBoxEmployeeId.Name = "textBoxEmployeeId";
+            this.textBoxEmployeeId.Size = new System.Drawing.Size(105, 20);
+            this.textBoxEmployeeId.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 141);
+            this.label1.Location = new System.Drawing.Point(245, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(67, 13);
             this.label1.TabIndex = 0;
@@ -81,7 +83,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 175);
+            this.label2.Location = new System.Drawing.Point(245, 44);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(57, 13);
             this.label2.TabIndex = 0;
@@ -89,7 +91,7 @@
             // 
             // textBoxFirstName
             // 
-            this.textBoxFirstName.Location = new System.Drawing.Point(105, 168);
+            this.textBoxFirstName.Location = new System.Drawing.Point(328, 41);
             this.textBoxFirstName.Name = "textBoxFirstName";
             this.textBoxFirstName.Size = new System.Drawing.Size(190, 20);
             this.textBoxFirstName.TabIndex = 1;
@@ -97,7 +99,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(22, 206);
+            this.label3.Location = new System.Drawing.Point(245, 70);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(69, 13);
             this.label3.TabIndex = 0;
@@ -105,7 +107,7 @@
             // 
             // textBoxMiddleName
             // 
-            this.textBoxMiddleName.Location = new System.Drawing.Point(105, 203);
+            this.textBoxMiddleName.Location = new System.Drawing.Point(328, 67);
             this.textBoxMiddleName.Name = "textBoxMiddleName";
             this.textBoxMiddleName.Size = new System.Drawing.Size(190, 20);
             this.textBoxMiddleName.TabIndex = 2;
@@ -113,7 +115,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(22, 240);
+            this.label4.Location = new System.Drawing.Point(245, 96);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(58, 13);
             this.label4.TabIndex = 0;
@@ -121,7 +123,7 @@
             // 
             // textBoxLastName
             // 
-            this.textBoxLastName.Location = new System.Drawing.Point(105, 237);
+            this.textBoxLastName.Location = new System.Drawing.Point(328, 93);
             this.textBoxLastName.Name = "textBoxLastName";
             this.textBoxLastName.Size = new System.Drawing.Size(190, 20);
             this.textBoxLastName.TabIndex = 3;
@@ -129,7 +131,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(22, 276);
+            this.label5.Location = new System.Drawing.Point(22, 29);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 13);
             this.label5.TabIndex = 0;
@@ -137,14 +139,14 @@
             // 
             // textBoxBiometricId
             // 
-            this.textBoxBiometricId.Location = new System.Drawing.Point(105, 273);
+            this.textBoxBiometricId.Location = new System.Drawing.Point(97, 26);
             this.textBoxBiometricId.Name = "textBoxBiometricId";
             this.textBoxBiometricId.Size = new System.Drawing.Size(64, 20);
             this.textBoxBiometricId.TabIndex = 4;
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(25, 450);
+            this.buttonCancel.Location = new System.Drawing.Point(354, 12);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 9;
@@ -158,10 +160,12 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.textBoxPassword);
             this.groupBox1.Controls.Add(this.textBoxUsername);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.textBoxBiometricId);
             this.groupBox1.Enabled = false;
-            this.groupBox1.Location = new System.Drawing.Point(25, 319);
+            this.groupBox1.Location = new System.Drawing.Point(248, 129);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(270, 100);
+            this.groupBox1.Size = new System.Drawing.Size(270, 113);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Login Details";
@@ -169,7 +173,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(22, 63);
+            this.label7.Location = new System.Drawing.Point(24, 81);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(53, 13);
             this.label7.TabIndex = 0;
@@ -178,7 +182,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(20, 33);
+            this.label6.Location = new System.Drawing.Point(22, 55);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(55, 13);
             this.label6.TabIndex = 0;
@@ -186,77 +190,85 @@
             // 
             // textBoxPassword
             // 
-            this.textBoxPassword.Location = new System.Drawing.Point(97, 60);
+            this.textBoxPassword.Location = new System.Drawing.Point(97, 78);
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.Size = new System.Drawing.Size(152, 20);
             this.textBoxPassword.TabIndex = 6;
             // 
             // textBoxUsername
             // 
-            this.textBoxUsername.Location = new System.Drawing.Point(97, 30);
+            this.textBoxUsername.Location = new System.Drawing.Point(97, 52);
             this.textBoxUsername.Name = "textBoxUsername";
             this.textBoxUsername.Size = new System.Drawing.Size(152, 20);
             this.textBoxUsername.TabIndex = 5;
             // 
             // pictureBox
             // 
-            this.pictureBox.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBox.Cursor = System.Windows.Forms.Cursors.Default;
-            this.pictureBox.Location = new System.Drawing.Point(25, 23);
+            this.pictureBox.Location = new System.Drawing.Point(25, 12);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(100, 100);
+            this.pictureBox.Size = new System.Drawing.Size(200, 200);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 9;
             this.pictureBox.TabStop = false;
             // 
-            // browseButton
+            // buttonBrowse
             // 
-            this.browseButton.Location = new System.Drawing.Point(135, 101);
-            this.browseButton.Name = "browseButton";
-            this.browseButton.Size = new System.Drawing.Size(75, 23);
-            this.browseButton.TabIndex = 7;
-            this.browseButton.Text = "Browse...";
-            this.browseButton.UseVisualStyleBackColor = true;
-            this.browseButton.Click += new System.EventHandler(this.BrowseButton_Click);
+            this.buttonBrowse.Location = new System.Drawing.Point(25, 219);
+            this.buttonBrowse.Name = "buttonBrowse";
+            this.buttonBrowse.Size = new System.Drawing.Size(75, 23);
+            this.buttonBrowse.TabIndex = 7;
+            this.buttonBrowse.Text = "Browse...";
+            this.buttonBrowse.UseVisualStyleBackColor = true;
+            this.buttonBrowse.Click += new System.EventHandler(this.BrowseButton_Click);
             // 
-            // removeButton
+            // buttonRemove
             // 
-            this.removeButton.Cursor = System.Windows.Forms.Cursors.Default;
-            this.removeButton.Enabled = false;
-            this.removeButton.Location = new System.Drawing.Point(135, 72);
-            this.removeButton.Name = "removeButton";
-            this.removeButton.Size = new System.Drawing.Size(75, 23);
-            this.removeButton.TabIndex = 8;
-            this.removeButton.Text = "Remove";
-            this.removeButton.UseVisualStyleBackColor = true;
-            this.removeButton.Click += new System.EventHandler(this.RemoveButton_Click);
+            this.buttonRemove.Cursor = System.Windows.Forms.Cursors.Default;
+            this.buttonRemove.Enabled = false;
+            this.buttonRemove.Location = new System.Drawing.Point(150, 219);
+            this.buttonRemove.Name = "buttonRemove";
+            this.buttonRemove.Size = new System.Drawing.Size(75, 23);
+            this.buttonRemove.TabIndex = 8;
+            this.buttonRemove.Text = "Remove";
+            this.buttonRemove.UseVisualStyleBackColor = true;
+            this.buttonRemove.Click += new System.EventHandler(this.RemoveButton_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.Controls.Add(this.buttonSave);
+            this.panel1.Controls.Add(this.buttonCancel);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 262);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(544, 49);
+            this.panel1.TabIndex = 11;
             // 
             // FormEmployee
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(324, 491);
-            this.Controls.Add(this.removeButton);
-            this.Controls.Add(this.browseButton);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(544, 311);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.buttonRemove);
+            this.Controls.Add(this.buttonBrowse);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBoxBiometricId);
             this.Controls.Add(this.textBoxLastName);
             this.Controls.Add(this.textBoxMiddleName);
             this.Controls.Add(this.textBoxFirstName);
-            this.Controls.Add(this.textBoxEemployeeId);
-            this.Controls.Add(this.buttonCancel);
-            this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.textBoxEmployeeId);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(340, 530);
-            this.MinimumSize = new System.Drawing.Size(340, 530);
+            this.MaximumSize = new System.Drawing.Size(560, 350);
+            this.MinimumSize = new System.Drawing.Size(560, 350);
             this.Name = "FormEmployee";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -264,6 +276,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -272,7 +285,7 @@
         #endregion
 
         private System.Windows.Forms.Button buttonSave;
-        private System.Windows.Forms.TextBox textBoxEemployeeId;
+        private System.Windows.Forms.TextBox textBoxEmployeeId;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxFirstName;
@@ -289,7 +302,8 @@
         private System.Windows.Forms.TextBox textBoxPassword;
         private System.Windows.Forms.TextBox textBoxUsername;
         private System.Windows.Forms.PictureBox pictureBox;
-        private System.Windows.Forms.Button browseButton;
-        private System.Windows.Forms.Button removeButton;
+        private System.Windows.Forms.Button buttonBrowse;
+        private System.Windows.Forms.Button buttonRemove;
+        private System.Windows.Forms.Panel panel1;
     }
 }

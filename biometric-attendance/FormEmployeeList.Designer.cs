@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
             this.employeeDataGridView = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.employee_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,8 +48,8 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.removeButton = new System.Windows.Forms.Button();
-            this.browseButton = new System.Windows.Forms.Button();
+            this.buttonRemove = new System.Windows.Forms.Button();
+            this.buttonBrowse = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -60,7 +60,7 @@
             this.textBoxLastName = new System.Windows.Forms.TextBox();
             this.textBoxMiddleName = new System.Windows.Forms.TextBox();
             this.textBoxFirstName = new System.Windows.Forms.TextBox();
-            this.textBoxEemployeeId = new System.Windows.Forms.TextBox();
+            this.textBoxEmployeeId = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.employeeDataGridView)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -74,6 +74,7 @@
             this.employeeDataGridView.AllowUserToAddRows = false;
             this.employeeDataGridView.AllowUserToDeleteRows = false;
             this.employeeDataGridView.AllowUserToResizeRows = false;
+            this.employeeDataGridView.BackgroundColor = System.Drawing.Color.LightGray;
             this.employeeDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.employeeDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
@@ -85,6 +86,7 @@
             this.username,
             this.password});
             this.employeeDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.employeeDataGridView.GridColor = System.Drawing.SystemColors.Control;
             this.employeeDataGridView.Location = new System.Drawing.Point(3, 3);
             this.employeeDataGridView.MultiSelect = false;
             this.employeeDataGridView.Name = "employeeDataGridView";
@@ -102,8 +104,8 @@
             // id
             // 
             this.id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.id.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.id.DefaultCellStyle = dataGridViewCellStyle49;
             this.id.FillWeight = 40F;
             this.id.HeaderText = "ID";
             this.id.Name = "id";
@@ -112,8 +114,8 @@
             // employee_id
             // 
             this.employee_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.employee_id.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.employee_id.DefaultCellStyle = dataGridViewCellStyle50;
             this.employee_id.HeaderText = "Employee ID";
             this.employee_id.Name = "employee_id";
             this.employee_id.ReadOnly = true;
@@ -121,8 +123,8 @@
             // biometric_id
             // 
             this.biometric_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.biometric_id.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.biometric_id.DefaultCellStyle = dataGridViewCellStyle51;
             this.biometric_id.FillWeight = 90F;
             this.biometric_id.HeaderText = "Biometric ID";
             this.biometric_id.Name = "biometric_id";
@@ -166,9 +168,9 @@
             // buttonNew
             // 
             this.buttonNew.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonNew.Location = new System.Drawing.Point(219, 3);
+            this.buttonNew.Location = new System.Drawing.Point(228, 3);
             this.buttonNew.Name = "buttonNew";
-            this.buttonNew.Size = new System.Drawing.Size(66, 28);
+            this.buttonNew.Size = new System.Drawing.Size(69, 34);
             this.buttonNew.TabIndex = 1;
             this.buttonNew.Text = "New";
             this.buttonNew.UseVisualStyleBackColor = true;
@@ -178,20 +180,21 @@
             // 
             this.buttonEdit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonEdit.Enabled = false;
-            this.buttonEdit.Location = new System.Drawing.Point(147, 3);
+            this.buttonEdit.Location = new System.Drawing.Point(153, 3);
             this.buttonEdit.Name = "buttonEdit";
-            this.buttonEdit.Size = new System.Drawing.Size(66, 28);
+            this.buttonEdit.Size = new System.Drawing.Size(69, 34);
             this.buttonEdit.TabIndex = 1;
             this.buttonEdit.Text = "Edit";
             this.buttonEdit.UseVisualStyleBackColor = true;
+            this.buttonEdit.Click += new System.EventHandler(this.ButtonEdit_Click);
             // 
             // buttonEnroll
             // 
             this.buttonEnroll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonEnroll.Enabled = false;
-            this.buttonEnroll.Location = new System.Drawing.Point(75, 3);
+            this.buttonEnroll.Location = new System.Drawing.Point(78, 3);
             this.buttonEnroll.Name = "buttonEnroll";
-            this.buttonEnroll.Size = new System.Drawing.Size(66, 28);
+            this.buttonEnroll.Size = new System.Drawing.Size(69, 34);
             this.buttonEnroll.TabIndex = 1;
             this.buttonEnroll.Text = "Enroll";
             this.buttonEnroll.UseVisualStyleBackColor = true;
@@ -202,14 +205,16 @@
             this.buttonDelete.Enabled = false;
             this.buttonDelete.Location = new System.Drawing.Point(3, 3);
             this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(66, 28);
+            this.buttonDelete.Size = new System.Drawing.Size(69, 34);
             this.buttonDelete.TabIndex = 99;
             this.buttonDelete.TabStop = false;
             this.buttonDelete.Text = "Delete";
             this.buttonDelete.UseVisualStyleBackColor = true;
+            this.buttonDelete.Click += new System.EventHandler(this.ButtonDelete_Click);
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.White;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
@@ -217,6 +222,7 @@
             this.tableLayoutPanel1.Controls.Add(this.employeeDataGridView, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -230,16 +236,18 @@
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(787, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(784, 0);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(294, 375);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(300, 381);
             this.tableLayoutPanel2.TabIndex = 101;
             // 
             // tableLayoutPanel3
             // 
+            this.tableLayoutPanel3.BackColor = System.Drawing.SystemColors.Control;
             this.tableLayoutPanel3.ColumnCount = 4;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -250,17 +258,19 @@
             this.tableLayoutPanel3.Controls.Add(this.buttonEnroll, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.buttonEdit, 2, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 338);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 341);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(288, 34);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(300, 40);
             this.tableLayoutPanel3.TabIndex = 100;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.removeButton);
-            this.panel1.Controls.Add(this.browseButton);
+            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.buttonRemove);
+            this.panel1.Controls.Add(this.buttonBrowse);
             this.panel1.Controls.Add(this.pictureBox);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
@@ -271,38 +281,41 @@
             this.panel1.Controls.Add(this.textBoxLastName);
             this.panel1.Controls.Add(this.textBoxMiddleName);
             this.panel1.Controls.Add(this.textBoxFirstName);
-            this.panel1.Controls.Add(this.textBoxEemployeeId);
+            this.panel1.Controls.Add(this.textBoxEmployeeId);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(288, 329);
+            this.panel1.Size = new System.Drawing.Size(300, 341);
             this.panel1.TabIndex = 101;
             // 
-            // removeButton
+            // buttonRemove
             // 
-            this.removeButton.Cursor = System.Windows.Forms.Cursors.Default;
-            this.removeButton.Enabled = false;
-            this.removeButton.Location = new System.Drawing.Point(126, 76);
-            this.removeButton.Name = "removeButton";
-            this.removeButton.Size = new System.Drawing.Size(75, 23);
-            this.removeButton.TabIndex = 17;
-            this.removeButton.Text = "Remove";
-            this.removeButton.UseVisualStyleBackColor = true;
-            this.removeButton.Visible = false;
+            this.buttonRemove.Cursor = System.Windows.Forms.Cursors.Default;
+            this.buttonRemove.Enabled = false;
+            this.buttonRemove.Location = new System.Drawing.Point(126, 76);
+            this.buttonRemove.Name = "buttonRemove";
+            this.buttonRemove.Size = new System.Drawing.Size(75, 23);
+            this.buttonRemove.TabIndex = 17;
+            this.buttonRemove.Text = "Remove";
+            this.buttonRemove.UseVisualStyleBackColor = true;
+            this.buttonRemove.Visible = false;
+            this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
             // 
-            // browseButton
+            // buttonBrowse
             // 
-            this.browseButton.Location = new System.Drawing.Point(126, 105);
-            this.browseButton.Name = "browseButton";
-            this.browseButton.Size = new System.Drawing.Size(75, 23);
-            this.browseButton.TabIndex = 16;
-            this.browseButton.Text = "Browse...";
-            this.browseButton.UseVisualStyleBackColor = true;
-            this.browseButton.Visible = false;
+            this.buttonBrowse.Location = new System.Drawing.Point(126, 105);
+            this.buttonBrowse.Name = "buttonBrowse";
+            this.buttonBrowse.Size = new System.Drawing.Size(75, 23);
+            this.buttonBrowse.TabIndex = 16;
+            this.buttonBrowse.Text = "Change...";
+            this.buttonBrowse.UseVisualStyleBackColor = true;
+            this.buttonBrowse.Visible = false;
+            this.buttonBrowse.Click += new System.EventHandler(this.ButtonBrowse_Click);
             // 
             // pictureBox
             // 
-            this.pictureBox.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.pictureBox.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox.Cursor = System.Windows.Forms.Cursors.Default;
             this.pictureBox.Location = new System.Drawing.Point(16, 28);
@@ -389,13 +402,13 @@
             this.textBoxFirstName.Size = new System.Drawing.Size(167, 20);
             this.textBoxFirstName.TabIndex = 11;
             // 
-            // textBoxEemployeeId
+            // textBoxEmployeeId
             // 
-            this.textBoxEemployeeId.Location = new System.Drawing.Point(96, 148);
-            this.textBoxEemployeeId.Name = "textBoxEemployeeId";
-            this.textBoxEemployeeId.ReadOnly = true;
-            this.textBoxEemployeeId.Size = new System.Drawing.Size(105, 20);
-            this.textBoxEemployeeId.TabIndex = 10;
+            this.textBoxEmployeeId.Location = new System.Drawing.Point(96, 148);
+            this.textBoxEmployeeId.Name = "textBoxEmployeeId";
+            this.textBoxEmployeeId.ReadOnly = true;
+            this.textBoxEmployeeId.Size = new System.Drawing.Size(105, 20);
+            this.textBoxEmployeeId.TabIndex = 10;
             // 
             // FormEmployeeList
             // 
@@ -448,9 +461,9 @@
         private System.Windows.Forms.TextBox textBoxLastName;
         private System.Windows.Forms.TextBox textBoxMiddleName;
         private System.Windows.Forms.TextBox textBoxFirstName;
-        private System.Windows.Forms.TextBox textBoxEemployeeId;
+        private System.Windows.Forms.TextBox textBoxEmployeeId;
         private System.Windows.Forms.PictureBox pictureBox;
-        private System.Windows.Forms.Button removeButton;
-        private System.Windows.Forms.Button browseButton;
+        private System.Windows.Forms.Button buttonRemove;
+        private System.Windows.Forms.Button buttonBrowse;
     }
 }

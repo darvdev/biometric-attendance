@@ -1,17 +1,7 @@
 ﻿using BiometricAttendance;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
-using System.Data.SQLite;
-using System.Drawing;
-using System.IO;
 using System.IO.Ports;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -39,13 +29,10 @@ namespace biometric_attendance
         public ModelAttendance[] attendaceList = Array.Empty<ModelAttendance>();
 
         public bool connected = false;
-        public bool enrolling = false;
-
+   
         public string port = "";
-        public string connectionString = "";
         public string status = "-1";
-        public int employeeIndex = -1;
-
+        
         private Timer timer = new Timer();
 
 
@@ -53,7 +40,6 @@ namespace biometric_attendance
 
         private void Main_Load(object sender, EventArgs e)
         {
-            connectionString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
             serial.DtrEnable = true;
             serial.DataReceived += SerialPort_DataReceived;
             timer.Interval = 1000;
@@ -83,7 +69,7 @@ namespace biometric_attendance
                                 await Task.Delay(500);
                                 if (status == "0")
                                 {
-                                    Invoke(() => OpenFormAttendance(null, null));
+                                    Invoke(() => OpenFormStart(null, null));
                                 }
                             }
                             
@@ -93,8 +79,6 @@ namespace biometric_attendance
 
                 });
             }
-            
-            
 
         }
 
@@ -108,9 +92,11 @@ namespace biometric_attendance
         private void OpenFormEmployee(object sender, EventArgs e)
         {
             formEmployee = new FormEmployee();
-            formEmployee.ShowDialog();
-            GetEmployeeList();
-
+            var result = formEmployee.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                GetEmployeeList();
+            }
         }
 
         private void OpemFormEmployeeList(object sender, EventArgs e)
@@ -123,10 +109,9 @@ namespace biometric_attendance
         {
             formEnroll = new FormEnroll();
             formEnroll.ShowDialog();
-            GetEmployeeList();
         }
 
-        private void OpenFormAttendance(object sender, EventArgs e)
+        private void OpenFormStart(object sender, EventArgs e)
         {
             formStart = new FormStart();
             this.Hide();
@@ -165,25 +150,30 @@ namespace biometric_attendance
 
                             Console.WriteLine("Query: {0}, Value: {1}", query, queryValue);
 
-                            if (query == "id")
+                            if (query == "id") //Fingerprint saved into sensor database.
                             {
-                                EnrollEmployee(queryValue);
-                            }
-
-                        }
-                        else
-                        {
-                            if (value == "ok")
-                            {
-                                Invoke(() => formEnroll?.EnrollStatus("Remove finger in the Sensor"));
-                            }
-                            else if (value == "next")
-                            {
-                                Invoke(() => formEnroll?.EnrollStatus("Place same finger in the Sensor"));
+                                Invoke(() => formEnroll?.EnrollEmployee(queryValue));
                             }
                             else
                             {
-                                Invoke(() => formEnroll?.EnrollStatus(value));
+                                //query == code (Error enrolling fingerprint)
+                                Invoke(() => formEnroll?.EnrollEmployee(queryValue));
+                            }
+                        }
+                        else
+                        {
+                            if (value == "ok") //Enroll step 1 success - delay 2000, go to step 2
+                            {
+                                Invoke(() => formEnroll?.UpdateEnrollStatus("101"));
+                            }
+                            else if (value == "next") //Enroll Step 2 success - go to step 3
+                            {
+                                Invoke(() => formEnroll?.UpdateEnrollStatus("102"));
+                            }
+                            else
+                            {
+                                //Error enrolling fingerprint
+                                Invoke(() => formEnroll?.UpdateEnrollStatus(value));
                             }
                         }
 
@@ -257,22 +247,18 @@ namespace biometric_attendance
                                 break;
 
                             case "enroll":
-                                enrolling = true;
-
-                                this.Invoke((MethodInvoker)delegate {
-                                    formEnroll?.EnrollStatus("Place finger in the Sensor");
-                                });
-
+                                Invoke(() => formEnroll?.UpdateEnrollStatus("100")); //Place finger in the sensor
+                                break;
+                            case "standby":
+                                Invoke(() => formEnroll?.UpdateEnrollStatus("000")); //Cancel fingerprint enrollment
                                 break;
                             default:
-                                enrolling = false;
                                 break;
                         }
 
                     }
 
                 }
-
 
             }
             catch (Exception ex)
@@ -281,52 +267,13 @@ namespace biometric_attendance
             }
         }
 
-        private void EnrollEmployee(string id)
+        private async void AddAttendance(string biometricId)
         {
-            try
-            {
-                Invoke(() => {
-                    formEnroll?.EnrollStatus($"Enrolling employee in biometric id: {id}");
-                });
-
-                int index = int.Parse(id);
-                var ee = employeeList.ElementAt(employeeIndex);
-
-                Console.WriteLine("Employee: {0}, ID: {1}", ee.name, ee.id);
-                bool result = Helper.EnrollEmployee(connectionString, ee.id, index, ee.employee_id);
-
-                if (result)
-                {
-
-                    Invoke(() => {
-                        formEnroll?.EnrollStatus($"Success enrollment: {id}");
-                    });
-                }
-                else
-                {
-                    Invoke(() => {
-                        formEnroll?.EnrollStatus($"Employee cannot enroll biometric: {id}");
-                    });
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("EnrollEmployee error: {0}", ex.Message);
-                Invoke(() => {
-                    formEnroll?.EnrollStatus($"Error registering employee: {ex.Message}");
-                });
-            }
-        }
-
-        private void AddAttendance(string id)
-        {
-            int index = int.Parse(id);
-            var result = Helper.AddAttendance(connectionString, index);
-
-            Invoke(() => formStart?.UpdateBiometric("100", result));
-
-            if (result != null)
+            Console.WriteLine("AddAttendance");
+            int index = int.Parse(biometricId);
+            var attendance = await Helper.AddAttendance(index);
+            Invoke(() => formStart?.UpdateBiometric("100", attendance));
+            if (attendance != null)
             {
                 GetAttendanceList();
             }
@@ -348,12 +295,12 @@ namespace biometric_attendance
         //Public Methods
         public async Task<bool> SerialConnect()
         {
+            Console.WriteLine("SerialConnect");
             try
             {
                 serial.PortName = port;
                 serial.Open();
                 await Task.Delay(2000);
-                Console.WriteLine("send: connect");
                 serial.WriteLine("connect");
                 await Task.Delay(1000);
                 if (connected) ini.Write("Port", port);
@@ -373,9 +320,9 @@ namespace biometric_attendance
 
         public async Task<bool> SerialDisconnect()
         {
+            Console.WriteLine("SerialDisconnect");
             try
             {
-                Console.WriteLine("send: standby");
                 serial.WriteLine("standby");
                 await Task.Delay(1000);
                 serial.Close();
@@ -398,37 +345,31 @@ namespace biometric_attendance
 
         public void SendStatus()
         {
+            Console.WriteLine("SendStatus");
             try 
             {
                 serial.WriteLine("status");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("FormMain.SendStatus error: {0}", ex.Message);
+                MessageBox.Show(ex.Message, "FormMain.SendStatus Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        public void GetEmployeeList()
+        public async void GetEmployeeList()
         {
-            Task.Run(() =>
-            {
-                employeeList = Helper.GetEmployeeList(connectionString);
-                Invoke(() => {
-                    labelTotal.Text = employeeList.Length.ToString();
-                });
-            });
+            employeeList = await Helper.GetEmployeeList();
+            labelTotal.Text = employeeList.Length.ToString();
+            Console.WriteLine("GetEmployeeList Count: {0}", employeeList.Count());
         }
 
-        public void GetAttendanceList()
+        public async void GetAttendanceList()
         {
-            Task.Run(() =>
-            {
-                attendaceList = Helper.GetAttendaceList(connectionString);
-                formStart?.DisplayAttendance();
-            });
+            attendaceList = await Helper.GetAttendaceList();
+            formStart?.DisplayAttendance();
+            Console.WriteLine("GetAttendanceList Count: {0}", attendaceList.Count());
         }
 
-        
     }
 
 }
