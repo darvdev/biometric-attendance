@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.attendanceDataGridView = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.employee_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,15 +40,14 @@
             this.attendanceDataGridView.AllowUserToAddRows = false;
             this.attendanceDataGridView.AllowUserToDeleteRows = false;
             this.attendanceDataGridView.AllowUserToResizeRows = false;
+            this.attendanceDataGridView.BackgroundColor = System.Drawing.Color.LightGray;
             this.attendanceDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.attendanceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.id,
             this.employee_id,
             this.name,
             this.date});
             this.attendanceDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.attendanceDataGridView.Location = new System.Drawing.Point(0, 0);
-            this.attendanceDataGridView.MultiSelect = false;
             this.attendanceDataGridView.Name = "attendanceDataGridView";
             this.attendanceDataGridView.ReadOnly = true;
             this.attendanceDataGridView.RowHeadersVisible = false;
@@ -57,14 +55,6 @@
             this.attendanceDataGridView.ShowEditingIcon = false;
             this.attendanceDataGridView.Size = new System.Drawing.Size(654, 450);
             this.attendanceDataGridView.TabIndex = 0;
-            // 
-            // id
-            // 
-            this.id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.id.FillWeight = 50F;
-            this.id.HeaderText = "ID";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
             // 
             // employee_id
             // 
@@ -96,7 +86,9 @@
             this.ClientSize = new System.Drawing.Size(654, 450);
             this.Controls.Add(this.attendanceDataGridView);
             this.Name = "FormAttendanceList";
-            this.Text = "FormAttendanceList";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Attendance List";
             this.Load += new System.EventHandler(this.FormAttendanceList_Load);
             ((System.ComponentModel.ISupportInitialize)(this.attendanceDataGridView)).EndInit();
             this.ResumeLayout(false);
@@ -106,7 +98,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView attendanceDataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn employee_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn date;

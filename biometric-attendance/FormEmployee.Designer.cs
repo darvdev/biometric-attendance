@@ -268,6 +268,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(560, 350);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(560, 350);
             this.Name = "FormEmployee";
             this.ShowInTaskbar = false;

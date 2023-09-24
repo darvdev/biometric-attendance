@@ -223,7 +223,6 @@ namespace BiometricAttendance
             foreach (ModelEmployee employee in formMain.employeeList)
             {
                 employeeDataGridView.Rows.Add(new object[] {
-                        employee.id,
                         employee.employee_id,
                         employee.biometric_id,
                         employee.first_name,

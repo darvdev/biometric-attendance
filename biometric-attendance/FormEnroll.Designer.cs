@@ -147,6 +147,7 @@
             this.Controls.Add(this.comboBoxBiometricId);
             this.Controls.Add(this.comboBoxEmployeeList);
             this.Controls.Add(this.buttonEnroll);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(440, 200);

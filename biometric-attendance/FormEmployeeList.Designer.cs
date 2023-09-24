@@ -28,11 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.employeeDataGridView = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.employee_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.biometric_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,7 +75,6 @@
             this.employeeDataGridView.BackgroundColor = System.Drawing.Color.LightGray;
             this.employeeDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.employeeDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.id,
             this.employee_id,
             this.biometric_id,
             this.first_name,
@@ -101,21 +98,11 @@
             this.employeeDataGridView.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.EmployeeDataGridView_RowStateChanged);
             this.employeeDataGridView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.EmployeeDataGridView_MouseClick);
             // 
-            // id
-            // 
-            this.id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.id.DefaultCellStyle = dataGridViewCellStyle49;
-            this.id.FillWeight = 40F;
-            this.id.HeaderText = "ID";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            // 
             // employee_id
             // 
             this.employee_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.employee_id.DefaultCellStyle = dataGridViewCellStyle50;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.employee_id.DefaultCellStyle = dataGridViewCellStyle1;
             this.employee_id.HeaderText = "Employee ID";
             this.employee_id.Name = "employee_id";
             this.employee_id.ReadOnly = true;
@@ -123,8 +110,8 @@
             // biometric_id
             // 
             this.biometric_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.biometric_id.DefaultCellStyle = dataGridViewCellStyle51;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.biometric_id.DefaultCellStyle = dataGridViewCellStyle2;
             this.biometric_id.FillWeight = 90F;
             this.biometric_id.HeaderText = "Biometric ID";
             this.biometric_id.Name = "biometric_id";
@@ -416,6 +403,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1084, 381);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1100, 420);
             this.Name = "FormEmployeeList";
             this.ShowInTaskbar = false;
@@ -440,14 +428,6 @@
         private System.Windows.Forms.Button buttonEdit;
         private System.Windows.Forms.Button buttonEnroll;
         private System.Windows.Forms.Button buttonDelete;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn employee_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn biometric_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn first_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn middle_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn last_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn username;
-        private System.Windows.Forms.DataGridViewTextBoxColumn password;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
@@ -465,5 +445,12 @@
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.Button buttonRemove;
         private System.Windows.Forms.Button buttonBrowse;
+        private System.Windows.Forms.DataGridViewTextBoxColumn employee_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn biometric_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn first_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn middle_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn last_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn username;
+        private System.Windows.Forms.DataGridViewTextBoxColumn password;
     }
 }
