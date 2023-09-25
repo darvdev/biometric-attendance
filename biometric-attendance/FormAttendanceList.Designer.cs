@@ -36,13 +36,15 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panelDate = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.dateTimePickerStart = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
+            this.label4 = new System.Windows.Forms.Label();
+            this.checkBoxFilter = new System.Windows.Forms.CheckBox();
             this.buttonFilter = new System.Windows.Forms.Button();
             this.comboBoxEmployee = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePickerStart = new System.Windows.Forms.DateTimePicker();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -53,6 +55,7 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panelDate.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -151,22 +154,81 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.panelDate);
+            this.panel1.Controls.Add(this.checkBoxFilter);
             this.panel1.Controls.Add(this.buttonFilter);
             this.panel1.Controls.Add(this.comboBoxEmployee);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.dateTimePickerEnd);
-            this.panel1.Controls.Add(this.dateTimePickerStart);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 33);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(244, 570);
             this.panel1.TabIndex = 1;
             // 
+            // panelDate
+            // 
+            this.panelDate.Controls.Add(this.label3);
+            this.panelDate.Controls.Add(this.dateTimePickerStart);
+            this.panelDate.Controls.Add(this.dateTimePickerEnd);
+            this.panelDate.Controls.Add(this.label4);
+            this.panelDate.Enabled = false;
+            this.panelDate.Location = new System.Drawing.Point(0, 94);
+            this.panelDate.Name = "panelDate";
+            this.panelDate.Size = new System.Drawing.Size(244, 91);
+            this.panelDate.TabIndex = 7;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 4);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(33, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "From:";
+            // 
+            // dateTimePickerStart
+            // 
+            this.dateTimePickerStart.CustomFormat = "MMMM dd yyyy  hh:mm tt";
+            this.dateTimePickerStart.Location = new System.Drawing.Point(16, 20);
+            this.dateTimePickerStart.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
+            this.dateTimePickerStart.Name = "dateTimePickerStart";
+            this.dateTimePickerStart.Size = new System.Drawing.Size(210, 20);
+            this.dateTimePickerStart.TabIndex = 3;
+            this.dateTimePickerStart.Value = new System.DateTime(2023, 9, 25, 0, 0, 0, 0);
+            // 
+            // dateTimePickerEnd
+            // 
+            this.dateTimePickerEnd.CustomFormat = "MMMM dd yyyy  hh:mm tt";
+            this.dateTimePickerEnd.Location = new System.Drawing.Point(16, 59);
+            this.dateTimePickerEnd.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
+            this.dateTimePickerEnd.Name = "dateTimePickerEnd";
+            this.dateTimePickerEnd.Size = new System.Drawing.Size(210, 20);
+            this.dateTimePickerEnd.TabIndex = 3;
+            this.dateTimePickerEnd.Value = new System.DateTime(2023, 9, 25, 23, 59, 0, 0);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(13, 43);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(23, 13);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "To:";
+            // 
+            // checkBoxFilter
+            // 
+            this.checkBoxFilter.AutoSize = true;
+            this.checkBoxFilter.Location = new System.Drawing.Point(16, 76);
+            this.checkBoxFilter.Name = "checkBoxFilter";
+            this.checkBoxFilter.Size = new System.Drawing.Size(86, 17);
+            this.checkBoxFilter.TabIndex = 6;
+            this.checkBoxFilter.Text = "Filter by date";
+            this.checkBoxFilter.UseVisualStyleBackColor = true;
+            this.checkBoxFilter.CheckedChanged += new System.EventHandler(this.CheckBoxFilter_CheckedChanged);
+            // 
             // buttonFilter
             // 
-            this.buttonFilter.Location = new System.Drawing.Point(141, 150);
+            this.buttonFilter.Location = new System.Drawing.Point(141, 191);
             this.buttonFilter.Name = "buttonFilter";
             this.buttonFilter.Size = new System.Drawing.Size(85, 25);
             this.buttonFilter.TabIndex = 0;
@@ -184,24 +246,6 @@
             this.comboBoxEmployee.TabIndex = 5;
             this.comboBoxEmployee.SelectedIndexChanged += new System.EventHandler(this.ComboBoxEmployee_SelectedIndexChanged);
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 99);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(23, 13);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "To:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 60);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(33, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "From:";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -210,28 +254,6 @@
             this.label2.Size = new System.Drawing.Size(89, 13);
             this.label2.TabIndex = 4;
             this.label2.Text = "Select Employee:";
-            // 
-            // dateTimePickerEnd
-            // 
-            this.dateTimePickerEnd.CustomFormat = "MMMM dd yyyy  hh:mm tt";
-            this.dateTimePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerEnd.Location = new System.Drawing.Point(16, 115);
-            this.dateTimePickerEnd.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
-            this.dateTimePickerEnd.Name = "dateTimePickerEnd";
-            this.dateTimePickerEnd.Size = new System.Drawing.Size(210, 20);
-            this.dateTimePickerEnd.TabIndex = 3;
-            this.dateTimePickerEnd.Value = new System.DateTime(2023, 9, 25, 23, 59, 0, 0);
-            // 
-            // dateTimePickerStart
-            // 
-            this.dateTimePickerStart.CustomFormat = "MMMM dd yyyy  hh:mm tt";
-            this.dateTimePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerStart.Location = new System.Drawing.Point(16, 76);
-            this.dateTimePickerStart.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
-            this.dateTimePickerStart.Name = "dateTimePickerStart";
-            this.dateTimePickerStart.Size = new System.Drawing.Size(210, 20);
-            this.dateTimePickerStart.TabIndex = 3;
-            this.dateTimePickerStart.Value = new System.DateTime(2023, 9, 25, 0, 0, 0, 0);
             // 
             // tableLayoutPanel3
             // 
@@ -324,6 +346,8 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panelDate.ResumeLayout(false);
+            this.panelDate.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
@@ -354,5 +378,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button buttonFilter;
+        private System.Windows.Forms.CheckBox checkBoxFilter;
+        private System.Windows.Forms.Panel panelDate;
     }
 }

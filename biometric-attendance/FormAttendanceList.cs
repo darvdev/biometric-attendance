@@ -20,10 +20,37 @@ namespace BiometricAttendance
             LoadCombobox();
         }
 
-        private void LoadAttendance() 
+        private void LoadAttendance(ModelEmployee ee = null, DateTime? start = null, DateTime? end = null)
         {
             attendanceDataGridView.Rows.Clear();
-            foreach (ModelAttendance attendance in formMain.attendaceList)
+
+            var list = formMain.attendaceList;
+
+            if (ee != null) 
+            {
+                list = Array.FindAll(formMain.attendaceList, (a) => a.employee_id == ee.employee_id);
+            }
+
+            if (checkBoxFilter.Checked)
+            {
+                if (start != null)
+                {
+                    list = Array.FindAll(list, (a) => {
+                        var date = DateTime.Parse(a.date);
+                        return date >= start;
+                    });
+                }
+
+                if (end != null)
+                {
+                    list = Array.FindAll(list, (a) => {
+                        var date = DateTime.Parse(a.date);
+                        return date <= end;
+                    });
+                }
+            }
+
+            foreach (ModelAttendance attendance in list)
             {
                 attendanceDataGridView.Rows.Add(new object[] {
                         attendance.employee_id,
@@ -49,20 +76,24 @@ namespace BiometricAttendance
         private void ButtonFilter_Click(object sender, EventArgs e)
         {
             Console.WriteLine("from: {0}", dateTimePickerStart.Value);
-            Console.WriteLine("to: {0}", dateTimePickerStart.Value);
+            Console.WriteLine("to: {0}", dateTimePickerEnd.Value);
 
-            
-
+            ModelEmployee ee = null;
             if (index > 0)
             {
-                var ee = formMain.employeeList[index - 1];
-                Console.WriteLine("EE: {0}", ee.name);
+                ee = formMain.employeeList[index - 1];
             }
+            LoadAttendance(ee, dateTimePickerStart.Value, dateTimePickerEnd.Value);
         }
 
         private void ComboBoxEmployee_SelectedIndexChanged(object sender, EventArgs e)
         {
             index = comboBoxEmployee.SelectedIndex;
+        }
+
+        private void CheckBoxFilter_CheckedChanged(object sender, EventArgs e)
+        {
+            panelDate.Enabled = checkBoxFilter.Checked;
         }
     }
 
