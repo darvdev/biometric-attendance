@@ -72,7 +72,7 @@
             this.employeeDataGridView.AllowUserToAddRows = false;
             this.employeeDataGridView.AllowUserToDeleteRows = false;
             this.employeeDataGridView.AllowUserToResizeRows = false;
-            this.employeeDataGridView.BackgroundColor = System.Drawing.Color.LightGray;
+            this.employeeDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
             this.employeeDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.employeeDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.employee_id,

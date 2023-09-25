@@ -282,14 +282,12 @@ namespace biometric_attendance
 
         private void TimerTick(object sender, EventArgs e)
         {
-
             var today = DateTime.Now;
 
             var date = today.ToShortDateString();
             var time = today.ToLongTimeString();
 
-            formStart?.UpdateDateTime(date + "\n" + time);
-
+            formStart?.UpdateDateTime(date + " " + time);
         }
 
         //Public Methods
@@ -366,7 +364,7 @@ namespace biometric_attendance
         public async void GetAttendanceList()
         {
             attendaceList = await Helper.GetAttendaceList();
-            formStart?.DisplayAttendance();
+            formStart?.DisplayAttendanceToday();
             Console.WriteLine("GetAttendanceList Count: {0}", attendaceList.Count());
         }
 

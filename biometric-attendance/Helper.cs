@@ -16,6 +16,7 @@ using System.Drawing.Imaging;
 using System.Security.Policy;
 using System.Data.SqlClient;
 using System.Configuration;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace BiometricAttendance
 {
@@ -184,43 +185,21 @@ namespace BiometricAttendance
 
         }
 
-        public static Image GetImageFromBase64String(string base64)
+        public static Image BrowseImage()
         {
-            if (base64 == null) return null;
-
-            try
+            OpenFileDialog open = new OpenFileDialog();
+            open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp; *.png";
+            if (open.ShowDialog() == DialogResult.OK)
             {
-                //data:image/gif;base64,
-                //this image is a single pixel (black)
-                byte[] bytes = Convert.FromBase64String(base64);
-
-                Image image;
-                using (MemoryStream ms = new MemoryStream(bytes))
-                {
-                    image = Image.FromStream(ms);
-                }
-
-                return image;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Helper.GetImageFromBase64String error: {0}", ex.Message);
+                return ResizeImage(new Bitmap(open.FileName));
             }
 
             return null;
         }
 
-        private static string ImageToBase64String(Image image)
+        public static Image ResizeImage(Image image)
         {
-            if (image != null)
-            {
-                MemoryStream ms = new MemoryStream();
-                image.Save(ms, ImageFormat.Jpeg);
-                byte[] imageByte = ms.ToArray();
-                var base64 = Convert.ToBase64String(imageByte);
-                return base64;
-            }
-            return null;
+            return (Image)(new Bitmap(image, new Size(200, 200)));
         }
 
         public static ModelEmployee NewEmployee(string employeeId, string firstName, string lastName, string middleName = null, Image image = null, string biometricId = null, string username = null, string password = null)
@@ -249,13 +228,27 @@ namespace BiometricAttendance
             return null;
         }
 
-        public static Image BrowseImage() 
+        public static Image GetImageFromBase64String(string base64)
         {
-            OpenFileDialog open = new OpenFileDialog();
-            open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp; *.png";
-            if (open.ShowDialog() == DialogResult.OK)
+            if (base64 == null) return null;
+
+            try
             {
-                return new Bitmap(open.FileName);
+                //data:image/gif;base64,
+                //this image is a single pixel (black)
+                byte[] bytes = Convert.FromBase64String(base64);
+
+                Image image;
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    image = Image.FromStream(ms);
+                }
+
+                return image;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Helper.GetImageFromBase64String error: {0}", ex.Message);
             }
 
             return null;
@@ -265,6 +258,23 @@ namespace BiometricAttendance
         {
             int outValue;
             return int.TryParse(val, out outValue) ? (int?)outValue : null;
+        }
+
+        private static string ImageToBase64String(Image image)
+        {
+            if (image != null)
+            {
+                Bitmap tmpImg = new Bitmap(image);
+
+                MemoryStream ms = new MemoryStream();
+                tmpImg.Save(ms, ImageFormat.Jpeg);
+                tmpImg.Dispose();
+                image.Dispose();
+                byte[] imageByte = ms.ToArray();
+                var base64 = Convert.ToBase64String(imageByte);
+                return base64;
+            }
+            return null;
         }
 
     }

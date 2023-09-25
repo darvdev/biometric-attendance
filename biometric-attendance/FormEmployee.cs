@@ -35,6 +35,7 @@ namespace biometric_attendance
                 var result = await Helper.AddEmployee(ee);
                 if (result)
                 {
+                    MessageBox.Show($"Employee {ee.name} created successfully!", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }

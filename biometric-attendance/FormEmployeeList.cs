@@ -136,7 +136,8 @@ namespace BiometricAttendance
             {
                 try
                 {
-                    var ee = Helper.NewEmployee(
+                    Console.WriteLine("punt dito");
+                    var employee = Helper.NewEmployee(
                         textBoxEmployeeId.Text,
                         textBoxFirstName.Text,
                         textBoxLastName.Text,
@@ -145,9 +146,9 @@ namespace BiometricAttendance
                         textBoxBiometricId.Text
                         );
 
-                    ee.id = this.ee.id;
+                    employee.id = ee.id;
 
-                    var result = await Helper.UpdateEmployee(ee);
+                    var result = await Helper.UpdateEmployee(employee);
                     if (result)
                     {
                         formMain?.GetEmployeeList();
@@ -191,8 +192,10 @@ namespace BiometricAttendance
             buttonEnroll.Enabled = false;
 
             buttonRemove.Visible = true;
+            buttonRemove.Enabled = ee.image != null;
             buttonBrowse.Visible = true;
             buttonBrowse.Text = ee?.image == null ? "Browse..." : "Change...";
+            
 
             textBoxEmployeeId.ReadOnly = false;
             textBoxFirstName.ReadOnly = false;
@@ -204,15 +207,21 @@ namespace BiometricAttendance
         {
             if (ee != null) 
             {
-                ready = false;
-                var result = await Helper.DeleteEmployee(ee);
-                if (result)
+                var dialog = MessageBox.Show($"WARNING: Do you really want to delete {ee.name} from database?", "Delete Employee", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (dialog == DialogResult.Yes)
                 {
-                    ee = null;
-                    DisplayEmployee(null);
-                    formMain.GetEmployeeList();
-                    RefreshEmployeeList(true);
+                    ready = false;
+                    var result = await Helper.DeleteEmployee(ee);
+                    if (result)
+                    {
+                        ee = null;
+                        DisplayEmployee(null);
+                        formMain.GetEmployeeList();
+                        RefreshEmployeeList(true);
+                    }
                 }
+
             }
         }
 
@@ -238,7 +247,10 @@ namespace BiometricAttendance
             }
             else
             {
-                employeeDataGridView.Rows[index].Selected = true;
+                if (index >= 0) {
+                    employeeDataGridView.Rows[index].Selected = true;
+                }
+                
             }
             ready = true;
         }

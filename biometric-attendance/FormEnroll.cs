@@ -77,7 +77,6 @@ namespace biometric_attendance
                 formMain.serial.WriteLine("standby");
                 buttonEnroll.Text = "Canceling...";
                 await Task.Delay(1000);
-                Console.WriteLine("what stat: {0}", status);
                 if (status == "000")
                 {
                     status = "";
@@ -149,24 +148,32 @@ namespace biometric_attendance
                     break;
                 case "100":
                     labelStatus.Text = "Place your finger in the sensor";
+                    pictureBoxEnroll.Image = BiometricAttendance.Properties.Resources.fingerprint;
                     break;
                 case "101":
                     labelStatus.Text = "Fingerprint OK. Remove finger in the Sensor";
+                    pictureBoxEnroll.Image = BiometricAttendance.Properties.Resources.ok;
                     break;
                 case "102":
                     labelStatus.Text = "Place the same finger in the Sensor";
+                    pictureBoxEnroll.Image = BiometricAttendance.Properties.Resources.fingerprint;
                     break;
                 default:
                     labelStatus.Text = "Fingerprint error: " + status;
+                    pictureBoxEnroll.Image = BiometricAttendance.Properties.Resources.error;
                     break;
             }
             
         }
 
+        bool updating = false;
         public async void EnrollEmployee(string biometricId) //Called from FormMain SerialPort_DataReceived
         {
+            //if (updating) return;
+            //updating = true;
             try
             {
+                pictureBoxEnroll.Image = BiometricAttendance.Properties.Resources.ok;
                 int id = int.Parse(biometricId);
                 //var ee = formMain.employeeList.ElementAt(employeeIndex);
                 var ee = formMain.employeeList[employeeIndex];
@@ -180,7 +187,7 @@ namespace biometric_attendance
                 if (result)
                 {
                     //update successs
-                    var dialog = MessageBox.Show($"{ee.name} fingerprint registered.\nEnroll another employee?", "Enrolled", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    var dialog = MessageBox.Show($"{ee.name} fingerprint registered.\nEnroll another employee?", "Enrolled", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
                     if (dialog == DialogResult.Yes)
                     {
@@ -189,6 +196,7 @@ namespace biometric_attendance
                         pictureBoxEmployee.Image = null;
                         comboBoxEmployeeList.SelectedIndex = -1;
                         comboBoxBiometricId.SelectedIndex = -1;
+                        pictureBoxEnroll.Image = BiometricAttendance.Properties.Resources.fingerprint;
 
                         employeeIndex = -1;
                         biometricIndex = -1;

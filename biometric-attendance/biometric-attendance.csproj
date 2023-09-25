@@ -107,6 +107,8 @@
     <Compile Include="FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
+    <None Include="Resources\ee_ok.png" />
+    <None Include="Resources\ee_error.png" />
     <None Include="Resources\ok.png" />
     <None Include="Resources\error.png" />
     <None Include="Resources\fingerprint.png" />
