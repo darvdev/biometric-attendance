@@ -1,2 +1,3 @@
-# Biometric Attendance using Arduino Uno and Visual C# Application
+# Biometric Attendance System
+# Using Arduino Uno and Visual C# Application
 

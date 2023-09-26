@@ -3,7 +3,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace biometric_attendance
+namespace BiometricAttendance
 {
     public partial class FormSettings : Form
     {

@@ -1,9 +1,8 @@
-﻿using BiometricAttendance;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace biometric_attendance
+namespace BiometricAttendance
 {
     public partial class FormStart : Form
     {

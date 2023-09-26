@@ -4,19 +4,12 @@ using System.Data.SQLite;
 using System.Data;
 using System.Windows.Forms;
 using System.Linq;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO.Ports;
 using System.IO;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Security.Policy;
-using System.Data.SqlClient;
 using System.Configuration;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace BiometricAttendance
 {

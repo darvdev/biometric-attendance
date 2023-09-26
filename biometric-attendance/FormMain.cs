@@ -1,11 +1,10 @@
-﻿using BiometricAttendance;
-using System;
+﻿using System;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace biometric_attendance
+namespace BiometricAttendance
 {
     public partial class FormMain : Form
     {

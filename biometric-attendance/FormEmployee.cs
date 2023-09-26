@@ -1,10 +1,7 @@
-﻿using BiometricAttendance;
-using System;
-using System.Drawing;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Forms;
 
-namespace biometric_attendance
+namespace BiometricAttendance
 {
     public partial class FormEmployee : Form
     {

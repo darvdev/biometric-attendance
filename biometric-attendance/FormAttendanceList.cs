@@ -1,5 +1,4 @@
-﻿using biometric_attendance;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace BiometricAttendance

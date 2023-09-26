@@ -1,10 +1,8 @@
-﻿using BiometricAttendance;
-using System;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace biometric_attendance
+namespace BiometricAttendance
 {
     public partial class FormEnroll : Form
     {

@@ -1,4 +1,4 @@
-﻿namespace biometric_attendance
+﻿namespace BiometricAttendance
 {
     partial class FormMain
     {
