@@ -17,25 +17,35 @@ namespace BiometricAttendance
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            base.OnFormClosing(e);
             formMain.serial.WriteLine("standby");
+            formMain.BiometricEvent -= BiometricEvent;
+            formMain.DateEvent -= DateEvent;
+            formMain.AttendanceListEvent -= AttendanceListEvent;
             formMain.Show();
+            base.OnFormClosing(e);
+            
         }
+
+        private void Invoke(Action action) => this.Invoke((MethodInvoker)delegate { action(); });
 
         private void FormAttendance_Load(object sender, EventArgs e)
         {
+            formMain.BiometricEvent += BiometricEvent;
+            formMain.DateEvent += DateEvent;
+            formMain.AttendanceListEvent += AttendanceListEvent;
+
             formMain.serial.WriteLine("start");
             timer.Interval = 1000;
             timer.Tick += TimerTick;
-            DisplayAttendanceToday();
+            AttendanceListEvent(this, new CustomEventArgs(attendanceList: formMain.attendaceList));
         }
 
-        public void UpdateDateTime(string dt) 
+        private void DateEvent(object o, CustomEventArgs e)
         {
-            labelDateTime.Text = dt;
+            Invoke(() => labelDateTime.Text = e.value);
         }
 
-        public void UpdateBiometric(string status, ModelAttendance attendance)
+        private void BiometricEvent(object sender, CustomEventArgs e)
         {
 
             //status description
@@ -44,56 +54,59 @@ namespace BiometricAttendance
              * 9 = Finger Print not found
              * other = Unknown
              */
-            try
-            {
-                if (status == "100")
+
+            Invoke(() => {
+                try
                 {
-                    if (attendance == null)
+                    if (e.value == "100")
                     {
-                        fingerPictureBox.Image = BiometricAttendance.Properties.Resources.ee_error;
-                        labelFinger.Text = "Fingerprint OK. Employee not found";
+                        if (e.attendance == null)
+                        {
+                            fingerPictureBox.Image = Properties.Resources.ee_error;
+                            labelFinger.Text = "Fingerprint OK. Employee not found";
+                            labelFinger.BackColor = Color.Red;
+                        }
+                        else
+                        {
+                            var ee = Array.Find(formMain.employeeList, (o) => o.employee_id == e.attendance.employee_id);
+
+                            fingerPictureBox.Image = ee != null && ee.image != null ? ee.image : Properties.Resources.ee_ok;
+
+                            labelFinger.BackColor = Color.Green;
+                            labelFinger.Text = e.attendance.date + " recorded to " + e.attendance.name;
+                        }
+                    }
+                    else
+                    {
+                        fingerPictureBox.Image = BiometricAttendance.Properties.Resources.error;
                         labelFinger.BackColor = Color.Red;
-                    }
-                    else
-                    {
-                        var ee = Array.Find(formMain.employeeList, (e) => e.employee_id == attendance.employee_id);
-
-                        fingerPictureBox.Image = ee != null && ee.image != null ? ee.image : BiometricAttendance.Properties.Resources.ee_ok;
-
-                        labelFinger.BackColor = Color.Green;
-                        labelFinger.Text = attendance.date + " recorded to " + attendance.name;
+                        if (e.value == "9")
+                        {
+                            labelFinger.Text = "Fingerprint not registered";
+                        }
+                        else if (e.value == "23")
+                        {
+                            labelFinger.Text = "Remove finger in the sensor and try again";
+                        }
+                        else
+                        {
+                            labelFinger.Text = "Fingerprint error: " + e.value;
+                        }
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    fingerPictureBox.Image = BiometricAttendance.Properties.Resources.error;
-                    labelFinger.BackColor = Color.Red;
-                    if (status == "9")
-                    {
-                        labelFinger.Text = "Fingerprint not registered";
-                    }
-                    else if (status == "23") 
-                    {
-                        labelFinger.Text = "Remove finger in the sensor and try again";
-                    }
-                    else
-                    {
-                        labelFinger.Text = "Fingerprint error: " + status;
-                    }
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            
-            counter = 0;
-            timer.Stop();
-            timer.Start();
+
+                counter = 0;
+                timer.Stop();
+                timer.Start();
+            });
 
         }
 
-        private void TimerTick(object sender, EventArgs e) 
+        private void TimerTick(object sender, EventArgs e)
         {
             counter++;
             if (counter >= 5)
@@ -102,30 +115,26 @@ namespace BiometricAttendance
                 counter = 0;
                 labelFinger.Text = "Place your finger in the sensor";
                 labelFinger.BackColor = Color.DodgerBlue;
-                fingerPictureBox.Image = BiometricAttendance.Properties.Resources.fingerprint;
+                fingerPictureBox.Image = Properties.Resources.fingerprint;
             }
         }
 
-        public void DisplayAttendanceToday() 
+        private void AttendanceListEvent(object o, CustomEventArgs e)
         {
-            this.Invoke((MethodInvoker)delegate {
-                listBoxAttendance.Items.Clear();
-            });
+            Invoke(() => listBoxAttendance.Items.Clear());
 
             var today = DateTime.Now;
             string[] attendanceToday = Array.Empty<string>();
 
-            for (int i = formMain.attendaceList.Length; i > 0; i--)
+            for (int i = e.attendanceList.Length; i > 0; i--)
             {
-                var at = formMain.attendaceList[i - 1];
+                var at = e.attendanceList[i - 1];
                 var dt = DateTime.Parse(at.date);
 
                 if (today.Year == dt.Year && today.Month == dt.Month && today.Day == dt.Day)
                 {
                     var time = dt.ToLongTimeString();
-                    this.Invoke((MethodInvoker)delegate {
-                        listBoxAttendance.Items.Add($"{time} - {at.name}");
-                    });
+                    Invoke(() => listBoxAttendance.Items.Add($"{time} - {at.name}"));
                 }
 
             }

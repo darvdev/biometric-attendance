@@ -34,6 +34,7 @@ namespace BiometricAttendance
         {
             RefreshEmployeeList(true);
         }
+
         private void EmployeeDataGridView_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
         {
             if (ready) 
@@ -254,7 +255,7 @@ namespace BiometricAttendance
 
         }
 
-        private void buttonRemove_Click(object sender, EventArgs e)
+        private void ButtonRemove_Click(object sender, EventArgs e)
         {
             buttonBrowse.Text = "Browse...";
             buttonRemove.Enabled = false;

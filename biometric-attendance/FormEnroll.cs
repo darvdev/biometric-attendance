@@ -10,6 +10,8 @@ namespace BiometricAttendance
         {
             InitializeComponent();
             LoadCombobox(index);
+            formMain.EnrollStatusEvent += EnrollStatusEvent;
+            formMain.EnrollEmployeeEvent += EnrollEmployeeEvent;
         }
 
         private FormMain formMain = (FormMain)Application.OpenForms["FormMain"];
@@ -19,9 +21,13 @@ namespace BiometricAttendance
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            base.OnFormClosing(e);
             formMain.serial.WriteLine("standby");
+            formMain.EnrollStatusEvent -= EnrollStatusEvent;
+            formMain.EnrollEmployeeEvent -= EnrollEmployeeEvent;
+            base.OnFormClosing(e);
         }
+
+        private void Invoke(Action action) => this.Invoke((MethodInvoker)delegate { action(); });
 
         private void LoadCombobox(int index = -1) {
 
@@ -130,101 +136,100 @@ namespace BiometricAttendance
 
         }
 
-        public void UpdateEnrollStatus(string status)
+        private void EnrollEmployeeEvent(object sender, CustomEventArgs e) //Called from FormMain SerialPort_DataReceived
         {
-            this.status = status;
+            Invoke(async () => {
+                try
+                {
+                    pictureBoxEnroll.Image = Properties.Resources.ok;
+                    int id = int.Parse(e.value);
+                    var ee = formMain.employeeList[employeeIndex];
+                    buttonEnroll.Enabled = false;
+
+                    labelStatus.Text = $"Fingerprint OK. Updating {ee.name} details...";
+
+                    //Updating employee databse
+                    bool result = await Helper.EnrollEmployee(ee.id, id);
+
+                    if (result)
+                    {
+                        //update successs
+                        var dialog = MessageBox.Show($"{ee.name} fingerprint registered.\nEnroll another employee?", "Enrolled", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                        if (dialog == DialogResult.Yes)
+                        {
+                            formMain.GetEmployeeList();
+                            LoadCombobox();
+                            pictureBoxEmployee.Image = null;
+                            comboBoxEmployeeList.SelectedIndex = -1;
+                            comboBoxBiometricId.SelectedIndex = -1;
+                            pictureBoxEnroll.Image = Properties.Resources.fingerprint;
+
+                            employeeIndex = -1;
+                            biometricIndex = -1;
+                            labelStatus.Text = "Select employee from dropdown";
+                        }
+                        else
+                        {
+                            this.Close();
+                            return;
+                        }
+
+                    }
+                    else
+                    {
+                        //Update error
+                        labelStatus.Text = $"Error enrolling {ee.name}";
+                    }
+
+                    buttonEnroll.Text = "Enroll";
+                    buttonEnroll.Enabled = true;
+                    comboBoxEmployeeList.Enabled = true;
+                    comboBoxBiometricId.Enabled = true;
+                    this.MinimumSize = new System.Drawing.Size(440, 200);
+                    this.MaximumSize = new System.Drawing.Size(440, 200);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            });
+        }
+
+        private void EnrollStatusEvent(object sender, CustomEventArgs e)
+        {
             //000 = Cancel enrollment
             //100 = Place finger in the sensor
             //101 = Enroll step 1 success (Remove finger in the Sensor)
             //102 = Place same finger in the Sensor
 
-
-            switch (status)
-            {
-                case "000":
-
-                    break;
-                case "100":
-                    labelStatus.Text = "Place your finger in the sensor";
-                    pictureBoxEnroll.Image = BiometricAttendance.Properties.Resources.fingerprint;
-                    break;
-                case "101":
-                    labelStatus.Text = "Fingerprint OK. Remove finger in the Sensor";
-                    pictureBoxEnroll.Image = BiometricAttendance.Properties.Resources.ok;
-                    break;
-                case "102":
-                    labelStatus.Text = "Place the same finger in the Sensor";
-                    pictureBoxEnroll.Image = BiometricAttendance.Properties.Resources.fingerprint;
-                    break;
-                default:
-                    labelStatus.Text = "Fingerprint error: " + status;
-                    pictureBoxEnroll.Image = BiometricAttendance.Properties.Resources.error;
-                    break;
-            }
-            
-        }
-
-        bool updating = false;
-        public async void EnrollEmployee(string biometricId) //Called from FormMain SerialPort_DataReceived
-        {
-            //if (updating) return;
-            //updating = true;
-            try
-            {
-                pictureBoxEnroll.Image = BiometricAttendance.Properties.Resources.ok;
-                int id = int.Parse(biometricId);
-                //var ee = formMain.employeeList.ElementAt(employeeIndex);
-                var ee = formMain.employeeList[employeeIndex];
-                buttonEnroll.Enabled = false;
-
-                labelStatus.Text = $"Fingerprint OK. Updating {ee.name} details...";
-
-                //Updating employee databse
-                bool result = await Helper.EnrollEmployee(ee.id, id);
-
-                if (result)
+            status = e.value;
+            Invoke(() => {
+                switch (e.value)
                 {
-                    //update successs
-                    var dialog = MessageBox.Show($"{ee.name} fingerprint registered.\nEnroll another employee?", "Enrolled", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-
-                    if (dialog == DialogResult.Yes)
-                    {
-                        formMain.GetEmployeeList();
-                        LoadCombobox();
-                        pictureBoxEmployee.Image = null;
-                        comboBoxEmployeeList.SelectedIndex = -1;
-                        comboBoxBiometricId.SelectedIndex = -1;
-                        pictureBoxEnroll.Image = BiometricAttendance.Properties.Resources.fingerprint;
-
-                        employeeIndex = -1;
-                        biometricIndex = -1;
-                        labelStatus.Text = "Select employee from dropdown";
-                    }
-                    else
-                    {
-                        this.Close();
-                        return;
-                    }
-                    
+                    case "000":
+                        break;
+                    case "100":
+                        labelStatus.Text = "Place your finger in the sensor";
+                        pictureBoxEnroll.Image = Properties.Resources.fingerprint;
+                        break;
+                    case "101":
+                        labelStatus.Text = "Fingerprint OK. Remove finger in the Sensor";
+                        pictureBoxEnroll.Image = Properties.Resources.ok;
+                        break;
+                    case "102":
+                        labelStatus.Text = "Place the same finger in the Sensor";
+                        pictureBoxEnroll.Image = Properties.Resources.fingerprint;
+                        break;
+                    default:
+                        labelStatus.Text = "Fingerprint error: " + status;
+                        pictureBoxEnroll.Image = Properties.Resources.error;
+                        break;
                 }
-                else 
-                {
-                    //Update error
-                    labelStatus.Text = $"Error enrolling {ee.name}";
-                }
-
-                buttonEnroll.Text = "Enroll";
-                buttonEnroll.Enabled = true;
-                comboBoxEmployeeList.Enabled = true;
-                comboBoxBiometricId.Enabled = true;
-                this.MinimumSize = new System.Drawing.Size(440, 200);
-                this.MaximumSize = new System.Drawing.Size(440, 200);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            });
         }
+    
     }
+
 }

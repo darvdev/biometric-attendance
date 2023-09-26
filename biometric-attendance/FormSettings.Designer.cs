@@ -129,7 +129,7 @@
             this.startCheckBox.TabIndex = 0;
             this.startCheckBox.Text = "Start Biometric Attendace when connected";
             this.startCheckBox.UseVisualStyleBackColor = true;
-            this.startCheckBox.CheckedChanged += new System.EventHandler(this.startCheckBox_CheckedChanged);
+            this.startCheckBox.CheckedChanged += new System.EventHandler(this.StartCheckBox_CheckedChanged);
             // 
             // startupCheckBox
             // 
@@ -140,7 +140,7 @@
             this.startupCheckBox.TabIndex = 0;
             this.startupCheckBox.Text = "Start application at window startup";
             this.startupCheckBox.UseVisualStyleBackColor = true;
-            this.startupCheckBox.CheckedChanged += new System.EventHandler(this.startupCheckBox_CheckedChanged);
+            this.startupCheckBox.CheckedChanged += new System.EventHandler(this.StartupCheckBox_CheckedChanged);
             // 
             // connectCheckBox
             // 
@@ -151,7 +151,7 @@
             this.connectCheckBox.TabIndex = 0;
             this.connectCheckBox.Text = "Connect to sensor at application start";
             this.connectCheckBox.UseVisualStyleBackColor = true;
-            this.connectCheckBox.CheckedChanged += new System.EventHandler(this.connectCheckBox_CheckedChanged);
+            this.connectCheckBox.CheckedChanged += new System.EventHandler(this.ConnectCheckBox_CheckedChanged);
             // 
             // FormSettings
             // 

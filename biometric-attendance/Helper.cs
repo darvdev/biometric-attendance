@@ -60,11 +60,7 @@ namespace BiometricAttendance
 
             return false;
         }
-        /// <summary>
-        /// /////////////////////////
-        /// </summary>
-        /// <param name="employee"></param>
-        /// <returns></returns>
+  
         public static async Task<bool> UpdateEmployee(ModelEmployee employee)
         {
             try
@@ -139,7 +135,7 @@ namespace BiometricAttendance
 
             return Array.Empty<ModelAttendance>();
         }
-        
+
         public static async Task<ModelAttendance> AddAttendance(int biometricId)
         {
             try

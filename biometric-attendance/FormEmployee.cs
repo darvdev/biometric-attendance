@@ -13,7 +13,6 @@ namespace BiometricAttendance
 
         private void Invoke(Action method) => this.Invoke((MethodInvoker)delegate { method(); });
 
-        
         private async void Save(object sender, EventArgs e)
         {
             try

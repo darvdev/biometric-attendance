@@ -100,7 +100,7 @@ namespace BiometricAttendance
             }
         }
 
-        private void connectCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void ConnectCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             var enable = connectCheckBox.Checked;
             
@@ -115,12 +115,12 @@ namespace BiometricAttendance
             }
         }
 
-        private void startupCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void StartupCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             formMain.ini.Write("Startup", startupCheckBox.Checked ? "1" : "0");
         }
 
-        private void startCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void StartCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             formMain.ini.Write("Start", startCheckBox.Checked ? "1" : "0");
         }
