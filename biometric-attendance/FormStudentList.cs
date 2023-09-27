@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace BiometricAttendance
 {
-    public partial class FormEmployeeList : Form
+    public partial class FormStudentList : Form
     {
-        public FormEmployeeList()
+        public FormStudentList()
         {
             InitializeComponent();
         }
@@ -26,42 +26,42 @@ namespace BiometricAttendance
         private FormMain formMain = (FormMain)Application.OpenForms["FormMain"];
         private bool ready = false;
         private int index = -1;
-        private ModelEmployee ee = null;
+        private ModelStudent student = null;
 
         private void Invoke(Action method) => this.Invoke((MethodInvoker)delegate { method(); });
 
-        private void FormEmployeeList_Load(object sender, EventArgs e)
+        private void FormLoad(object sender, EventArgs e)
         {
-            RefreshEmployeeList(true);
+            RefreshStudentList(true);
         }
 
         private void EmployeeDataGridView_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
         {
             if (ready) 
             {
-                if (employeeDataGridView.SelectedRows.Count > 0)
+                if (studentDataGridView.SelectedRows.Count > 0)
                 {
-                    index = employeeDataGridView.SelectedRows[0].Index;
-                    ee = formMain.employeeList[index];
+                    index = studentDataGridView.SelectedRows[0].Index;
+                    student = formMain.studentList[index];
                 }
                 else
                 {
                     index = -1;
-                    employeeDataGridView.ClearSelection();
-                    ee = null;
+                    studentDataGridView.ClearSelection();
+                    student = null;
                 }
                 DisableComponents();
-                DisplayEmployee(ee);
+                DisplayStudent(student);
             }
         }
 
-        private void DisplayEmployee(ModelEmployee ee) 
+        private void DisplayStudent(ModelStudent student) 
         {
-            if (ee == null)
+            if (student == null)
             {
                 index = -1;
                 pictureBox.Image = null;
-                textBoxEmployeeId.Text = "";
+                textBoxStudentId.Text = "";
                 textBoxFirstName.Text = "";
                 textBoxMiddleName.Text = "";
                 textBoxLastName.Text = "";
@@ -73,12 +73,12 @@ namespace BiometricAttendance
             }
             else
             {
-                pictureBox.Image = ee.image;
-                textBoxEmployeeId.Text = ee.employee_id;
-                textBoxFirstName.Text = ee.first_name;
-                textBoxMiddleName.Text = ee.middle_name;
-                textBoxLastName.Text = ee.last_name;
-                textBoxBiometricId.Text = ee.biometric_id?.ToString();
+                pictureBox.Image = student.image;
+                textBoxStudentId.Text = student.student_id;
+                textBoxFirstName.Text = student.first_name;
+                textBoxMiddleName.Text = student.middle_name;
+                textBoxLastName.Text = student.last_name;
+                textBoxBiometricId.Text = student.biometric_id?.ToString();
 
                 buttonDelete.Enabled = true;
                 buttonEnroll.Enabled = true;
@@ -90,14 +90,14 @@ namespace BiometricAttendance
         {
             if (e.Button == MouseButtons.Left) 
             {
-                var ht = employeeDataGridView.HitTest(e.X, e.Y);
+                var ht = studentDataGridView.HitTest(e.X, e.Y);
                 if (ht.Type == DataGridViewHitTestType.None)
                 {
-                    employeeDataGridView.ClearSelection();
-                    ee = null;
+                    studentDataGridView.ClearSelection();
+                    student = null;
                     DisableComponents();
                 }
-                DisplayEmployee(ee);
+                DisplayStudent(student);
             }
         }
 
@@ -109,12 +109,12 @@ namespace BiometricAttendance
                 return;
             }  
 
-            FormEmployee formEmployee = new FormEmployee();
+            FormStudent formEmployee = new FormStudent();
             var result = formEmployee.ShowDialog();
             if (result == DialogResult.OK)
             {
-                formMain?.GetEmployeeList();
-                RefreshEmployeeList();
+                formMain?.GetStudentList();
+                RefreshStudentList();
             }
         }
 
@@ -125,8 +125,8 @@ namespace BiometricAttendance
                 try
                 {
                     Console.WriteLine("punt dito");
-                    var employee = Helper.NewEmployee(
-                        textBoxEmployeeId.Text,
+                    var student = Helper.NewStudent(
+                        textBoxStudentId.Text,
                         textBoxFirstName.Text,
                         textBoxLastName.Text,
                         textBoxMiddleName.Text,
@@ -134,13 +134,13 @@ namespace BiometricAttendance
                         textBoxBiometricId.Text
                         );
 
-                    employee.id = ee.id;
+                    this.student.id = student.id;
 
-                    var result = await Helper.UpdateEmployee(employee);
+                    var result = await Helper.UpdateStudent(student);
                     if (result)
                     {
-                        formMain?.GetEmployeeList();
-                        RefreshEmployeeList();
+                        formMain?.GetStudentList();
+                        RefreshStudentList();
                         DisableComponents();
                     }
 
@@ -167,7 +167,7 @@ namespace BiometricAttendance
             buttonRemove.Visible = false;
             buttonBrowse.Visible = false;
             
-            textBoxEmployeeId.ReadOnly = true;
+            textBoxStudentId.ReadOnly = true;
             textBoxFirstName.ReadOnly = true;
             textBoxMiddleName.ReadOnly = true;
             textBoxLastName.ReadOnly = true;
@@ -180,12 +180,11 @@ namespace BiometricAttendance
             buttonEnroll.Enabled = false;
 
             buttonRemove.Visible = true;
-            buttonRemove.Enabled = ee.image != null;
+            buttonRemove.Enabled = student.image != null;
             buttonBrowse.Visible = true;
-            buttonBrowse.Text = ee?.image == null ? "Browse..." : "Change...";
+            buttonBrowse.Text = student?.image == null ? "Browse..." : "Change...";
             
-
-            textBoxEmployeeId.ReadOnly = false;
+            textBoxStudentId.ReadOnly = false;
             textBoxFirstName.ReadOnly = false;
             textBoxMiddleName.ReadOnly = false;
             textBoxLastName.ReadOnly = false;
@@ -193,50 +192,52 @@ namespace BiometricAttendance
 
         private async void ButtonDelete_Click(object sender, EventArgs e)
         {
-            if (ee != null) 
+            if (student != null) 
             {
-                var dialog = MessageBox.Show($"WARNING: Do you really want to delete {ee.name} from database?", "Delete Employee", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var dialog = MessageBox.Show($"WARNING: Do you really want to delete {student.name} from database?", "Delete Student", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (dialog == DialogResult.Yes)
                 {
                     ready = false;
-                    var result = await Helper.DeleteEmployee(ee);
+                    var result = await Helper.DeleteStudent(student);
                     if (result)
                     {
-                        ee = null;
-                        DisplayEmployee(null);
-                        formMain.GetEmployeeList();
-                        RefreshEmployeeList(true);
+                        student = null;
+                        DisplayStudent(null);
+                        formMain.GetStudentList();
+                        RefreshStudentList(true);
                     }
                 }
 
             }
         }
 
-        private void RefreshEmployeeList(bool clearSelection = false)
+        private void RefreshStudentList(bool clearSelection = false)
         {
             ready = false;
-            employeeDataGridView.Rows.Clear();
-            foreach (ModelEmployee employee in formMain.employeeList)
+            studentDataGridView.Rows.Clear();
+            foreach (ModelStudent student in formMain.studentList)
             {
-                employeeDataGridView.Rows.Add(new object[] {
-                        employee.employee_id,
-                        employee.biometric_id,
-                        employee.first_name,
-                        employee.middle_name,
-                        employee.last_name,
+                studentDataGridView.Rows.Add(new object[] {
+                        student.student_id,
+                        student.biometric_id,
+                        student.first_name,
+                        student.middle_name,
+                        student.last_name,
+                        student.username,
+                        student.password,
                      });
 
             }
             if (clearSelection)
             {
                 index = -1;
-                employeeDataGridView.ClearSelection();
+                studentDataGridView.ClearSelection();
             }
             else
             {
                 if (index >= 0) {
-                    employeeDataGridView.Rows[index].Selected = true;
+                    studentDataGridView.Rows[index].Selected = true;
                 }
                 
             }

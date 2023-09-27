@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace BiometricAttendance
 {
-    public partial class FormEmployee : Form
+    public partial class FormStudent : Form
     {
-        public FormEmployee()
+        public FormStudent()
         {
             InitializeComponent();
             textBoxBiometricId.KeyPress += Helper.NumericKeyPress;
@@ -17,8 +17,8 @@ namespace BiometricAttendance
         {
             try
             {
-                ModelEmployee ee = Helper.NewEmployee(
-                    textBoxEmployeeId.Text,
+                ModelStudent student = Helper.NewStudent(
+                    textBoxStudentId.Text,
                     textBoxFirstName.Text,
                     textBoxLastName.Text,
                     textBoxMiddleName.Text,
@@ -28,10 +28,10 @@ namespace BiometricAttendance
                     textBoxPassword.Text
                     );
 
-                var result = await Helper.AddEmployee(ee);
+                var result = await Helper.AddStudent(student);
                 if (result)
                 {
-                    MessageBox.Show($"Employee {ee.name} created successfully!", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Student {student.name} created successfully!", "Student Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
@@ -39,7 +39,7 @@ namespace BiometricAttendance
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }

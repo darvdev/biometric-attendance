@@ -28,38 +28,38 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.comboBoxEmployeeList = new System.Windows.Forms.ComboBox();
+            this.comboBoxStudentList = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonEnroll = new System.Windows.Forms.Button();
             this.comboBoxBiometricId = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.pictureBoxEmployee = new System.Windows.Forms.PictureBox();
+            this.pictureBoxStudent = new System.Windows.Forms.PictureBox();
             this.pictureBoxEnroll = new System.Windows.Forms.PictureBox();
             this.labelStatus = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEmployee)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStudent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEnroll)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // comboBoxEmployeeList
+            // comboBoxStudentList
             // 
-            this.comboBoxEmployeeList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxEmployeeList.FormattingEnabled = true;
-            this.comboBoxEmployeeList.Location = new System.Drawing.Point(133, 37);
-            this.comboBoxEmployeeList.Name = "comboBoxEmployeeList";
-            this.comboBoxEmployeeList.Size = new System.Drawing.Size(262, 21);
-            this.comboBoxEmployeeList.TabIndex = 0;
-            this.comboBoxEmployeeList.SelectedIndexChanged += new System.EventHandler(this.ComboBoxEmployeeList_SelectedIndexChanged);
+            this.comboBoxStudentList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxStudentList.FormattingEnabled = true;
+            this.comboBoxStudentList.Location = new System.Drawing.Point(133, 37);
+            this.comboBoxStudentList.Name = "comboBoxStudentList";
+            this.comboBoxStudentList.Size = new System.Drawing.Size(262, 21);
+            this.comboBoxStudentList.TabIndex = 0;
+            this.comboBoxStudentList.SelectedIndexChanged += new System.EventHandler(this.ComboBoxStudentList_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(130, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(86, 13);
+            this.label1.Size = new System.Drawing.Size(77, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Select Employee";
+            this.label1.Text = "Select Student";
             // 
             // buttonEnroll
             // 
@@ -92,16 +92,16 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Select Biometric ID";
             // 
-            // pictureBoxEmployee
+            // pictureBoxStudent
             // 
-            this.pictureBoxEmployee.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBoxEmployee.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxEmployee.Location = new System.Drawing.Point(25, 21);
-            this.pictureBoxEmployee.Name = "pictureBoxEmployee";
-            this.pictureBoxEmployee.Size = new System.Drawing.Size(90, 90);
-            this.pictureBoxEmployee.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxEmployee.TabIndex = 4;
-            this.pictureBoxEmployee.TabStop = false;
+            this.pictureBoxStudent.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBoxStudent.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxStudent.Location = new System.Drawing.Point(25, 21);
+            this.pictureBoxStudent.Name = "pictureBoxStudent";
+            this.pictureBoxStudent.Size = new System.Drawing.Size(90, 90);
+            this.pictureBoxStudent.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxStudent.TabIndex = 4;
+            this.pictureBoxStudent.TabStop = false;
             // 
             // pictureBoxEnroll
             // 
@@ -120,7 +120,7 @@
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(424, 24);
             this.labelStatus.TabIndex = 7;
-            this.labelStatus.Text = "Select employee from dropdown";
+            this.labelStatus.Text = "Select student from dropdown";
             this.labelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel1
@@ -141,11 +141,11 @@
             this.ClientSize = new System.Drawing.Size(424, 161);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBoxEnroll);
-            this.Controls.Add(this.pictureBoxEmployee);
+            this.Controls.Add(this.pictureBoxStudent);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBoxBiometricId);
-            this.Controls.Add(this.comboBoxEmployeeList);
+            this.Controls.Add(this.comboBoxStudentList);
             this.Controls.Add(this.buttonEnroll);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -154,8 +154,8 @@
             this.Name = "FormEnroll";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Enroll";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEmployee)).EndInit();
+            this.Text = "Enroll Student";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStudent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEnroll)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -164,12 +164,12 @@
         }
 
         #endregion
-        private System.Windows.Forms.ComboBox comboBoxEmployeeList;
+        private System.Windows.Forms.ComboBox comboBoxStudentList;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonEnroll;
         private System.Windows.Forms.ComboBox comboBoxBiometricId;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox pictureBoxEmployee;
+        private System.Windows.Forms.PictureBox pictureBoxStudent;
         private System.Windows.Forms.PictureBox pictureBoxEnroll;
         private System.Windows.Forms.Label labelStatus;
         private System.Windows.Forms.Panel panel1;

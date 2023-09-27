@@ -15,19 +15,22 @@ namespace BiometricAttendance
 
         private void FormAttendanceList_Load(object sender, EventArgs e)
         {
+            dateTimePickerStart.Value = DateTime.Parse(DateTime.Now.ToShortDateString() + " 12:00:00 am");
+            dateTimePickerEnd.Value = DateTime.Parse(DateTime.Now.ToShortDateString() + " 11:59:59 pm");
+
             LoadAttendance();
             LoadCombobox();
         }
 
-        private void LoadAttendance(ModelEmployee ee = null, DateTime? start = null, DateTime? end = null)
+        private void LoadAttendance(ModelStudent student = null, DateTime? start = null, DateTime? end = null)
         {
             attendanceDataGridView.Rows.Clear();
 
             var list = formMain.attendaceList;
 
-            if (ee != null) 
+            if (student != null) 
             {
-                list = Array.FindAll(formMain.attendaceList, (a) => a.employee_id == ee.employee_id);
+                list = Array.FindAll(formMain.attendaceList, (a) => a.student_id == student.student_id);
             }
 
             if (checkBoxFilter.Checked)
@@ -52,7 +55,7 @@ namespace BiometricAttendance
             foreach (ModelAttendance attendance in list)
             {
                 attendanceDataGridView.Rows.Add(new object[] {
-                        attendance.employee_id,
+                        attendance.student_id,
                         attendance.name,
                         attendance.date,
                      });
@@ -63,31 +66,28 @@ namespace BiometricAttendance
 
         private void LoadCombobox()
         {
-            comboBoxEmployee.Items.Clear();
-            comboBoxEmployee.Items.Add("All");
-            comboBoxEmployee.SelectedIndex = 0;
-            foreach (ModelEmployee ee in formMain.employeeList)
+            comboBoxStudent.Items.Clear();
+            comboBoxStudent.Items.Add("All");
+            comboBoxStudent.SelectedIndex = 0;
+            foreach (ModelStudent student in formMain.studentList)
             {
-                comboBoxEmployee.Items.Add($"{ee.employee_id} - {ee.name}");
+                comboBoxStudent.Items.Add($"{student.student_id} - {student.name}");
             }
         }
 
         private void ButtonFilter_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("from: {0}", dateTimePickerStart.Value);
-            Console.WriteLine("to: {0}", dateTimePickerEnd.Value);
-
-            ModelEmployee ee = null;
+            ModelStudent student = null;
             if (index > 0)
             {
-                ee = formMain.employeeList[index - 1];
+                student = formMain.studentList[index - 1];
             }
-            LoadAttendance(ee, dateTimePickerStart.Value, dateTimePickerEnd.Value);
+            LoadAttendance(student, dateTimePickerStart.Value, dateTimePickerEnd.Value);
         }
 
-        private void ComboBoxEmployee_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxStudent_SelectedIndexChanged(object sender, EventArgs e)
         {
-            index = comboBoxEmployee.SelectedIndex;
+            index = comboBoxStudent.SelectedIndex;
         }
 
         private void CheckBoxFilter_CheckedChanged(object sender, EventArgs e)
@@ -97,3 +97,4 @@ namespace BiometricAttendance
     }
 
 }
+

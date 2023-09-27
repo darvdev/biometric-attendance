@@ -51,6 +51,7 @@ namespace BiometricAttendance
             //status description
             /*
              * 100 = ok
+             * 101 = Finger print read ok from sensor
              * 9 = Finger Print not found
              * other = Unknown
              */
@@ -63,22 +64,35 @@ namespace BiometricAttendance
                         if (e.attendance == null)
                         {
                             fingerPictureBox.Image = Properties.Resources.ee_error;
-                            labelFinger.Text = "Fingerprint OK. Employee not found";
+                            labelFinger.Text = "Student not found";
                             labelFinger.BackColor = Color.Red;
+                            //Helper.Speak("Employee not found");
+                            Helper.PlayError();
                         }
                         else
                         {
-                            var ee = Array.Find(formMain.employeeList, (o) => o.employee_id == e.attendance.employee_id);
+                            var student = Array.Find(formMain.studentList, (o) => o.student_id == e.attendance.student_id);
 
-                            fingerPictureBox.Image = ee != null && ee.image != null ? ee.image : Properties.Resources.ee_ok;
+                            fingerPictureBox.Image = student != null && student.image != null ? student.image : Properties.Resources.ee_ok;                                  
 
                             labelFinger.BackColor = Color.Green;
-                            labelFinger.Text = e.attendance.date + " recorded to " + e.attendance.name;
+
+                            var date = DateTime.Parse(e.attendance.date);
+                            labelFinger.Text = date.ToLongTimeString() + " today is recorded to " + e.attendance.name;
+                            Helper.PlayOk();
+                            //Helper.Speak("Thank you!");
                         }
+                    }
+                    else if (e.value == "101")
+                    {
+                        Helper.PlayBeep();
+                        fingerPictureBox.Image = Properties.Resources.ok;
+                        labelFinger.BackColor = Color.DodgerBlue;
+                        labelFinger.Text = "Fingerprint OK";
                     }
                     else
                     {
-                        fingerPictureBox.Image = BiometricAttendance.Properties.Resources.error;
+                        fingerPictureBox.Image = Properties.Resources.error;
                         labelFinger.BackColor = Color.Red;
                         if (e.value == "9")
                         {
@@ -92,6 +106,7 @@ namespace BiometricAttendance
                         {
                             labelFinger.Text = "Fingerprint error: " + e.value;
                         }
+                        Helper.PlayError();
                     }
                 }
                 catch (Exception ex)
@@ -140,5 +155,12 @@ namespace BiometricAttendance
             }
         }
 
+        //private void fingerPictureBox_Paint(object sender, PaintEventArgs e)
+        //{
+        //    Console.WriteLine("on paint");
+        //    System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+        //    path.AddEllipse(0, 0, fingerPictureBox.Width, fingerPictureBox.Height);
+        //    fingerPictureBox.Region = new Region(path);
+        //}
     }
 }

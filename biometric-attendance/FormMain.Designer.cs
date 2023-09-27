@@ -28,22 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.enrollToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.databaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.attendanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.employeeAddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.employeeViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.attendanceToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.addToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -52,137 +36,21 @@
             this.labelStatus = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.labelTotal = new System.Windows.Forms.Label();
-            this.menuStrip.SuspendLayout();
+            this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enrollToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.studentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addStudentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewStudentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.attendanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addAttendanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewAttendanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // menuStrip
-            // 
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.databaseToolStripMenuItem,
-            this.helpToolStripMenuItem});
-            this.menuStrip.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(384, 24);
-            this.menuStrip.TabIndex = 1;
-            this.menuStrip.Text = "Menu";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.startToolStripMenuItem,
-            this.enrollToolStripMenuItem,
-            this.settingsToolStripMenuItem,
-            this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // startToolStripMenuItem
-            // 
-            this.startToolStripMenuItem.Enabled = false;
-            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.startToolStripMenuItem.Text = "Start";
-            this.startToolStripMenuItem.Click += new System.EventHandler(this.OpenFormStart);
-            // 
-            // enrollToolStripMenuItem
-            // 
-            this.enrollToolStripMenuItem.Enabled = false;
-            this.enrollToolStripMenuItem.Name = "enrollToolStripMenuItem";
-            this.enrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.enrollToolStripMenuItem.Text = "Enroll";
-            this.enrollToolStripMenuItem.Click += new System.EventHandler(this.OpenFormEnroll);
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.OpenFormSettings);
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            // 
-            // databaseToolStripMenuItem
-            // 
-            this.databaseToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.attendanceToolStripMenuItem,
-            this.attendanceToolStripMenuItem1});
-            this.databaseToolStripMenuItem.Name = "databaseToolStripMenuItem";
-            this.databaseToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
-            this.databaseToolStripMenuItem.Text = "Databases";
-            // 
-            // attendanceToolStripMenuItem
-            // 
-            this.attendanceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.employeeAddToolStripMenuItem,
-            this.employeeViewToolStripMenuItem});
-            this.attendanceToolStripMenuItem.Name = "attendanceToolStripMenuItem";
-            this.attendanceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.attendanceToolStripMenuItem.Text = "Employee";
-            // 
-            // employeeAddToolStripMenuItem
-            // 
-            this.employeeAddToolStripMenuItem.Name = "employeeAddToolStripMenuItem";
-            this.employeeAddToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.employeeAddToolStripMenuItem.Text = "Add";
-            this.employeeAddToolStripMenuItem.Click += new System.EventHandler(this.OpenFormEmployee);
-            // 
-            // employeeViewToolStripMenuItem
-            // 
-            this.employeeViewToolStripMenuItem.Name = "employeeViewToolStripMenuItem";
-            this.employeeViewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.employeeViewToolStripMenuItem.Text = "View";
-            this.employeeViewToolStripMenuItem.Click += new System.EventHandler(this.OpemFormEmployeeList);
-            // 
-            // attendanceToolStripMenuItem1
-            // 
-            this.attendanceToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addToolStripMenuItem2,
-            this.viewToolStripMenuItem2});
-            this.attendanceToolStripMenuItem1.Name = "attendanceToolStripMenuItem1";
-            this.attendanceToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.attendanceToolStripMenuItem1.Text = "Attendance";
-            // 
-            // addToolStripMenuItem2
-            // 
-            this.addToolStripMenuItem2.Name = "addToolStripMenuItem2";
-            this.addToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.addToolStripMenuItem2.Text = "Add";
-            // 
-            // viewToolStripMenuItem2
-            // 
-            this.viewToolStripMenuItem2.Name = "viewToolStripMenuItem2";
-            this.viewToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.viewToolStripMenuItem2.Text = "View";
-            this.viewToolStripMenuItem2.Click += new System.EventHandler(this.OpenFormAttendaceList);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewHelpToolStripMenuItem,
-            this.aboutToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // viewHelpToolStripMenuItem
-            // 
-            this.viewHelpToolStripMenuItem.Name = "viewHelpToolStripMenuItem";
-            this.viewHelpToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.viewHelpToolStripMenuItem.Text = "View Help";
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.aboutToolStripMenuItem.Text = "About";
             // 
             // label3
             // 
@@ -262,6 +130,96 @@
             this.labelTotal.TabIndex = 0;
             this.labelTotal.Text = "0";
             // 
+            // mainMenuStrip
+            // 
+            this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.studentsToolStripMenuItem,
+            this.attendanceToolStripMenuItem});
+            this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.mainMenuStrip.Name = "mainMenuStrip";
+            this.mainMenuStrip.Size = new System.Drawing.Size(384, 24);
+            this.mainMenuStrip.TabIndex = 5;
+            this.mainMenuStrip.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startToolStripMenuItem,
+            this.enrollToolStripMenuItem,
+            this.settingsToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // startToolStripMenuItem
+            // 
+            this.startToolStripMenuItem.Enabled = false;
+            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startToolStripMenuItem.Text = "Start";
+            this.startToolStripMenuItem.Click += new System.EventHandler(this.OpenFormStart);
+            // 
+            // enrollToolStripMenuItem
+            // 
+            this.enrollToolStripMenuItem.Enabled = false;
+            this.enrollToolStripMenuItem.Name = "enrollToolStripMenuItem";
+            this.enrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.enrollToolStripMenuItem.Text = "Enroll";
+            this.enrollToolStripMenuItem.Click += new System.EventHandler(this.OpenFormEnroll);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.OpenFormSettings);
+            // 
+            // studentsToolStripMenuItem
+            // 
+            this.studentsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addStudentToolStripMenuItem,
+            this.viewStudentToolStripMenuItem});
+            this.studentsToolStripMenuItem.Name = "studentsToolStripMenuItem";
+            this.studentsToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
+            this.studentsToolStripMenuItem.Text = "Students";
+            // 
+            // addStudentToolStripMenuItem
+            // 
+            this.addStudentToolStripMenuItem.Name = "addStudentToolStripMenuItem";
+            this.addStudentToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.addStudentToolStripMenuItem.Text = "Add";
+            this.addStudentToolStripMenuItem.Click += new System.EventHandler(this.OpenFormStudent);
+            // 
+            // viewStudentToolStripMenuItem
+            // 
+            this.viewStudentToolStripMenuItem.Name = "viewStudentToolStripMenuItem";
+            this.viewStudentToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.viewStudentToolStripMenuItem.Text = "View";
+            this.viewStudentToolStripMenuItem.Click += new System.EventHandler(this.OpemFormStudentList);
+            // 
+            // attendanceToolStripMenuItem
+            // 
+            this.attendanceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addAttendanceToolStripMenuItem,
+            this.viewAttendanceToolStripMenuItem});
+            this.attendanceToolStripMenuItem.Name = "attendanceToolStripMenuItem";
+            this.attendanceToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
+            this.attendanceToolStripMenuItem.Text = "Attendance";
+            // 
+            // addAttendanceToolStripMenuItem
+            // 
+            this.addAttendanceToolStripMenuItem.Name = "addAttendanceToolStripMenuItem";
+            this.addAttendanceToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.addAttendanceToolStripMenuItem.Text = "Add";
+            // 
+            // viewAttendanceToolStripMenuItem
+            // 
+            this.viewAttendanceToolStripMenuItem.Name = "viewAttendanceToolStripMenuItem";
+            this.viewAttendanceToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.viewAttendanceToolStripMenuItem.Text = "View";
+            this.viewAttendanceToolStripMenuItem.Click += new System.EventHandler(this.OpenFormAttendaceList);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -269,9 +227,9 @@
             this.ClientSize = new System.Drawing.Size(384, 241);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.menuStrip);
+            this.Controls.Add(this.mainMenuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MainMenuStrip = this.menuStrip;
+            this.MainMenuStrip = this.mainMenuStrip;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(400, 280);
             this.MinimumSize = new System.Drawing.Size(400, 280);
@@ -279,33 +237,21 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dashboard";
             this.Load += new System.EventHandler(this.Main_Load);
-            this.menuStrip.ResumeLayout(false);
-            this.menuStrip.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.mainMenuStrip.ResumeLayout(false);
+            this.mainMenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.MenuStrip menuStrip;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem databaseToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem enrollToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem attendanceToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem viewHelpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem attendanceToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem employeeAddToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem employeeViewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem2;
+
+
+
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -314,7 +260,17 @@
         private System.Windows.Forms.Label labelStatus;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label labelTotal;
+        private System.Windows.Forms.MenuStrip mainMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem enrollToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem studentsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addStudentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewStudentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem attendanceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addAttendanceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewAttendanceToolStripMenuItem;
     }
 }
 

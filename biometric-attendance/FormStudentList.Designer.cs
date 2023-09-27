@@ -1,6 +1,6 @@
 ﻿namespace BiometricAttendance
 {
-    partial class FormEmployeeList
+    partial class FormStudentList
     {
         /// <summary>
         /// Required designer variable.
@@ -28,16 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.employeeDataGridView = new System.Windows.Forms.DataGridView();
-            this.employee_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.biometric_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.middle_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.username = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.password = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.studentDataGridView = new System.Windows.Forms.DataGridView();
             this.buttonNew = new System.Windows.Forms.Button();
             this.buttonEdit = new System.Windows.Forms.Button();
             this.buttonEnroll = new System.Windows.Forms.Button();
@@ -58,8 +51,15 @@
             this.textBoxLastName = new System.Windows.Forms.TextBox();
             this.textBoxMiddleName = new System.Windows.Forms.TextBox();
             this.textBoxFirstName = new System.Windows.Forms.TextBox();
-            this.textBoxEmployeeId = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.employeeDataGridView)).BeginInit();
+            this.textBoxStudentId = new System.Windows.Forms.TextBox();
+            this.student_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.biometric_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.middle_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.username = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.password = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.studentDataGridView)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -67,90 +67,36 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // employeeDataGridView
+            // studentDataGridView
             // 
-            this.employeeDataGridView.AllowUserToAddRows = false;
-            this.employeeDataGridView.AllowUserToDeleteRows = false;
-            this.employeeDataGridView.AllowUserToResizeRows = false;
-            this.employeeDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.employeeDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.employeeDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.employee_id,
+            this.studentDataGridView.AllowUserToAddRows = false;
+            this.studentDataGridView.AllowUserToDeleteRows = false;
+            this.studentDataGridView.AllowUserToResizeRows = false;
+            this.studentDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.studentDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.studentDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.student_id,
             this.biometric_id,
             this.first_name,
             this.middle_name,
             this.last_name,
             this.username,
             this.password});
-            this.employeeDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.employeeDataGridView.GridColor = System.Drawing.SystemColors.Control;
-            this.employeeDataGridView.Location = new System.Drawing.Point(3, 3);
-            this.employeeDataGridView.MultiSelect = false;
-            this.employeeDataGridView.Name = "employeeDataGridView";
-            this.employeeDataGridView.ReadOnly = true;
-            this.employeeDataGridView.RowHeadersVisible = false;
-            this.employeeDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.employeeDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.employeeDataGridView.ShowEditingIcon = false;
-            this.employeeDataGridView.Size = new System.Drawing.Size(778, 375);
-            this.employeeDataGridView.TabIndex = 0;
-            this.employeeDataGridView.TabStop = false;
-            this.employeeDataGridView.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.EmployeeDataGridView_RowStateChanged);
-            this.employeeDataGridView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.EmployeeDataGridView_MouseClick);
-            // 
-            // employee_id
-            // 
-            this.employee_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.employee_id.DefaultCellStyle = dataGridViewCellStyle1;
-            this.employee_id.HeaderText = "Employee ID";
-            this.employee_id.Name = "employee_id";
-            this.employee_id.ReadOnly = true;
-            // 
-            // biometric_id
-            // 
-            this.biometric_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.biometric_id.DefaultCellStyle = dataGridViewCellStyle2;
-            this.biometric_id.FillWeight = 90F;
-            this.biometric_id.HeaderText = "Biometric ID";
-            this.biometric_id.Name = "biometric_id";
-            this.biometric_id.ReadOnly = true;
-            // 
-            // first_name
-            // 
-            this.first_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.first_name.HeaderText = "First Name";
-            this.first_name.Name = "first_name";
-            this.first_name.ReadOnly = true;
-            // 
-            // middle_name
-            // 
-            this.middle_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.middle_name.HeaderText = "Middle Name";
-            this.middle_name.Name = "middle_name";
-            this.middle_name.ReadOnly = true;
-            // 
-            // last_name
-            // 
-            this.last_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.last_name.HeaderText = "Last Name";
-            this.last_name.Name = "last_name";
-            this.last_name.ReadOnly = true;
-            // 
-            // username
-            // 
-            this.username.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.username.HeaderText = "Username";
-            this.username.Name = "username";
-            this.username.ReadOnly = true;
-            // 
-            // password
-            // 
-            this.password.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.password.HeaderText = "Password";
-            this.password.Name = "password";
-            this.password.ReadOnly = true;
+            this.studentDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.studentDataGridView.GridColor = System.Drawing.SystemColors.Control;
+            this.studentDataGridView.Location = new System.Drawing.Point(3, 3);
+            this.studentDataGridView.MultiSelect = false;
+            this.studentDataGridView.Name = "studentDataGridView";
+            this.studentDataGridView.ReadOnly = true;
+            this.studentDataGridView.RowHeadersVisible = false;
+            this.studentDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.studentDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.studentDataGridView.ShowEditingIcon = false;
+            this.studentDataGridView.Size = new System.Drawing.Size(778, 375);
+            this.studentDataGridView.TabIndex = 0;
+            this.studentDataGridView.TabStop = false;
+            this.studentDataGridView.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.EmployeeDataGridView_RowStateChanged);
+            this.studentDataGridView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.EmployeeDataGridView_MouseClick);
             // 
             // buttonNew
             // 
@@ -206,7 +152,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.employeeDataGridView, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.studentDataGridView, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -268,7 +214,7 @@
             this.panel1.Controls.Add(this.textBoxLastName);
             this.panel1.Controls.Add(this.textBoxMiddleName);
             this.panel1.Controls.Add(this.textBoxFirstName);
-            this.panel1.Controls.Add(this.textBoxEmployeeId);
+            this.panel1.Controls.Add(this.textBoxStudentId);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
@@ -353,9 +299,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 151);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 13);
+            this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 9;
-            this.label1.Text = "Employee ID";
+            this.label1.Text = "Student ID";
             // 
             // textBoxBiometricId
             // 
@@ -389,15 +335,70 @@
             this.textBoxFirstName.Size = new System.Drawing.Size(167, 20);
             this.textBoxFirstName.TabIndex = 11;
             // 
-            // textBoxEmployeeId
+            // textBoxStudentId
             // 
-            this.textBoxEmployeeId.Location = new System.Drawing.Point(96, 148);
-            this.textBoxEmployeeId.Name = "textBoxEmployeeId";
-            this.textBoxEmployeeId.ReadOnly = true;
-            this.textBoxEmployeeId.Size = new System.Drawing.Size(105, 20);
-            this.textBoxEmployeeId.TabIndex = 10;
+            this.textBoxStudentId.Location = new System.Drawing.Point(96, 148);
+            this.textBoxStudentId.Name = "textBoxStudentId";
+            this.textBoxStudentId.ReadOnly = true;
+            this.textBoxStudentId.Size = new System.Drawing.Size(105, 20);
+            this.textBoxStudentId.TabIndex = 10;
             // 
-            // FormEmployeeList
+            // student_id
+            // 
+            this.student_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.student_id.DefaultCellStyle = dataGridViewCellStyle3;
+            this.student_id.HeaderText = "Student ID";
+            this.student_id.Name = "student_id";
+            this.student_id.ReadOnly = true;
+            // 
+            // biometric_id
+            // 
+            this.biometric_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.biometric_id.DefaultCellStyle = dataGridViewCellStyle4;
+            this.biometric_id.FillWeight = 90F;
+            this.biometric_id.HeaderText = "Biometric ID";
+            this.biometric_id.Name = "biometric_id";
+            this.biometric_id.ReadOnly = true;
+            // 
+            // first_name
+            // 
+            this.first_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.first_name.HeaderText = "First Name";
+            this.first_name.Name = "first_name";
+            this.first_name.ReadOnly = true;
+            // 
+            // middle_name
+            // 
+            this.middle_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.middle_name.HeaderText = "Middle Name";
+            this.middle_name.Name = "middle_name";
+            this.middle_name.ReadOnly = true;
+            // 
+            // last_name
+            // 
+            this.last_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.last_name.HeaderText = "Last Name";
+            this.last_name.Name = "last_name";
+            this.last_name.ReadOnly = true;
+            // 
+            // username
+            // 
+            this.username.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.username.HeaderText = "Username";
+            this.username.Name = "username";
+            this.username.ReadOnly = true;
+            // 
+            // password
+            // 
+            this.password.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.password.HeaderText = "Password";
+            this.password.Name = "password";
+            this.password.ReadOnly = true;
+            this.password.Visible = false;
+            // 
+            // FormStudentList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -405,12 +406,12 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1100, 420);
-            this.Name = "FormEmployeeList";
+            this.Name = "FormStudentList";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Employee List";
-            this.Load += new System.EventHandler(this.FormEmployeeList_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.employeeDataGridView)).EndInit();
+            this.Text = "Student List";
+            this.Load += new System.EventHandler(this.FormLoad);
+            ((System.ComponentModel.ISupportInitialize)(this.studentDataGridView)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
@@ -423,7 +424,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView employeeDataGridView;
+        private System.Windows.Forms.DataGridView studentDataGridView;
         private System.Windows.Forms.Button buttonNew;
         private System.Windows.Forms.Button buttonEdit;
         private System.Windows.Forms.Button buttonEnroll;
@@ -441,11 +442,11 @@
         private System.Windows.Forms.TextBox textBoxLastName;
         private System.Windows.Forms.TextBox textBoxMiddleName;
         private System.Windows.Forms.TextBox textBoxFirstName;
-        private System.Windows.Forms.TextBox textBoxEmployeeId;
+        private System.Windows.Forms.TextBox textBoxStudentId;
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.Button buttonRemove;
         private System.Windows.Forms.Button buttonBrowse;
-        private System.Windows.Forms.DataGridViewTextBoxColumn employee_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn student_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn biometric_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn first_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn middle_name;

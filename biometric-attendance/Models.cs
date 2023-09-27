@@ -2,11 +2,11 @@
 
 namespace BiometricAttendance
 {
-    public class ModelEmployee
+    public class ModelStudent
     {
         public int id { get; set; }
         public int? biometric_id { get; set; }
-        public string employee_id { get; set; }
+        public string student_id { get; set; }
         public string first_name { get; set; }
         public string? middle_name { get; set; }
         public string last_name { get; set; }
@@ -34,7 +34,7 @@ namespace BiometricAttendance
     public class ModelAttendance
     {
         public int id { get; set; }
-        public string employee_id { get; set; }
+        public string student_id { get; set; }
         public string name { get; set; }
         public string date { get; set; }
     }

@@ -91,6 +91,24 @@ namespace BiometricAttendance.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream finger_error {
+            get {
+                return ResourceManager.GetStream("finger_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream finger_ok {
+            get {
+                return ResourceManager.GetStream("finger_ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap fingerprint {
@@ -107,6 +125,15 @@ namespace BiometricAttendance.Properties {
             get {
                 object obj = ResourceManager.GetObject("ok", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream sensor_beep {
+            get {
+                return ResourceManager.GetStream("sensor_beep", resourceCulture);
             }
         }
     }

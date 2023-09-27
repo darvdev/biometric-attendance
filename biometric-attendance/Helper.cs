@@ -10,6 +10,7 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Configuration;
+using System.Speech.Synthesis;
 
 namespace BiometricAttendance
 {
@@ -25,86 +26,85 @@ namespace BiometricAttendance
             return SerialPort.GetPortNames();
         }
 
-        public static async Task<ModelEmployee[]>  GetEmployeeList()
+        public static async Task<ModelStudent[]>  GetStudentList()
         {
             try
             {
                 using IDbConnection con = new SQLiteConnection(conString);
-                var output = await con.QueryAsync<ModelEmployee>("SELECT * FROM employees", new DynamicParameters());
+                var output = await con.QueryAsync<ModelStudent>("SELECT * FROM students", new DynamicParameters());
                 con.Close();
                 con.Dispose();
                 return output.ToArray();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Helper.GetEmployeeList Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Helper.GetStudentList Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
-            return Array.Empty<ModelEmployee>();
+            return Array.Empty<ModelStudent>();
         }
 
-        public static async Task<bool> AddEmployee(ModelEmployee employee) 
+        public static async Task<bool> AddStudent(ModelStudent student) 
         {
             try
             {
                 using IDbConnection con = new SQLiteConnection(conString);
-                await con.ExecuteAsync("INSERT INTO employees (employee_id, first_name, middle_name, last_name, img_base64, biometric_id, username, password) VALUES (@employee_id, @first_name, @middle_name, @last_name, @img_base64, @biometric_id, @username, @password)", employee);
+                await con.ExecuteAsync("INSERT INTO students (student_id, first_name, middle_name, last_name, img_base64, biometric_id, username, password) VALUES (@student_id, @first_name, @middle_name, @last_name, @img_base64, @biometric_id, @username, @password)", student);
                 con.Close();
                 con.Dispose();
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Helper.AddEmployee Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Helper.AddStudent Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return false;
         }
   
-        public static async Task<bool> UpdateEmployee(ModelEmployee employee)
+        public static async Task<bool> UpdateStudent(ModelStudent student)
         {
             try
             {
                 using IDbConnection con = new SQLiteConnection(conString);
-                var result = await con.ExecuteAsync("UPDATE employees SET employee_id = @employee_id, first_name = @first_name, middle_name = @middle_name, last_name = @last_name, img_base64 = @img_base64 WHERE id = @id", employee);
-                con.Close();
-                con.Dispose();
-                Console.Write("Update result: {0}", result);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Helper.UpdateEmployee Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            return false;
-        }
-
-        public static async Task<bool> EnrollEmployee(int databaseId, int biometricId)
-        {
-            try
-            {
-                using IDbConnection con = new SQLiteConnection(conString);
-                var output = await con.QueryAsync<ModelEmployee>("UPDATE employees SET biometric_id = @biometric_id WHERE id = @id", new { biometric_id = biometricId, id = databaseId });
+                var result = await con.ExecuteAsync("UPDATE students SET student_id = @student_id, first_name = @first_name, middle_name = @middle_name, last_name = @last_name, img_base64 = @img_base64 WHERE id = @id", student);
                 con.Close();
                 con.Dispose();
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Helper.EnrollEmployee Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Helper.UpdateStudent Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return false;
         }
 
-        public static async Task<bool> DeleteEmployee(ModelEmployee employee) 
+        public static async Task<bool> EnrollStudent(int databaseId, int biometricId)
+        {
+            try
+            {
+                using IDbConnection con = new SQLiteConnection(conString);
+                var output = await con.QueryAsync<ModelStudent>("UPDATE students SET biometric_id = @biometric_id WHERE id = @id", new { biometric_id = biometricId, id = databaseId });
+                con.Close();
+                con.Dispose();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Helper.EnrollStudent Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return false;
+        }
+
+        public static async Task<bool> DeleteStudent(ModelStudent student) 
         {
             try
             {
                 using (IDbConnection con = new SQLiteConnection(conString))
                 {
-                    await con.ExecuteAsync("DELETE FROM employees WHERE id = @id", employee);
+                    await con.ExecuteAsync("DELETE FROM students WHERE id = @id", student);
                     con.Close();
                     con.Dispose();
                 }
@@ -113,11 +113,12 @@ namespace BiometricAttendance
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Helper.DeleteEmployee Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Helper.DeleteStudent Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return false;
         }
+       
         public static async Task<ModelAttendance[]> GetAttendaceList()
         {
             try
@@ -141,23 +142,23 @@ namespace BiometricAttendance
             try
             {
                 using IDbConnection con = new SQLiteConnection(conString);
-                var list = await con.QueryAsync<ModelEmployee>("SELECT * FROM employees WHERE biometric_id = @biometric_id", new { biometric_id = biometricId});
+                var list = await con.QueryAsync<ModelStudent>("SELECT * FROM students WHERE biometric_id = @biometric_id", new { biometric_id = biometricId});
 
                 ModelAttendance attendance = null;
 
                 if (list.Count() > 0)
                 {
-                    var ee = list.ToArray()[0];
+                    var student = list.ToArray()[0];
                     var dt = DateTime.Now;
 
                     attendance = new ModelAttendance
                     {
-                        employee_id = ee.employee_id,
-                        name = ee.name,
+                        student_id = student.student_id,
+                        name = student.name,
                         date = dt.ToString(),                        
                     };
 
-                    await con.ExecuteAsync("INSERT INTO attendance (employee_id, name, date) VALUES (@employee_id, @name, @date)", attendance);
+                    await con.ExecuteAsync("INSERT INTO attendance (student_id, name, date) VALUES (@student_id, @name, @date)", attendance);
                 }
 
                 con.Close();
@@ -191,13 +192,13 @@ namespace BiometricAttendance
             return (Image)(new Bitmap(image, new Size(200, 200)));
         }
 
-        public static ModelEmployee NewEmployee(string employeeId, string firstName, string lastName, string middleName = null, Image image = null, string biometricId = null, string username = null, string password = null)
+        public static ModelStudent NewStudent(string studentId, string firstName, string lastName, string middleName = null, Image image = null, string biometricId = null, string username = null, string password = null)
         {
             try
             {
-                return new ModelEmployee
+                return new ModelStudent
                 {
-                    employee_id = employeeId == string.Empty ? null : employeeId,
+                    student_id = studentId == string.Empty ? null : studentId,
                     first_name = firstName == string.Empty ? null : firstName,
                     last_name = lastName == string.Empty ? null : lastName,
 
@@ -211,7 +212,7 @@ namespace BiometricAttendance
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Helper.NewStudent Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return null;
@@ -242,6 +243,51 @@ namespace BiometricAttendance
 
             return null;
         }
+
+        public static void Speak(string text)
+        {
+            SpeechSynthesizer synthesizer = new SpeechSynthesizer();
+            synthesizer.SelectVoiceByHints(VoiceGender.Female, VoiceAge.Teen);
+            synthesizer.Volume = 100;  // 0...100
+            synthesizer.Rate = 0;     // -10...10
+
+            synthesizer.Speak(text); // Synchronous
+
+            //synthesizer.SpeakAsync(text); // Asynchronous
+            synthesizer.Dispose();
+        }
+
+        public static void PlayBeep()
+        {
+            //Stream stream = new MemoryStream(Properties.Resources.sensor_beep);
+            Stream stream = Properties.Resources.sensor_beep;
+            System.Media.SoundPlayer sound = new System.Media.SoundPlayer(stream);
+            sound.Play();
+            sound.Dispose();
+
+            //System.Media.SoundPlayer player = new System.Media.SoundPlayer();
+            //player.SoundLocation = path;
+            //player.Play();
+            //player.Dispose();
+        }
+
+        public static void PlayOk()
+        {
+            Stream stream = Properties.Resources.finger_ok;
+            System.Media.SoundPlayer sound = new System.Media.SoundPlayer(stream);
+            sound.Play();
+            sound.Dispose();
+        }
+
+        public static void PlayError()
+        {
+            Stream stream = Properties.Resources.finger_error;
+            System.Media.SoundPlayer sound = new System.Media.SoundPlayer(stream);
+            sound.Play();
+            sound.Dispose();
+        }
+
+
 
         private static int? TryParseNullable(string val)
         {

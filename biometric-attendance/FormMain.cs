@@ -13,19 +13,16 @@ namespace BiometricAttendance
         {
             InitializeComponent();
         }
-        
-        //private FormSettings formSettings;
-        //private FormEnroll formEnroll;
-        //private FormEmployee formEmployee;
-        //private FormEmployeeList formEmployeeList;
-        //private FormStart formStart;
-        //private FormAttendanceList formAttendanceList;
+
+        private bool allowshowdisplay = true;
+
+        private Timer timer = new Timer();
 
         public readonly SerialPort serial = new SerialPort();
         public IniFile ini = new IniFile();
 
         public string[] ports = Helper.GetPorts();
-        public ModelEmployee[] employeeList = Array.Empty<ModelEmployee>();
+        public ModelStudent[] studentList = Array.Empty<ModelStudent>();
         public ModelAttendance[] attendaceList = Array.Empty<ModelAttendance>();
 
         public bool connected = false;
@@ -34,14 +31,22 @@ namespace BiometricAttendance
         public string status = "-1";
 
         public event EventHandler<CustomEventArgs> EnrollStatusEvent;
-        public event EventHandler<CustomEventArgs> EnrollEmployeeEvent;
+        public event EventHandler<CustomEventArgs> EnrollStudentEvent;
         public event EventHandler<CustomEventArgs> BiometricEvent;
         public event EventHandler<CustomEventArgs> DateEvent;
         public event EventHandler<CustomEventArgs> AttendanceListEvent;
-        public event EventHandler<CustomEventArgs> EmployeeListEvent;
+        public event EventHandler<CustomEventArgs> StudentListEvent;
 
-        private Timer timer = new Timer();
 
+        protected override void SetVisibleCore(bool value)
+        {
+            base.SetVisibleCore(allowshowdisplay ? value : allowshowdisplay);
+        }
+
+        private void HideDisplay() {
+            this.allowshowdisplay = false;
+            this.Visible = !this.Visible;
+        }
 
         private void Invoke(Action action) => this.Invoke((MethodInvoker)delegate { action(); });
 
@@ -53,7 +58,7 @@ namespace BiometricAttendance
             timer.Tick += TimerTick;
             timer.Start();
 
-            GetEmployeeList();
+            GetStudentList();
             GetAttendanceList();
 
             var connect = ini.Read("Connect");
@@ -89,26 +94,28 @@ namespace BiometricAttendance
 
         }
 
-        //Open Forms
+
+        #region Open Forms
+    
         private void OpenFormSettings(object sender, EventArgs e)
         {
             FormSettings formSettings = new FormSettings();
             formSettings.ShowDialog();
         }
 
-        private void OpenFormEmployee(object sender, EventArgs e)
+        private void OpenFormStudent(object sender, EventArgs e)
         {
-            FormEmployee formEmployee = new FormEmployee();
-            var result = formEmployee.ShowDialog();
+            FormStudent formStudent = new FormStudent();
+            var result = formStudent.ShowDialog();
             if (result == DialogResult.OK)
             {
-                GetEmployeeList();
+                GetStudentList();
             }
         }
 
-        private void OpemFormEmployeeList(object sender, EventArgs e)
+        private void OpemFormStudentList(object sender, EventArgs e)
         {
-            FormEmployeeList formEmployeeList = new FormEmployeeList();
+            FormStudentList formEmployeeList = new FormStudentList();
             formEmployeeList.ShowDialog();
         }
 
@@ -116,6 +123,7 @@ namespace BiometricAttendance
         {
             FormEnroll formEnroll = new FormEnroll();
             formEnroll.ShowDialog();
+            GetStudentList();
         }
 
         private void OpenFormStart(object sender, EventArgs e)
@@ -130,6 +138,9 @@ namespace BiometricAttendance
             FormAttendanceList formAttendanceList = new FormAttendanceList();
             formAttendanceList.ShowDialog();
         }
+
+        #endregion
+
 
         //Private Methods
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -159,7 +170,15 @@ namespace BiometricAttendance
 
                             //query: id = Fingerprint saved into sensor database.
                             //else: code = Error enrolling fingerprint
-                            EnrollEmployeeEvent?.Invoke(this, new CustomEventArgs(queryValue));
+                            if (query == "id")
+                            {
+                                EnrollStudentEvent?.Invoke(this, new CustomEventArgs(queryValue));
+                            }
+                            else 
+                            {
+                                EnrollStatusEvent?.Invoke(this, new CustomEventArgs(queryValue));
+                            }
+                            
 
                         }
                         else
@@ -200,21 +219,21 @@ namespace BiometricAttendance
                                     BiometricEvent?.Invoke(this, new CustomEventArgs(queryValue));
                                 }
 
-                                //else if (query == "code")
-                                //{
-                                //    BiometricEvent?.Invoke(this, new BiometricEventArgs(queryValue, null));
-                                //}
-                                //else
-                                //{
-                                //    Invoke(() => formStart?.UpdateBiometric(queryValue, null));
-                                //}
                             }
 
 
                         }
                         else
                         {
-                            Console.WriteLine("Implement: start without =");
+                            if (value == "scan") //Fingerprint is read from sensor nex delay of 1500ms
+                            {
+                                BiometricEvent?.Invoke(this, new CustomEventArgs("101"));
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not Implement: {0}", value);
+                            }
+                            
                         }
                     }
                 }
@@ -271,7 +290,6 @@ namespace BiometricAttendance
 
         private async void AddAttendance(string biometricId)
         {
-            Console.WriteLine("AddAttendance");
             int index = int.Parse(biometricId);
             var attendance = await Helper.AddAttendance(index);
             BiometricEvent?.Invoke(this, new CustomEventArgs("100", attendance));
@@ -287,13 +305,13 @@ namespace BiometricAttendance
             var today = DateTime.Now;
             var date = today.ToShortDateString();
             var time = today.ToLongTimeString();
-            DateEvent?.Invoke(this, new CustomEventArgs(date + " " + time));
+            //DateEvent?.Invoke(this, new CustomEventArgs(date + " " + time));
+            DateEvent?.Invoke(this, new CustomEventArgs(today.ToLongDateString() + " | " + today.ToLongTimeString()));
         }
 
         private async void GetAttendanceList()
         {
             attendaceList = await Helper.GetAttendaceList();
-            Console.WriteLine("GetAttendanceList Count: {0}", attendaceList.Count());
             AttendanceListEvent?.Invoke(this, new CustomEventArgs(attendanceList: attendaceList));
         }
 
@@ -361,12 +379,17 @@ namespace BiometricAttendance
             }
         }
 
-        public async void GetEmployeeList()
+        public async void GetStudentList()
         {
-            employeeList = await Helper.GetEmployeeList();
-            labelTotal.Text = employeeList.Length.ToString();
-            Console.WriteLine("GetEmployeeList Count: {0}", employeeList.Count());
-            EmployeeListEvent?.Invoke(this, new CustomEventArgs(employeeList: employeeList));
+            studentList = await Helper.GetStudentList();
+            labelTotal.Text = studentList.Length.ToString();
+            StudentListEvent?.Invoke(this, new CustomEventArgs(studentList: studentList));
+        }
+
+
+        private void CheckUsername()
+        {
+            //var result = Array.Find<ModelEmployee>();
         }
 
     }
@@ -378,13 +401,13 @@ public class CustomEventArgs
     public string value { get; protected set; }
     public ModelAttendance attendance { get; protected set; }
     public ModelAttendance[] attendanceList { get; protected set; }
-    public ModelEmployee[] employeeList { get; protected set; }
+    public ModelStudent[] studentList { get; protected set; }
 
-    public CustomEventArgs(string value = null, ModelAttendance attendance = null, ModelAttendance[] attendanceList = null, ModelEmployee[] employeeList = null)
+    public CustomEventArgs(string value = null, ModelAttendance attendance = null, ModelAttendance[] attendanceList = null, ModelStudent[] studentList = null)
     {
         this.value = value;
         this.attendance = attendance;
         this.attendanceList = attendanceList ?? Array.Empty<ModelAttendance>();
-        this.employeeList = employeeList ?? Array.Empty<ModelEmployee>();
+        this.studentList = studentList ?? Array.Empty<ModelStudent>();
     }
 }

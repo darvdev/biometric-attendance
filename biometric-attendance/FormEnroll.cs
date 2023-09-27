@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -11,11 +12,11 @@ namespace BiometricAttendance
             InitializeComponent();
             LoadCombobox(index);
             formMain.EnrollStatusEvent += EnrollStatusEvent;
-            formMain.EnrollEmployeeEvent += EnrollEmployeeEvent;
+            formMain.EnrollStudentEvent += EnrollStudentEvent;
         }
 
         private FormMain formMain = (FormMain)Application.OpenForms["FormMain"];
-        private int employeeIndex = -1;
+        private int studentIndex = -1;
         private int biometricIndex = -1;
         private string status;
 
@@ -23,7 +24,7 @@ namespace BiometricAttendance
         {
             formMain.serial.WriteLine("standby");
             formMain.EnrollStatusEvent -= EnrollStatusEvent;
-            formMain.EnrollEmployeeEvent -= EnrollEmployeeEvent;
+            formMain.EnrollStudentEvent -= EnrollStudentEvent;
             base.OnFormClosing(e);
         }
 
@@ -31,44 +32,44 @@ namespace BiometricAttendance
 
         private void LoadCombobox(int index = -1) {
 
-            comboBoxEmployeeList.Items.Clear();
+            comboBoxStudentList.Items.Clear();
             comboBoxBiometricId.Items.Clear();
 
             for (int i = 1; i < 140; i++)
             {
-                var ee = Array.Find(formMain.employeeList, (e) => e.biometric_id == i);
-                var item = $"{i} - " + (ee == null ? "Available" : ee.name);
+                var student = Array.Find(formMain.studentList, (e) => e.biometric_id == i);
+                var item = $"{i} - " + (student == null ? "Available" : student.name);
                 comboBoxBiometricId.Items.Add(item);
             }
 
-            foreach (ModelEmployee ee in formMain.employeeList)
+            foreach (ModelStudent student in formMain.studentList)
             {
-                int? id = ee.biometric_id;
-                comboBoxEmployeeList.Items.Add($"{ee.employee_id} - {ee.name} - " + (id == null ? "NOT REG" : $"REG [{id}]"));
+                int? id = student.biometric_id;
+                comboBoxStudentList.Items.Add($"{student.student_id} - {student.name} - " + (id == null ? "NOT REG" : $"REG [{id}]"));
             }
         }
 
-        private void ComboBoxEmployeeList_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxStudentList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            employeeIndex = comboBoxEmployeeList.SelectedIndex;
-            comboBoxBiometricId.Enabled = employeeIndex >= 0;         
+            studentIndex = comboBoxStudentList.SelectedIndex;
+            comboBoxBiometricId.Enabled = studentIndex >= 0;         
 
-            if (employeeIndex >= 0)
+            if (studentIndex >= 0)
             {
                 labelStatus.Text = biometricIndex >=0 ? "Click enroll button to start" : "Select biometric id from dropdown";
-                pictureBoxEmployee.Image = formMain.employeeList[employeeIndex].image;
+                pictureBoxStudent.Image = formMain.studentList[studentIndex].image;
             }
             else
             {
-                pictureBoxEmployee.Image = null;
-                labelStatus.Text = "Select employee from dropdown";
+                pictureBoxStudent.Image = null;
+                labelStatus.Text = "Select student from dropdown";
             }
         }
 
         private void ComboBoxBiometricId_SelectedIndexChanged(object sender, EventArgs e)
         {
             biometricIndex = comboBoxBiometricId.SelectedIndex;
-            buttonEnroll.Enabled = employeeIndex >= 0 && biometricIndex >= 0;
+            buttonEnroll.Enabled = studentIndex >= 0 && biometricIndex >= 0;
             labelStatus.Text = biometricIndex >= 0 ? "Click enroll button to start" : "Select biometric id from dropdown";
         }
 
@@ -84,9 +85,9 @@ namespace BiometricAttendance
                 if (status == "000")
                 {
                     status = "";
-                    this.MinimumSize = new System.Drawing.Size(440, 200);
-                    this.MaximumSize = new System.Drawing.Size(440, 200);
-                    comboBoxEmployeeList.Enabled = true;
+                    this.MinimumSize = new Size(440, 200);
+                    this.MaximumSize = new Size(440, 200);
+                    comboBoxStudentList.Enabled = true;
                     comboBoxBiometricId.Enabled = true;
                     buttonEnroll.Text = "Enroll";
                     buttonEnroll.Enabled = true;
@@ -96,7 +97,7 @@ namespace BiometricAttendance
                 return;
             }
 
-            comboBoxEmployeeList.Enabled = false;
+            comboBoxStudentList.Enabled = false;
             comboBoxBiometricId.Enabled = false;
             buttonEnroll.Text = "Enrolling...";
             
@@ -117,7 +118,7 @@ namespace BiometricAttendance
                 }
                 else
                 {
-                    comboBoxEmployeeList.Enabled = true;
+                    comboBoxStudentList.Enabled = true;
                     comboBoxBiometricId.Enabled = true;
                     buttonEnroll.Text = "Enroll";
                 }
@@ -125,7 +126,7 @@ namespace BiometricAttendance
             }
             catch (Exception ex)
             {
-                comboBoxEmployeeList.Enabled = true;
+                comboBoxStudentList.Enabled = true;
                 comboBoxBiometricId.Enabled = true;
                 buttonEnroll.Enabled = true;
                 buttonEnroll.Text = "Enroll";
@@ -136,38 +137,39 @@ namespace BiometricAttendance
 
         }
 
-        private void EnrollEmployeeEvent(object sender, CustomEventArgs e) //Called from FormMain SerialPort_DataReceived
+        private void EnrollStudentEvent(object sender, CustomEventArgs e) //Called from FormMain SerialPort_DataReceived
         {
             Invoke(async () => {
                 try
                 {
+                    Helper.PlayBeep();
                     pictureBoxEnroll.Image = Properties.Resources.ok;
                     int id = int.Parse(e.value);
-                    var ee = formMain.employeeList[employeeIndex];
+                    var student = formMain.studentList[studentIndex];
                     buttonEnroll.Enabled = false;
 
-                    labelStatus.Text = $"Fingerprint OK. Updating {ee.name} details...";
+                    labelStatus.Text = $"Fingerprint OK. Updating {student.name} details...";
 
                     //Updating employee databse
-                    bool result = await Helper.EnrollEmployee(ee.id, id);
+                    bool result = await Helper.EnrollStudent(student.id, id);
 
                     if (result)
                     {
                         //update successs
-                        var dialog = MessageBox.Show($"{ee.name} fingerprint registered.\nEnroll another employee?", "Enrolled", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                        var dialog = MessageBox.Show($"{student.name} fingerprint registered.\nEnroll another student?", "Enrolled", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
                         if (dialog == DialogResult.Yes)
                         {
-                            formMain.GetEmployeeList();
+                            formMain.GetStudentList();
                             LoadCombobox();
-                            pictureBoxEmployee.Image = null;
-                            comboBoxEmployeeList.SelectedIndex = -1;
+                            pictureBoxStudent.Image = null;
+                            comboBoxStudentList.SelectedIndex = -1;
                             comboBoxBiometricId.SelectedIndex = -1;
                             pictureBoxEnroll.Image = Properties.Resources.fingerprint;
 
-                            employeeIndex = -1;
+                            studentIndex = -1;
                             biometricIndex = -1;
-                            labelStatus.Text = "Select employee from dropdown";
+                            labelStatus.Text = "Select student from dropdown";
                         }
                         else
                         {
@@ -179,15 +181,15 @@ namespace BiometricAttendance
                     else
                     {
                         //Update error
-                        labelStatus.Text = $"Error enrolling {ee.name}";
+                        labelStatus.Text = $"Error enrolling {student.name}";
                     }
 
                     buttonEnroll.Text = "Enroll";
                     buttonEnroll.Enabled = true;
-                    comboBoxEmployeeList.Enabled = true;
+                    comboBoxStudentList.Enabled = true;
                     comboBoxBiometricId.Enabled = true;
-                    this.MinimumSize = new System.Drawing.Size(440, 200);
-                    this.MaximumSize = new System.Drawing.Size(440, 200);
+                    this.MinimumSize = new Size(440, 200);
+                    this.MaximumSize = new Size(440, 200);
 
                 }
                 catch (Exception ex)
@@ -203,18 +205,20 @@ namespace BiometricAttendance
             //100 = Place finger in the sensor
             //101 = Enroll step 1 success (Remove finger in the Sensor)
             //102 = Place same finger in the Sensor
-
+            //10  = Fingerprint mismatch
             status = e.value;
             Invoke(() => {
                 switch (e.value)
                 {
                     case "000":
+                        
                         break;
                     case "100":
                         labelStatus.Text = "Place your finger in the sensor";
                         pictureBoxEnroll.Image = Properties.Resources.fingerprint;
                         break;
                     case "101":
+                        Helper.PlayBeep();
                         labelStatus.Text = "Fingerprint OK. Remove finger in the Sensor";
                         pictureBoxEnroll.Image = Properties.Resources.ok;
                         break;
@@ -222,7 +226,17 @@ namespace BiometricAttendance
                         labelStatus.Text = "Place the same finger in the Sensor";
                         pictureBoxEnroll.Image = Properties.Resources.fingerprint;
                         break;
+                    case "10":
+                        Helper.PlayError();
+                        labelStatus.Text = "Fingerprint mismatch. Please try again.";
+                        pictureBoxEnroll.Image = Properties.Resources.error;
+                        Task.Run(async () => {
+                            await Task.Delay(3000);
+                            EnrollStatusEvent(this, new CustomEventArgs("102"));
+                        });
+                        break;
                     default:
+                        Helper.PlayError();
                         labelStatus.Text = "Fingerprint error: " + status;
                         pictureBoxEnroll.Image = Properties.Resources.error;
                         break;

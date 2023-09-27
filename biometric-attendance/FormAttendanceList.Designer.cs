@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             this.attendanceDataGridView = new System.Windows.Forms.DataGridView();
-            this.employee_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,7 +40,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.checkBoxFilter = new System.Windows.Forms.CheckBox();
             this.buttonFilter = new System.Windows.Forms.Button();
-            this.comboBoxEmployee = new System.Windows.Forms.ComboBox();
+            this.comboBoxStudent = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -51,6 +48,9 @@
             this.buttonNew = new System.Windows.Forms.Button();
             this.buttonEdit = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
+            this.student_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.attendanceDataGridView)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -69,7 +69,7 @@
             this.attendanceDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
             this.attendanceDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.attendanceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.employee_id,
+            this.student_id,
             this.name,
             this.date});
             this.attendanceDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -83,29 +83,6 @@
             this.attendanceDataGridView.ShowEditingIcon = false;
             this.attendanceDataGridView.Size = new System.Drawing.Size(665, 576);
             this.attendanceDataGridView.TabIndex = 0;
-            // 
-            // employee_id
-            // 
-            this.employee_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.employee_id.HeaderText = "Employee ID";
-            this.employee_id.Name = "employee_id";
-            this.employee_id.ReadOnly = true;
-            // 
-            // name
-            // 
-            this.name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.name.FillWeight = 200F;
-            this.name.HeaderText = "Employee Name";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            // 
-            // date
-            // 
-            this.date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.date.FillWeight = 300F;
-            this.date.HeaderText = "Date";
-            this.date.Name = "date";
-            this.date.ReadOnly = true;
             // 
             // tableLayoutPanel1
             // 
@@ -157,7 +134,7 @@
             this.panel1.Controls.Add(this.panelDate);
             this.panel1.Controls.Add(this.checkBoxFilter);
             this.panel1.Controls.Add(this.buttonFilter);
-            this.panel1.Controls.Add(this.comboBoxEmployee);
+            this.panel1.Controls.Add(this.comboBoxStudent);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 33);
@@ -194,7 +171,7 @@
             this.dateTimePickerStart.Name = "dateTimePickerStart";
             this.dateTimePickerStart.Size = new System.Drawing.Size(210, 20);
             this.dateTimePickerStart.TabIndex = 3;
-            this.dateTimePickerStart.Value = new System.DateTime(2023, 9, 25, 0, 0, 0, 0);
+            this.dateTimePickerStart.Value = new System.DateTime(2023, 9, 27, 0, 0, 0, 0);
             // 
             // dateTimePickerEnd
             // 
@@ -236,24 +213,24 @@
             this.buttonFilter.UseVisualStyleBackColor = true;
             this.buttonFilter.Click += new System.EventHandler(this.ButtonFilter_Click);
             // 
-            // comboBoxEmployee
+            // comboBoxStudent
             // 
-            this.comboBoxEmployee.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxEmployee.FormattingEnabled = true;
-            this.comboBoxEmployee.Location = new System.Drawing.Point(16, 29);
-            this.comboBoxEmployee.Name = "comboBoxEmployee";
-            this.comboBoxEmployee.Size = new System.Drawing.Size(210, 21);
-            this.comboBoxEmployee.TabIndex = 5;
-            this.comboBoxEmployee.SelectedIndexChanged += new System.EventHandler(this.ComboBoxEmployee_SelectedIndexChanged);
+            this.comboBoxStudent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxStudent.FormattingEnabled = true;
+            this.comboBoxStudent.Location = new System.Drawing.Point(16, 29);
+            this.comboBoxStudent.Name = "comboBoxStudent";
+            this.comboBoxStudent.Size = new System.Drawing.Size(210, 21);
+            this.comboBoxStudent.TabIndex = 5;
+            this.comboBoxStudent.SelectedIndexChanged += new System.EventHandler(this.ComboBoxStudent_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(13, 13);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(89, 13);
+            this.label2.Size = new System.Drawing.Size(81, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Select Employee:";
+            this.label2.Text = "Filter by student";
             // 
             // tableLayoutPanel3
             // 
@@ -329,6 +306,29 @@
             this.buttonDelete.Text = "Delete";
             this.buttonDelete.UseVisualStyleBackColor = true;
             // 
+            // student_id
+            // 
+            this.student_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.student_id.HeaderText = "Student ID";
+            this.student_id.Name = "student_id";
+            this.student_id.ReadOnly = true;
+            // 
+            // name
+            // 
+            this.name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.name.FillWeight = 200F;
+            this.name.HeaderText = "Student Name";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            // 
+            // date
+            // 
+            this.date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.date.FillWeight = 300F;
+            this.date.HeaderText = "Date";
+            this.date.Name = "date";
+            this.date.ReadOnly = true;
+            // 
             // FormAttendanceList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -358,9 +358,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView attendanceDataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn employee_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn date;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.DateTimePicker dateTimePickerStart;
         private System.Windows.Forms.Panel panel1;
@@ -374,11 +371,14 @@
         private System.Windows.Forms.Button buttonNew;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBoxEmployee;
+        private System.Windows.Forms.ComboBox comboBoxStudent;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button buttonFilter;
         private System.Windows.Forms.CheckBox checkBoxFilter;
         private System.Windows.Forms.Panel panelDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn student_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn date;
     }
 }

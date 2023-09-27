@@ -1,6 +1,6 @@
 ﻿namespace BiometricAttendance
 {
-    partial class FormEmployee
+    partial class FormStudent
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.buttonSave = new System.Windows.Forms.Button();
-            this.textBoxEmployeeId = new System.Windows.Forms.TextBox();
+            this.textBoxStudentId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxFirstName = new System.Windows.Forms.TextBox();
@@ -64,21 +64,21 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.Save);
             // 
-            // textBoxEmployeeId
+            // textBoxStudentId
             // 
-            this.textBoxEmployeeId.Location = new System.Drawing.Point(328, 15);
-            this.textBoxEmployeeId.Name = "textBoxEmployeeId";
-            this.textBoxEmployeeId.Size = new System.Drawing.Size(105, 20);
-            this.textBoxEmployeeId.TabIndex = 0;
+            this.textBoxStudentId.Location = new System.Drawing.Point(328, 15);
+            this.textBoxStudentId.Name = "textBoxStudentId";
+            this.textBoxStudentId.Size = new System.Drawing.Size(105, 20);
+            this.textBoxStudentId.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(245, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 13);
+            this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Employee ID";
+            this.label1.Text = "Student ID";
             // 
             // label2
             // 
@@ -139,6 +139,7 @@
             // 
             // textBoxBiometricId
             // 
+            this.textBoxBiometricId.Enabled = false;
             this.textBoxBiometricId.Location = new System.Drawing.Point(97, 26);
             this.textBoxBiometricId.Name = "textBoxBiometricId";
             this.textBoxBiometricId.Size = new System.Drawing.Size(64, 20);
@@ -162,7 +163,6 @@
             this.groupBox1.Controls.Add(this.textBoxUsername);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.textBoxBiometricId);
-            this.groupBox1.Enabled = false;
             this.groupBox1.Location = new System.Drawing.Point(248, 129);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(270, 113);
@@ -246,7 +246,7 @@
             this.panel1.Size = new System.Drawing.Size(544, 49);
             this.panel1.TabIndex = 11;
             // 
-            // FormEmployee
+            // FormStudent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -264,16 +264,16 @@
             this.Controls.Add(this.textBoxLastName);
             this.Controls.Add(this.textBoxMiddleName);
             this.Controls.Add(this.textBoxFirstName);
-            this.Controls.Add(this.textBoxEmployeeId);
+            this.Controls.Add(this.textBoxStudentId);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(560, 350);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(560, 350);
-            this.Name = "FormEmployee";
+            this.Name = "FormStudent";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Employee";
+            this.Text = "New Student";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
@@ -286,7 +286,7 @@
         #endregion
 
         private System.Windows.Forms.Button buttonSave;
-        private System.Windows.Forms.TextBox textBoxEmployeeId;
+        private System.Windows.Forms.TextBox textBoxStudentId;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxFirstName;
