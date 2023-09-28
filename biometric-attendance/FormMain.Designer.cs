@@ -154,24 +154,22 @@
             // 
             // startToolStripMenuItem
             // 
-            this.startToolStripMenuItem.Enabled = false;
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.startToolStripMenuItem.Text = "Start";
             this.startToolStripMenuItem.Click += new System.EventHandler(this.OpenFormStart);
             // 
             // enrollToolStripMenuItem
             // 
-            this.enrollToolStripMenuItem.Enabled = false;
             this.enrollToolStripMenuItem.Name = "enrollToolStripMenuItem";
-            this.enrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.enrollToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.enrollToolStripMenuItem.Text = "Enroll";
             this.enrollToolStripMenuItem.Click += new System.EventHandler(this.OpenFormEnroll);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.OpenFormSettings);
             // 
@@ -236,7 +234,7 @@
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dashboard";
-            this.Load += new System.EventHandler(this.Main_Load);
+            this.Load += new System.EventHandler(this.FormMain_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

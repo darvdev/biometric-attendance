@@ -37,12 +37,12 @@ namespace BiometricAttendance
 
             for (int i = 1; i < 140; i++)
             {
-                var student = Array.Find(formMain.studentList, (e) => e.biometric_id == i);
+                var student = Array.Find(formMain.students, (e) => e.biometric_id == i);
                 var item = $"{i} - " + (student == null ? "Available" : student.name);
                 comboBoxBiometricId.Items.Add(item);
             }
 
-            foreach (ModelStudent student in formMain.studentList)
+            foreach (ModelStudent student in formMain.students)
             {
                 int? id = student.biometric_id;
                 comboBoxStudentList.Items.Add($"{student.student_id} - {student.name} - " + (id == null ? "NOT REG" : $"REG [{id}]"));
@@ -57,7 +57,7 @@ namespace BiometricAttendance
             if (studentIndex >= 0)
             {
                 labelStatus.Text = biometricIndex >=0 ? "Click enroll button to start" : "Select biometric id from dropdown";
-                pictureBoxStudent.Image = formMain.studentList[studentIndex].image;
+                pictureBoxStudent.Image = formMain.students[studentIndex].image;
             }
             else
             {
@@ -145,7 +145,7 @@ namespace BiometricAttendance
                     Helper.PlayBeep();
                     pictureBoxEnroll.Image = Properties.Resources.ok;
                     int id = int.Parse(e.value);
-                    var student = formMain.studentList[studentIndex];
+                    var student = formMain.students[studentIndex];
                     buttonEnroll.Enabled = false;
 
                     labelStatus.Text = $"Fingerprint OK. Updating {student.name} details...";

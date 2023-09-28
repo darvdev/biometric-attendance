@@ -71,7 +71,7 @@ namespace BiometricAttendance
                         }
                         else
                         {
-                            var student = Array.Find(formMain.studentList, (o) => o.student_id == e.attendance.student_id);
+                            var student = Array.Find(formMain.students, (o) => o.student_id == e.attendance.student_id);
 
                             fingerPictureBox.Image = student != null && student.image != null ? student.image : Properties.Resources.ee_ok;                                  
 

@@ -14,7 +14,7 @@ namespace BiometricAttendance
             InitializeComponent();
         }
 
-        private bool allowshowdisplay = true;
+        //public bool hideMain = true;
 
         private Timer timer = new Timer();
 
@@ -22,11 +22,14 @@ namespace BiometricAttendance
         public IniFile ini = new IniFile();
 
         public string[] ports = Helper.GetPorts();
-        public ModelStudent[] studentList = Array.Empty<ModelStudent>();
+        public ModelStudent[] students = Array.Empty<ModelStudent>();
+        public ModelStudent[] admins = Array.Empty<ModelStudent>();
+        public ModelStudent admin;
+
         public ModelAttendance[] attendaceList = Array.Empty<ModelAttendance>();
 
         public bool connected = false;
-   
+
         public string port = "";
         public string status = "-1";
 
@@ -37,34 +40,25 @@ namespace BiometricAttendance
         public event EventHandler<CustomEventArgs> AttendanceListEvent;
         public event EventHandler<CustomEventArgs> StudentListEvent;
 
-
-        protected override void SetVisibleCore(bool value)
-        {
-            base.SetVisibleCore(allowshowdisplay ? value : allowshowdisplay);
-        }
-
-        private void HideDisplay() {
-            this.allowshowdisplay = false;
-            this.Visible = !this.Visible;
-        }
-
         private void Invoke(Action action) => this.Invoke((MethodInvoker)delegate { action(); });
 
-        private void Main_Load(object sender, EventArgs e)
+        private void FormMain_Load(object sender, EventArgs e)
         {
+            GetStudentList();
+            Login();
+            GetAttendanceList();
+
             serial.DtrEnable = true;
             serial.DataReceived += SerialPort_DataReceived;
             timer.Interval = 1000;
             timer.Tick += TimerTick;
             timer.Start();
 
-            GetStudentList();
-            GetAttendanceList();
-
             var connect = ini.Read("Connect");
-            if (connect == "1") 
+            if (connect == "1")
             {
-                Task.Run(async () => {
+                Task.Run(async () =>
+                {
                     port = ini.Read("Port");
                     if (!string.IsNullOrEmpty(port) && ports.Length > 0)
                     {
@@ -76,27 +70,25 @@ namespace BiometricAttendance
 
                             var start = ini.Read("Start");
 
-                            if (start == "1") 
+                            if (start == "1")
                             {
                                 await Task.Delay(500);
-                                if (status == "0")
+                                if (status == "0" && students.Length > 0)
                                 {
                                     Invoke(() => OpenFormStart(null, null));
                                 }
                             }
-                            
+
                         }
 
                     }
 
                 });
             }
-
         }
 
-
         #region Open Forms
-    
+
         private void OpenFormSettings(object sender, EventArgs e)
         {
             FormSettings formSettings = new FormSettings();
@@ -121,6 +113,18 @@ namespace BiometricAttendance
 
         private void OpenFormEnroll(object sender, EventArgs e)
         {
+            if (status != "0" && status != "301")
+            {
+                MessageBox.Show("Device status error.\nConnect to sensor first and try again.", "Enroll Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (students.Length <= 0)
+            {
+                MessageBox.Show("No student records. Add a student first", "Enroll Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             FormEnroll formEnroll = new FormEnroll();
             formEnroll.ShowDialog();
             GetStudentList();
@@ -128,9 +132,27 @@ namespace BiometricAttendance
 
         private void OpenFormStart(object sender, EventArgs e)
         {
+            if (status == "301")
+            {
+                MessageBox.Show("Enroll student first and try again.", "Start Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (status != "0")
+            {
+                MessageBox.Show("Device status error.\nConnect to sensor first and try again.", "Start Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (students.Length <= 0)
+            {
+                MessageBox.Show("No student records. Add a student first", "Start Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             FormStart formStart = new FormStart();
             this.Hide();
             formStart.Show();
+
         }
 
         private void OpenFormAttendaceList(object sender, EventArgs e)
@@ -174,11 +196,11 @@ namespace BiometricAttendance
                             {
                                 EnrollStudentEvent?.Invoke(this, new CustomEventArgs(queryValue));
                             }
-                            else 
+                            else
                             {
                                 EnrollStatusEvent?.Invoke(this, new CustomEventArgs(queryValue));
                             }
-                            
+
 
                         }
                         else
@@ -186,7 +208,7 @@ namespace BiometricAttendance
                             //value: ok/101 = Enroll step 1 success - delay 2000, go to step 2
                             //value: next/102 = Enroll Step 2 success - go to step 3
                             //else:  Error enrolling fingerprint
-                            EnrollStatusEvent?.Invoke(this, new CustomEventArgs(value == "ok"? "101" : value == "next" ? "102" : value));
+                            EnrollStatusEvent?.Invoke(this, new CustomEventArgs(value == "ok" ? "101" : value == "next" ? "102" : value));
 
                         }
 
@@ -233,7 +255,7 @@ namespace BiometricAttendance
                             {
                                 Console.WriteLine("Not Implement: {0}", value);
                             }
-                            
+
                         }
                     }
                 }
@@ -249,11 +271,7 @@ namespace BiometricAttendance
                         if (command == "status")
                         {
                             status = value;
-                            Invoke(()=>{
-                                labelStatus.Text = value;
-                                enrollToolStripMenuItem.Enabled = value == "0" || value == "301";
-                                startToolStripMenuItem.Enabled = value == "0";
-                            });
+                            Invoke(() => labelStatus.Text = value);
                         }
 
                     }
@@ -297,7 +315,7 @@ namespace BiometricAttendance
             {
                 GetAttendanceList();
             }
-            
+
         }
 
         private void TimerTick(object sender, EventArgs e)
@@ -350,9 +368,8 @@ namespace BiometricAttendance
                 await Task.Delay(1000);
                 serial.Close();
                 status = "-1";
-                Invoke(() => {
-                    enrollToolStripMenuItem.Enabled = false;
-                    startToolStripMenuItem.Enabled = false;
+                Invoke(() =>
+                {
                     labelConnection.Text = "Disconnected";
                     labelStatus.Text = status;
                 });
@@ -369,7 +386,7 @@ namespace BiometricAttendance
         public void SendStatus()
         {
             Console.WriteLine("SendStatus");
-            try 
+            try
             {
                 serial.WriteLine("status");
             }
@@ -381,15 +398,41 @@ namespace BiometricAttendance
 
         public async void GetStudentList()
         {
-            studentList = await Helper.GetStudentList();
-            labelTotal.Text = studentList.Length.ToString();
-            StudentListEvent?.Invoke(this, new CustomEventArgs(studentList: studentList));
+            students = await Helper.GetStudentList();
+            labelTotal.Text = students.Length.ToString();
+            StudentListEvent?.Invoke(this, new CustomEventArgs(students: students));
+            GetAdmins();
         }
 
 
-        private void CheckUsername()
+        private void GetAdmins()
         {
-            //var result = Array.Find<ModelEmployee>();
+            admins = Array.FindAll<ModelStudent>(students, (s) => s.username != null && s.password != null);
+        }
+
+        private void Login()
+        {
+            if (admins.Count() == 0)
+            {
+                MessageBox.Show("Please add a student admin by creating a student with username and password", "No Administrator", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                new FormLogin().ShowDialog();
+            }
+        }
+
+        private bool StartReady()
+        {
+            if (status == "0")
+            {
+
+                if (students.Count() > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
     }
@@ -401,13 +444,13 @@ public class CustomEventArgs
     public string value { get; protected set; }
     public ModelAttendance attendance { get; protected set; }
     public ModelAttendance[] attendanceList { get; protected set; }
-    public ModelStudent[] studentList { get; protected set; }
+    public ModelStudent[] students { get; protected set; }
 
-    public CustomEventArgs(string value = null, ModelAttendance attendance = null, ModelAttendance[] attendanceList = null, ModelStudent[] studentList = null)
+    public CustomEventArgs(string value = null, ModelAttendance attendance = null, ModelAttendance[] attendanceList = null, ModelStudent[] students = null)
     {
         this.value = value;
         this.attendance = attendance;
         this.attendanceList = attendanceList ?? Array.Empty<ModelAttendance>();
-        this.studentList = studentList ?? Array.Empty<ModelStudent>();
+        this.students = students ?? Array.Empty<ModelStudent>();
     }
 }

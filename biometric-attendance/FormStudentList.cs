@@ -42,7 +42,7 @@ namespace BiometricAttendance
                 if (studentDataGridView.SelectedRows.Count > 0)
                 {
                     index = studentDataGridView.SelectedRows[0].Index;
-                    student = formMain.studentList[index];
+                    student = formMain.students[index];
                 }
                 else
                 {
@@ -216,7 +216,7 @@ namespace BiometricAttendance
         {
             ready = false;
             studentDataGridView.Rows.Clear();
-            foreach (ModelStudent student in formMain.studentList)
+            foreach (ModelStudent student in formMain.students)
             {
                 studentDataGridView.Rows.Add(new object[] {
                         student.student_id,

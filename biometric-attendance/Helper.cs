@@ -20,7 +20,7 @@ namespace BiometricAttendance
         {
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
-        private static readonly string conString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
+        private static readonly string conString = @"Data Source=.\database.db;Version=3";
         public static string[] GetPorts()
         {
             return SerialPort.GetPortNames();

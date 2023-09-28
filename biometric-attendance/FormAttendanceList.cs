@@ -69,7 +69,7 @@ namespace BiometricAttendance
             comboBoxStudent.Items.Clear();
             comboBoxStudent.Items.Add("All");
             comboBoxStudent.SelectedIndex = 0;
-            foreach (ModelStudent student in formMain.studentList)
+            foreach (ModelStudent student in formMain.students)
             {
                 comboBoxStudent.Items.Add($"{student.student_id} - {student.name}");
             }
@@ -80,7 +80,7 @@ namespace BiometricAttendance
             ModelStudent student = null;
             if (index > 0)
             {
-                student = formMain.studentList[index - 1];
+                student = formMain.students[index - 1];
             }
             LoadAttendance(student, dateTimePickerStart.Value, dateTimePickerEnd.Value);
         }
