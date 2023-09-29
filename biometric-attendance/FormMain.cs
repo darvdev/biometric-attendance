@@ -40,6 +40,16 @@ namespace BiometricAttendance
         public event EventHandler<CustomEventArgs> AttendanceListEvent;
         public event EventHandler<CustomEventArgs> StudentListEvent;
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+
+            if (serial.IsOpen)
+            {
+                serial.WriteLine("standby");
+            }
+            base.OnFormClosing(e);
+        }
+
         private void Invoke(Action action) => this.Invoke((MethodInvoker)delegate { action(); });
 
         private void FormMain_Load(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
@@ -16,10 +17,6 @@ namespace BiometricAttendance
        
         private void Settings_Load(object sender, EventArgs e)
         {
-
-            var startup = formMain.ini.Read("Startup");
-            startupCheckBox.Checked = startup == "1";
-
             var connect = formMain.ini.Read("Connect");
             connectCheckBox.Checked = connect == "1";
 
@@ -49,6 +46,7 @@ namespace BiometricAttendance
                 buttonConnect.Text = "Connect";
                 buttonConnect.Enabled = comboBoxDevicePort.SelectedIndex > -1;
             }
+            LoadStartupRegistryKey();
         }
 
         private void ComboBoxDevicePort_SelectedIndexChanged(object sender, EventArgs e)
@@ -117,12 +115,44 @@ namespace BiometricAttendance
 
         private void StartupCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            formMain.ini.Write("Startup", startupCheckBox.Checked ? "1" : "0");
+            try
+            {
+                RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+                if (startupCheckBox.Checked)
+                    rk.SetValue("FingerprintApp", Application.ExecutablePath);
+                else
+                    rk.DeleteValue("FingerprintApp", false);
+
+                rk.Close();
+                rk.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private void StartCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             formMain.ini.Write("Start", startCheckBox.Checked ? "1" : "0");
+        }
+
+        private void LoadStartupRegistryKey()
+        {
+            try
+            {
+                RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run");
+                var result = rk.GetValue("FingerprintApp");
+                rk.Close();
+                rk.Dispose();
+                startupCheckBox.Checked = Application.ExecutablePath == result?.ToString();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
     }
 }

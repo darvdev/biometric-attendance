@@ -47,9 +47,13 @@
             this.attendanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addAttendanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewAttendanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPageUser = new System.Windows.Forms.TabPage();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label3
@@ -85,7 +89,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.labelStatus);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(25, 41);
+            this.groupBox1.Location = new System.Drawing.Point(130, 350);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(324, 89);
             this.groupBox1.TabIndex = 3;
@@ -114,7 +118,7 @@
             // 
             this.groupBox2.Controls.Add(this.labelTotal);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(25, 147);
+            this.groupBox2.Location = new System.Drawing.Point(606, 362);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(324, 63);
             this.groupBox2.TabIndex = 4;
@@ -138,7 +142,7 @@
             this.attendanceToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(384, 24);
+            this.mainMenuStrip.Size = new System.Drawing.Size(969, 24);
             this.mainMenuStrip.TabIndex = 5;
             this.mainMenuStrip.Text = "menuStrip1";
             // 
@@ -155,21 +159,21 @@
             // startToolStripMenuItem
             // 
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startToolStripMenuItem.Text = "Start";
             this.startToolStripMenuItem.Click += new System.EventHandler(this.OpenFormStart);
             // 
             // enrollToolStripMenuItem
             // 
             this.enrollToolStripMenuItem.Name = "enrollToolStripMenuItem";
-            this.enrollToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.enrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.enrollToolStripMenuItem.Text = "Enroll";
             this.enrollToolStripMenuItem.Click += new System.EventHandler(this.OpenFormEnroll);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.OpenFormSettings);
             // 
@@ -218,18 +222,48 @@
             this.viewAttendanceToolStripMenuItem.Text = "View";
             this.viewAttendanceToolStripMenuItem.Click += new System.EventHandler(this.OpenFormAttendaceList);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPageUser);
+            this.tabControl1.Location = new System.Drawing.Point(263, 49);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(402, 217);
+            this.tabControl1.TabIndex = 6;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(394, 191);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPageUser
+            // 
+            this.tabPageUser.Location = new System.Drawing.Point(4, 22);
+            this.tabPageUser.Name = "tabPageUser";
+            this.tabPageUser.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageUser.Size = new System.Drawing.Size(394, 191);
+            this.tabPageUser.TabIndex = 1;
+            this.tabPageUser.Text = "User";
+            this.tabPageUser.UseVisualStyleBackColor = true;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 241);
+            this.ClientSize = new System.Drawing.Size(969, 461);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.mainMenuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.mainMenuStrip;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(400, 280);
             this.MinimumSize = new System.Drawing.Size(400, 280);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -241,6 +275,7 @@
             this.groupBox2.PerformLayout();
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -269,6 +304,9 @@
         private System.Windows.Forms.ToolStripMenuItem attendanceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addAttendanceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewAttendanceToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPageUser;
     }
 }
 

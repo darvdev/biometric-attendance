@@ -63,14 +63,22 @@ namespace BiometricAttendance
             if (e.KeyCode == Keys.Enter)
             {
                 buttonLogin.PerformClick();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
+            
         }
 
         private void TextBoxUsername_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                textBoxPassword.Focus();
+                if (!string.IsNullOrWhiteSpace(textBoxUsername.Text))
+                {
+                    textBoxPassword.Focus();
+                }
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
     }
