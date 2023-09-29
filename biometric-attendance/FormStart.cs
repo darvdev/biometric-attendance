@@ -17,13 +17,21 @@ namespace BiometricAttendance
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            formMain.serial.WriteLine("standby");
-            formMain.BiometricEvent -= BiometricEvent;
-            formMain.DateEvent -= DateEvent;
-            formMain.AttendanceListEvent -= AttendanceListEvent;
-            formMain.Show();
-            base.OnFormClosing(e);
-            
+            var result = new FormLogin().ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                formMain.serial.WriteLine("standby");
+                formMain.BiometricEvent -= BiometricEvent;
+                formMain.DateEvent -= DateEvent;
+                formMain.AttendanceListEvent -= AttendanceListEvent;
+                formMain.Show();
+                base.OnFormClosing(e);
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
 
         private void Invoke(Action action) => this.Invoke((MethodInvoker)delegate { action(); });

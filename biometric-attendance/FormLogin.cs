@@ -15,13 +15,12 @@ namespace BiometricAttendance
         private bool success = false;
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (success)
+            if (success || formMain.admin != null)
             {
                 base.OnFormClosing(e);
             }
             else
             {
-                //Application.Exit();
                 Environment.Exit(0);
                 e.Cancel = true;
             }
@@ -44,9 +43,35 @@ namespace BiometricAttendance
             {
                 success = true;
                 formMain.admin = result;
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
 
+        }
+
+        private void FormLogin_Load(object sender, EventArgs e)
+        {
+            if (formMain.admin != null)
+            {
+                textBoxUsername.Text = formMain.admin.username;
+                textBoxUsername.Enabled = false;
+            }
+        }
+
+        private void TextBoxPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                buttonLogin.PerformClick();
+            }
+        }
+
+        private void TextBoxUsername_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                textBoxPassword.Focus();
+            }
         }
     }
 }
