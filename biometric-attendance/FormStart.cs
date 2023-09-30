@@ -185,7 +185,7 @@ namespace BiometricAttendance
 
                 bool even = container.FindAll((c) => c == at.student_id).Count % 2 == 0;
 
-                textDisplay.Add((even ? " I N  \t  " : "OUT") + $"  -  {time}  - \t\t\t {at.name}");
+                textDisplay.Add((even ? "IN" : "OUT") + $" - {time} - {at.name}");
                 container.Add(at.student_id);
             }
 
