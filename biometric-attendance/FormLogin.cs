@@ -21,15 +21,21 @@ namespace BiometricAttendance
             }
             else
             {
-                Environment.Exit(0);
-                e.Cancel = true;
+                if (formMain.admins.Length == 0 && formMain.admin != null)
+                {
+                    base.OnFormClosing(e);
+                }
+                else
+                {
+                    Environment.Exit(0);
+                    e.Cancel = true;
+                }
+                
             }
         }
 
         private void ButtonLogin_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Admin {0}", formMain.admins);
-
             var username = textBoxUsername.Text;
             var password = textBoxPassword.Text;
 

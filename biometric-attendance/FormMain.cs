@@ -1,9 +1,12 @@
 ﻿using BiometricAttendance;
+using PdfSharp.Pdf;
+using PdfSharp;
 using System;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TheArtOfDev.HtmlRenderer.PdfSharp;
 
 namespace BiometricAttendance
 {
@@ -169,6 +172,16 @@ namespace BiometricAttendance
         {
             FormAttendanceList formAttendanceList = new FormAttendanceList();
             formAttendanceList.ShowDialog();
+        }
+
+        private void OpenFormReports(object sender, EventArgs e)
+        {
+            if (attendaceList.Length == 0)
+            {
+                MessageBox.Show("Nothing to report. No attendance records.", "Report Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            new FormReports().ShowDialog();
         }
 
         #endregion
@@ -430,19 +443,6 @@ namespace BiometricAttendance
             {
                 new FormLogin().ShowDialog();
             }
-        }
-
-        private bool StartReady()
-        {
-            if (status == "0")
-            {
-
-                if (students.Count() > 0)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
     }

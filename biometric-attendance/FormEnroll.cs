@@ -22,6 +22,16 @@ namespace BiometricAttendance
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
+            if (buttonEnroll.Text == "Cancel")
+            {
+                var result = MessageBox.Show("Do you want to cancel the fingerprint enrollment of a student?", "Cancel Enrollennt", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result != DialogResult.Yes)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
             formMain.serial.WriteLine("standby");
             formMain.EnrollStatusEvent -= EnrollStatusEvent;
             formMain.EnrollStudentEvent -= EnrollStudentEvent;
@@ -112,8 +122,8 @@ namespace BiometricAttendance
                 buttonEnroll.Enabled = true;
                 if (status == "100")
                 {
-                    this.MinimumSize = new System.Drawing.Size(440, 430);
-                    this.MaximumSize = new System.Drawing.Size(440, 430);
+                    this.MinimumSize = new Size(440, 430);
+                    this.MaximumSize = new Size(440, 430);
                     buttonEnroll.Text = "Cancel";
                 }
                 else
@@ -153,6 +163,14 @@ namespace BiometricAttendance
                     //Updating employee databse
                     bool result = await Helper.EnrollStudent(student.id, id);
 
+                    buttonEnroll.Text = "Enroll";
+                    buttonEnroll.Enabled = true;
+                    comboBoxStudentList.Enabled = true;
+                    comboBoxBiometricId.Enabled = true;
+                    this.MinimumSize = new Size(440, 200);
+                    this.MaximumSize = new Size(440, 200);
+
+
                     if (result)
                     {
                         //update successs
@@ -183,13 +201,6 @@ namespace BiometricAttendance
                         //Update error
                         labelStatus.Text = $"Error enrolling {student.name}";
                     }
-
-                    buttonEnroll.Text = "Enroll";
-                    buttonEnroll.Enabled = true;
-                    comboBoxStudentList.Enabled = true;
-                    comboBoxBiometricId.Enabled = true;
-                    this.MinimumSize = new Size(440, 200);
-                    this.MaximumSize = new Size(440, 200);
 
                 }
                 catch (Exception ex)

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Dapper;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace BiometricAttendance
@@ -15,23 +18,38 @@ namespace BiometricAttendance
         private Timer timer = new Timer();
         private int counter = 0;
 
+
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            var result = new FormLogin().ShowDialog();
-
-            if (result == DialogResult.OK)
+            if (formMain.admins.Length == 0)
             {
-                formMain.serial.WriteLine("standby");
-                formMain.BiometricEvent -= BiometricEvent;
-                formMain.DateEvent -= DateEvent;
-                formMain.AttendanceListEvent -= AttendanceListEvent;
-                formMain.Show();
+                CloseForm();
                 base.OnFormClosing(e);
             }
             else
             {
-                e.Cancel = true;
+                var result = new FormLogin().ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    CloseForm();
+                    base.OnFormClosing(e);
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
             }
+            
+        }
+
+        private void CloseForm()
+        {
+            formMain.serial.WriteLine("standby");
+            formMain.BiometricEvent -= BiometricEvent;
+            formMain.DateEvent -= DateEvent;
+            formMain.AttendanceListEvent -= AttendanceListEvent;
+            formMain.Show();
         }
 
         private void Invoke(Action action) => this.Invoke((MethodInvoker)delegate { action(); });
@@ -147,18 +165,41 @@ namespace BiometricAttendance
             Invoke(() => listBoxAttendance.Items.Clear());
 
             var today = DateTime.Now;
-            string[] attendanceToday = Array.Empty<string>();
 
-            for (int i = e.attendanceList.Length; i > 0; i--)
+            ModelAttendance[] attendanceToday = Array.FindAll(e.attendanceList, (a) => {
+                var dt = DateTime.Parse(a.date);
+                return today.Year == dt.Year && today.Month == dt.Month && today.Day == dt.Day;
+            });
+
+            //List<string> ids = new List<string>();
+
+            //List<object> list = new List<object>();
+
+            attendanceToday = attendanceToday.Reverse().ToArray();
+
+            for (int i = 0; i< attendanceToday.Length; i++)
             {
-                var at = e.attendanceList[i - 1];
+                var at = attendanceToday[i];
                 var dt = DateTime.Parse(at.date);
 
-                if (today.Year == dt.Year && today.Month == dt.Month && today.Day == dt.Day)
-                {
-                    var time = dt.ToLongTimeString();
-                    Invoke(() => listBoxAttendance.Items.Add($"{time} - {at.name}"));
-                }
+
+                //var result = Array.FindAll(attendanceToday, (a) => a.student_id == at.student_id);
+
+                //bool even1 = result.Length % 2 == 0;
+
+
+                var time = dt.ToLongTimeString();
+
+                //var output = ids.FindAll((id) => id == at.student_id);
+
+                //var type = (output.Count()) % 2 == 0 ? "IN" : "OUT";
+
+
+                //Console.WriteLine("name: {0}, count: {1}, i: {2}, TIME {3}, result: {4}", at.name, output.Count(), i, type, result.Length);
+
+                //ids.Add(at.student_id);
+
+                Invoke(() => listBoxAttendance.Items.Add($"{time} - {at.name}"));
 
             }
         }
