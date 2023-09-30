@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace BiometricAttendance
 {
@@ -171,37 +172,32 @@ namespace BiometricAttendance
                 return today.Year == dt.Year && today.Month == dt.Month && today.Day == dt.Day;
             });
 
-            //List<string> ids = new List<string>();
+            List<string> container = new List<string>();
 
-            //List<object> list = new List<object>();
-
-            attendanceToday = attendanceToday.Reverse().ToArray();
+            List<string> textDisplay = new List<string>();
 
             for (int i = 0; i< attendanceToday.Length; i++)
             {
                 var at = attendanceToday[i];
                 var dt = DateTime.Parse(at.date);
+                var time = dt.ToString("hh:mm:ss");
 
 
-                //var result = Array.FindAll(attendanceToday, (a) => a.student_id == at.student_id);
+                bool even = container.FindAll((c) => c == at.student_id).Count % 2 == 0;
 
-                //bool even1 = result.Length % 2 == 0;
-
-
-                var time = dt.ToLongTimeString();
-
-                //var output = ids.FindAll((id) => id == at.student_id);
-
-                //var type = (output.Count()) % 2 == 0 ? "IN" : "OUT";
-
-
-                //Console.WriteLine("name: {0}, count: {1}, i: {2}, TIME {3}, result: {4}", at.name, output.Count(), i, type, result.Length);
-
-                //ids.Add(at.student_id);
-
-                Invoke(() => listBoxAttendance.Items.Add($"{time} - {at.name}"));
-
+                textDisplay.Add((even ? " I N  \t  " : "OUT") + $"  -  {time}  - \t\t\t {at.name}");
+                container.Add(at.student_id);
             }
+
+
+            textDisplay.Reverse();
+
+            foreach (var text in textDisplay)
+            {
+                Invoke(() => listBoxAttendance.Items.Add(text));
+            }
+
+
         }
 
         //private void fingerPictureBox_Paint(object sender, PaintEventArgs e)
